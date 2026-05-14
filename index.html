@@ -497,6 +497,58 @@
     font-size: 13px;
   }
   .deal-cta::after { content: " →"; }
+  .deal-match {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(212, 78, 44, 0.10);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(212, 78, 44, 0.32);
+    align-self: flex-start;
+  }
+  .deal-match::before {
+    content: "★";
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .deal-commit {
+    margin: 18px 0 0 0;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(212,78,44,0.10), rgba(212,78,44,0.05));
+    border: 1px solid rgba(212,78,44,0.35);
+    border-radius: 12px;
+    text-align: left;
+  }
+  .deal-commit-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
+  }
+  .deal-commit-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .deal-commit-pill::before { content: "★"; }
+  .deal-commit p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .deal-commit p strong { color: var(--ink); }
 
   /* ========== Wells Fargo Center venue map ========== */
   .wfc-stage {
@@ -1449,6 +1501,10 @@
       <strong>10% of every transaction goes directly to the VASE Fund</strong> —
       Villanova Athletics Strategic Excellence. No asterisks. No fine print.
     </p>
+    <p>
+      And every Main Line partner on our deals board commits to the same: the dollar value of every
+      discount they give a fan goes straight to VASE. You save. The program wins. Twice.
+    </p>
   </div>
 </section>
 
@@ -1456,9 +1512,9 @@
 <section id="deals">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-eyebrow">Game-day deals</div>
-      <h2>Main Line, <em>local.</em></h2>
-      <p>Tap a tile for a one-time redemption code.</p>
+      <div class="sec-eyebrow">Game-day deals · 100% match to VASE</div>
+      <h2>Local partners, <em>double impact.</em></h2>
+      <p>Every dollar you save here, the business commits an equal dollar to the VASE Fund. Save money. Fund the program. Tap any tile for a one-time redemption code.</p>
     </div>
     <div class="deals" id="dealsGrid"></div>
   </div>
@@ -1652,7 +1708,15 @@
       <div class="code" id="dealCode">VNVA-7K2X</div>
     </div>
     <div class="m-sub" style="margin-top:10px;">Code expires after game day.</div>
-    <button class="btn-block" data-close="dealModal" style="margin-top:14px;">Got it</button>
+
+    <div class="deal-commit">
+      <div class="deal-commit-row">
+        <span class="deal-commit-pill">Match to VASE</span>
+      </div>
+      <p>By redeeming this code, <strong id="dealCommitName">this business</strong> commits the dollar value of your discount to the <strong>VASE Fund</strong>. You save. The Wildcats win.</p>
+    </div>
+
+    <button class="btn-block" data-close="dealModal" style="margin-top:14px;">Got it. V-U Nova.</button>
   </div>
 </div>
 
@@ -1752,10 +1816,11 @@ function renderTickets() {
 /* ===== Deals ===== */
 function dealCard(d, i) {
   return `
-    <button class="deal" data-deal="${i}" aria-label="${d.biz} deal">
+    <button class="deal" data-deal="${i}" aria-label="${d.biz} deal — matches to VASE">
       <div class="deal-hood">${d.hood}</div>
       <h3>${d.biz}</h3>
       <p>${d.offer}</p>
+      <span class="deal-match">Match to VASE</span>
       <span class="deal-cta">Get the code</span>
     </button>
   `;
@@ -1870,6 +1935,7 @@ function openDeal(i) {
   $('#dealHood').textContent = d.hood;
   $('#dealOffer').textContent = d.offer;
   $('#dealCode').textContent = genCode();
+  $('#dealCommitName').textContent = d.biz;
   openModal('dealModal');
 }
 
