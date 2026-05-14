@@ -1006,6 +1006,400 @@
   .lb-me-name { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1; margin-top: 2px; }
   .lb-me-amt { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
 
+  /* ========== Founders Network section ========== */
+  .fn-eyebrow-row {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+  }
+  .fn-eyebrow-row .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(212,78,44,0.16);
+  }
+  .fn-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .fn-pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+  @media (min-width: 760px) {
+    .fn-pillars { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  }
+  .fn-pillar {
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 16px;
+    padding: 22px 22px 20px 22px;
+    transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .fn-pillar:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -16px rgba(212,78,44,0.18);
+  }
+  .fn-pillar .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
+  .fn-pillar h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px 0;
+    color: var(--ink);
+  }
+  .fn-pillar p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .fn-members-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; flex-wrap: wrap;
+    margin-bottom: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule);
+  }
+  .fn-members-head h4 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 22px;
+    margin: 0;
+  }
+  .fn-members-head .gated {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .fn-members-head .gated::before {
+    content: "🔒  ";
+    font-size: 10px;
+  }
+  .fn-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  @media (min-width: 700px) { .fn-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .fn-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .fn-member {
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 14px;
+    padding: 18px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .fn-member:hover { border-color: var(--accent); box-shadow: 0 10px 24px -16px rgba(15,31,71,0.18); }
+  .fn-member .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'Instrument Serif', serif;
+    font-size: 17px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+  }
+  .fn-member .avatar.accent { background: var(--accent); }
+  .fn-member .name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 19px;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .fn-member .name em {
+    font-style: italic;
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-left: 6px;
+    font-weight: 400;
+  }
+  .fn-member .sub {
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin: 2px 0 10px 0;
+  }
+  .fn-member .sub strong { color: var(--ink); font-weight: 600; }
+  .fn-member .tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .fn-member .ft {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--bg-alt);
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+  }
+  .fn-member .ft.raise { background: rgba(212,78,44,0.08); color: var(--accent); border-color: rgba(212,78,44,0.28); }
+  .fn-member .ft.hire  { background: #ECF7EC; color: #2C7A2C; border-color: #C4E6C4; }
+
+  .fn-tiers {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 28px;
+  }
+  @media (min-width: 800px) { .fn-tiers { grid-template-columns: 1fr 1fr; gap: 18px; } }
+  .fn-tier {
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 18px;
+    padding: 28px 26px;
+    position: relative;
+    transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .fn-tier:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 14px 30px -16px rgba(15,31,71,0.18); }
+  .fn-tier.featured { border-color: rgba(212,78,44,0.4); background: linear-gradient(180deg, var(--card), #FFFBF6); }
+  .fn-tier .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .fn-tier h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    line-height: 1.05;
+    margin: 0 0 6px 0;
+  }
+  .fn-tier h3 em { font-style: italic; color: var(--accent); }
+  .fn-tier .price {
+    font-family: 'Instrument Serif', serif;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--ink);
+    margin: 14px 0 6px 0;
+  }
+  .fn-tier .price .per {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-left: 4px;
+  }
+  .fn-tier .desc { color: var(--ink-soft); font-size: 14px; line-height: 1.55; margin: 8px 0 18px 0; }
+  .fn-tier ul { list-style: none; padding: 0; margin: 0 0 22px 0; }
+  .fn-tier ul li {
+    padding: 8px 0 8px 22px;
+    position: relative;
+    font-size: 13.5px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .fn-tier ul li:last-child { border-bottom: none; }
+  .fn-tier ul li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 14px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px rgba(212,78,44,0.18);
+  }
+  .fn-tier .featured-pill {
+    position: absolute; top: 20px; right: 22px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(212,78,44,0.10);
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(212,78,44,0.34);
+  }
+  .fn-tier .apply-btn {
+    width: 100%; justify-content: center; padding: 14px;
+    background: var(--ink); color: var(--bg);
+    border-radius: 12px;
+    font-size: 14px; font-weight: 600;
+    transition: background 0.18s ease, transform 0.12s ease;
+  }
+  .fn-tier .apply-btn:hover { background: var(--ink-2, #001746); }
+  .fn-tier .apply-btn:active { transform: translateY(1px); }
+
+  .fn-quote {
+    margin-top: 36px;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 18px;
+    padding: 34px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .fn-quote::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 100% 100%, rgba(212,78,44,0.20), transparent 60%);
+    pointer-events: none;
+  }
+  .fn-quote .q {
+    position: relative; z-index: 1;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.25;
+    max-width: 30ch;
+    margin: 0 auto 18px auto;
+    text-align: center;
+  }
+  .fn-quote .q::before { content: "“"; color: var(--accent); margin-right: 4px; }
+  .fn-quote .q::after  { content: "”"; color: var(--accent); margin-left: 4px; }
+  .fn-quote .attr {
+    position: relative; z-index: 1;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: rgba(251,248,241,0.7);
+    text-align: center;
+  }
+
+  .fn-selectivity {
+    margin-top: 28px;
+    padding: 22px 24px;
+    background: var(--bg-alt);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .fn-selectivity .icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .fn-selectivity .copy { font-size: 14px; color: var(--ink); line-height: 1.55; }
+  .fn-selectivity .copy strong { color: var(--ink); font-weight: 700; }
+  .fn-selectivity .copy .small { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; display: block; }
+
+  /* Deal flow asset class tabs + cards */
+  .fn-deals { display: flex; flex-direction: column; gap: 10px; }
+  .fn-deal {
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .fn-deal:hover { border-color: var(--accent); box-shadow: 0 10px 24px -16px rgba(15,31,71,0.18); }
+  .fn-deal-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px; flex-wrap: wrap;
+  }
+  .fn-deal-co {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .fn-deal-by { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+  .fn-deal-tag {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15,31,71,0.06);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  .fn-deal-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0 12px 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+  }
+  @media (min-width: 700px) { .fn-deal-meta { grid-template-columns: 1fr 1fr 1fr; } }
+  .fn-deal-meta > div .lbl {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .fn-deal-meta > div .val {
+    font-size: 13.5px;
+    color: var(--ink);
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  .fn-deal-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .fn-deal-actions button {
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--rule);
+    background: var(--card);
+    color: var(--ink);
+  }
+  .fn-deal-actions button:hover { border-color: var(--accent); color: var(--accent); }
+  .fn-deal-actions button.primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .fn-deal-actions button.primary:hover { color: var(--bg); }
+
+  /* Apply modal (tabs) */
+  .fn-tabs {
+    display: flex; gap: 4px;
+    background: var(--bg-alt);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 3px;
+    width: fit-content;
+    margin: 0 0 18px 0;
+  }
+  .fn-tabs button {
+    padding: 8px 16px;
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .fn-tabs button.active { background: var(--ink); color: var(--bg); }
+  .fn-form .field { margin-bottom: 14px; }
+  .fn-form label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .fn-form .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .fn-form textarea { min-height: 90px; resize: vertical; }
+
   /* Toast for new redemption */
   .lb-toast {
     position: fixed;
@@ -1407,7 +1801,7 @@
 
     <nav class="nav-links" aria-label="Primary">
       <a href="#tickets">Tickets</a>
-      <a href="/Villanova/founders-network/">Founders Network</a>
+      <a href="#founders-network">Founders Network</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
     </nav>
@@ -1425,7 +1819,7 @@
   <div class="menu-panel" id="menuPanel">
     <div class="wrap">
       <a href="#tickets">Tickets</a>
-      <a href="/Villanova/founders-network/">Founders Network</a>
+      <a href="#founders-network">Founders Network</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
       <button class="nav-account-mobile" id="navAccountMobile" data-anon>Sign in</button>
@@ -1729,6 +2123,123 @@
   </div>
 </section>
 
+<!-- ============== FOUNDERS NETWORK ============== -->
+<section id="founders-network">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="fn-eyebrow-row">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="fn-eyebrow">Villanova Founders Network · Invitation only</span>
+      </div>
+      <h2>Building the Villanova <em>economic network.</em></h2>
+      <p>A private, carefully curated alumni business network — founders, investors, operators, and athletes. Selective membership. Relationship-driven access. The trusted alumni layer behind every introduction. Network surplus reinvests in VASE.</p>
+    </div>
+
+    <!-- Three pillars -->
+    <div class="fn-pillars">
+      <div class="fn-pillar">
+        <div class="num">— 01</div>
+        <h3>Curated access.</h3>
+        <p>Every member is personally vetted. We approve roughly 18% of applications. The signal density is what makes the network worth your time.</p>
+      </div>
+      <div class="fn-pillar">
+        <div class="num">— 02</div>
+        <h3>Trusted relationships.</h3>
+        <p>Introductions, deal flow, and partnerships flow through a Villanova-grade trust layer. No cold outreach. No "open networking." Just warmth and provenance.</p>
+      </div>
+      <div class="fn-pillar">
+        <div class="num">— 03</div>
+        <h3>Long-term alignment.</h3>
+        <p>Network operating surplus — events, sponsorships, fees beyond cost — flows to the VASE Fund. The ecosystem reinvests in the institution that built it.</p>
+      </div>
+    </div>
+
+    <!-- Featured members preview -->
+    <div class="fn-members-head">
+      <h4>Featured founders</h4>
+      <span class="gated">Full directory · members only</span>
+    </div>
+    <div class="fn-grid" id="fnFoundersGrid"></div>
+
+    <div class="fn-members-head">
+      <h4>Featured investors</h4>
+      <span class="gated">Full roster · members only</span>
+    </div>
+    <div class="fn-grid" id="fnInvestorsGrid"></div>
+
+    <!-- Deal flow by asset class -->
+    <div class="fn-members-head">
+      <h4>Deal flow by asset class</h4>
+      <span class="gated">Full opportunity board · members only</span>
+    </div>
+    <div class="fn-tabs" role="tablist" aria-label="Filter by deal type">
+      <button class="active" data-deal-type="venture" role="tab">Venture</button>
+      <button data-deal-type="pe"  role="tab">Private Equity</button>
+      <button data-deal-type="pd"  role="tab">Private Debt</button>
+      <button data-deal-type="re"  role="tab">Real Estate</button>
+    </div>
+    <div class="fn-deals" id="fnDeals"></div>
+    <div style="font-size:11.5px; color: var(--ink-soft); margin-top: 10px; padding: 10px 14px; background: var(--bg-alt); border: 1px solid var(--rule); border-radius: 10px; line-height: 1.5;">
+      The Network surfaces opportunities and enables relationship-driven introductions. All investment activity occurs independently off-platform. Nothing here is an offer to sell or solicit securities.
+    </div>
+
+    <!-- Membership tiers -->
+    <div class="sec-head" style="margin: 36px 0 18px 0;">
+      <div class="sec-eyebrow">Membership</div>
+      <h2 style="font-size: clamp(28px, 3.5vw, 38px); margin-top: 6px;">Two tiers. <em>Both selective.</em></h2>
+      <p>Two membership tiers, both requiring application and a personal reference. We admit a small fraction of applicants because the network's value is what we say no to.</p>
+    </div>
+    <div class="fn-tiers">
+      <div class="fn-tier">
+        <div class="label">Founder Membership</div>
+        <h3>For operators <em>building.</em></h3>
+        <div class="price">$200<span class="per">/ month</span></div>
+        <p class="desc">For Villanova-affiliated founders running real companies with traction or near-traction.</p>
+        <ul>
+          <li>Investor directory and warm-intro access</li>
+          <li>Private founder community</li>
+          <li>Members-only events (4–6 / year)</li>
+          <li>Opportunity board to share your round</li>
+          <li>Hiring, partnerships, customer intros</li>
+        </ul>
+        <button class="apply-btn" data-apply="founder">Apply as Founder →</button>
+      </div>
+      <div class="fn-tier featured">
+        <span class="featured-pill">Invitation preferred</span>
+        <div class="label">Investor Membership</div>
+        <h3>For capital <em>allocators.</em></h3>
+        <div class="price">$5,000<span class="per">/ year</span></div>
+        <p class="desc">For alumni investors and high-value operators with check capacity.</p>
+        <ul>
+          <li>Curated founder directory &amp; pre-round access</li>
+          <li>Proprietary deal flow from alumni operators</li>
+          <li>Investor-only dinners and roundtables</li>
+          <li>Co-invest signaling with alumni capital</li>
+          <li>Final Four hospitality &amp; Pavilion access</li>
+        </ul>
+        <button class="apply-btn" data-apply="investor">Apply as Investor →</button>
+      </div>
+    </div>
+
+    <!-- Selectivity callout -->
+    <div class="fn-selectivity">
+      <div class="icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L14 8H20L15 12L17 18L12 14L7 18L9 12L4 8H10L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="copy">
+        <strong>This network is intentionally selective.</strong>
+        <span class="small">We cap membership growth annually and decline most applications. That's the entire product — the value of the network is its signal density. Operating surplus routes to the VASE Fund quarterly.</span>
+      </div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="fn-quote">
+      <div class="q">The most useful network I'm part of. Two warm intros in 30 days closed our seed round.</div>
+      <div class="attr">— Founder member, Class of 2014</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============== DONATE ============== -->
 <section>
   <div class="wrap">
@@ -1756,7 +2267,7 @@
       <a href="#tickets">Tickets</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
-      <a href="/Villanova/founders-network/">Founders Network</a>
+      <a href="#founders-network">Founders Network</a>
       <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
     <div>© 2026 Nova Nation Exchange</div>
@@ -1766,6 +2277,39 @@
     </div>
   </div>
 </footer>
+
+<!-- ============== FOUNDERS NETWORK APPLY MODAL ============== -->
+<div class="modal-bg" id="fnApplyModal" role="dialog" aria-modal="true" aria-labelledby="fnApplyTitle">
+  <div class="modal">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <button class="modal-close" data-close="fnApplyModal" aria-label="Close">×</button>
+    <div class="m-eyebrow">Application</div>
+    <h3 id="fnApplyTitle">Apply to the <em>Founders Network</em></h3>
+
+    <div class="fn-tabs" id="fnApplyTabs" style="margin-top: 16px;">
+      <button class="active" data-tab="founder">Founder</button>
+      <button data-tab="investor">Investor</button>
+    </div>
+
+    <div id="fnApplyBody"></div>
+  </div>
+</div>
+
+<!-- ============== DEAL ACCESS REQUEST MODAL ============== -->
+<div class="modal-bg" id="fnDealModal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width: 460px;">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <button class="modal-close" data-close="fnDealModal" aria-label="Close">×</button>
+    <div class="m-eyebrow">Request access</div>
+    <h3 id="fnDealTitle">—</h3>
+    <p class="m-sub" id="fnDealSub" style="margin-top: 4px;">—</p>
+    <p style="font-size: 13.5px; color: var(--ink); line-height: 1.55; margin: 14px 0;">Access requests are forwarded to the founder via the network operator. You'll receive an email if the founder approves your introduction.</p>
+    <div style="background: var(--bg-alt); border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.55;">
+      Members only. <a href="#founders-network" style="color: var(--accent); text-decoration: underline;" data-close="fnDealModal">Apply for membership</a> to request access to active opportunities.
+    </div>
+    <button class="btn-block" data-close="fnDealModal" style="margin-top: 14px;">Close</button>
+  </div>
+</div>
 
 <!-- ============== TICKET MODAL ============== -->
 <div class="modal-bg" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -2956,6 +3500,199 @@ openDeal = function (i) {
 };
 
 /* ============================================================
+   FOUNDERS NETWORK — featured members + deal flow + apply
+   ============================================================ */
+const FN_FOUNDERS = [
+  { name: 'Sarah Chen',      year: "'08", company: 'Ledgerline',          sub: 'Fintech · Series A · $2M ARR',           tags: [['raise','Raising'], ['hire','Hiring']] },
+  { name: 'Allison Park',    year: "'11", company: 'Brickfield Commerce', sub: 'B2B SaaS · Series B · $14M ARR',         tags: [['hire','Hiring']] },
+  { name: 'David Whelan',    year: "'02", company: 'Cohort Analytics',    sub: 'AI · Series A · $4M ARR',                tags: [['raise','Closing']] },
+  { name: 'Megan Foley',     year: "'15", company: 'Pavilion Sports',     sub: 'Sports tech · Series A · $3M ARR',       tags: [['raise','Raising']] },
+  { name: 'Rachel Kelly',    year: "'17", company: 'Stitch & Stone',      sub: 'Consumer · Seed · $800K ARR',            tags: [['raise','Raising']] },
+  { name: 'Kevin Stieglitz', year: "'85", company: 'Quarry Logistics',    sub: 'Industrial SaaS · Series C · $40M ARR',  tags: [] },
+];
+const FN_INVESTORS = [
+  { name: 'Michael Costa',    year: "'94", firm: 'Brandywine Capital Partners', sub: 'Seed/A · $500K–$3M · B2B/Fintech/Consumer' },
+  { name: 'Patricia Donovan', year: "'99", firm: 'Vesper Ventures',             sub: 'Pre-seed/Seed · $250K–$1.5M · Healthcare' },
+  { name: 'Lauren Mitchell',  year: "'07", firm: 'Schuylkill Bridge Partners',  sub: 'Seed/A · $1M–$4M · Consumer/DTC' },
+  { name: 'James Pinckney',   year: "'85", firm: 'Constitution Hill Capital',   sub: 'Growth · $5M–$20M · B2B/Industrial' },
+  { name: 'Daniel Reagan',    year: "'02", firm: 'Roadmap Ventures',            sub: 'Series A/B · $3M–$10M · Enterprise SaaS' },
+  { name: 'Karen Russo',      year: "'96", firm: 'Independence Operators Fund', sub: 'Seed · $100K–$500K · Operator-led' },
+];
+
+const FN_DEALS = {
+  venture: [
+    { co: 'Ledgerline',        founder: "Sarah Chen '08",   round: 'Series A',      size: '$8M',  min: '$100K', traction: '$2M ARR · 35% MoM',  lead: 'Lead committed' },
+    { co: 'Northpath Health',  founder: "Marcus Reyes '14", round: 'Seed',          size: '$3M',  min: '$50K',  traction: 'Pre-rev · 12 LOIs',  lead: 'Lead open' },
+    { co: 'Pavilion Sports',   founder: "Megan Foley '15",  round: 'Series A',      size: '$6M',  min: '$100K', traction: '$3M ARR · 22% MoM', lead: 'Lead open' },
+    { co: 'Riverline AI',      founder: "Olivia Russo '12", round: 'Seed',          size: '$2.5M', min: '$50K', traction: '$1.2M ARR · 16% MoM', lead: 'Lead committed' },
+  ],
+  pe: [
+    { co: 'Mainline Industries Roll-up', founder: "Tom Donahue '94",     round: 'Add-on acquisition', size: '$25M LP raise', min: '$1M',   traction: '$50M+ rev · 28% EBITDA', lead: 'Sponsor: Constitution Hill' },
+    { co: 'Quarry Logistics Recap',      founder: "Kevin Stieglitz '85", round: 'Recapitalization',   size: '$50M',          min: '$2.5M', traction: '$40M ARR · 31% EBITDA', lead: 'Co-sponsor: Brandywine' },
+    { co: 'Aronimink Holdings Buyout',   founder: "VFN Operator Group",  round: 'Platform buyout',    size: '$18M equity',   min: '$500K', traction: 'Multi-site services rollup', lead: 'Sponsor: Eight Three' },
+  ],
+  pd: [
+    { co: 'Castle Mediation Bridge',  founder: "Emily O'Connell '20", round: 'Bridge term note', size: '$1M', min: '$100K', traction: '4 paying pilots · 18mo runway',  lead: 'Convertible · 10% PIK' },
+    { co: 'Aronimink Capital Term',   founder: "Brian Hartnett '06",  round: 'Senior note',     size: '$5M', min: '$250K', traction: 'Profitable · $200M AUM clients', lead: '8.5% / 3yr · senior secured' },
+    { co: 'Stitch & Stone Inventory', founder: "Rachel Kelly '17",    round: 'Inventory line',  size: '$1.5M', min: '$100K', traction: '$800K ARR · 24% MoM',          lead: 'Asset-backed · 11% / 18mo' },
+  ],
+  re: [
+    { co: 'Schuylkill River Industrial', founder: 'VFN Real Estate Pool',  round: 'Class B office repositioning', size: '$18M LP raise', min: '$250K', traction: '92% pre-leased · Philadelphia',     lead: 'Sponsor: Mitchell Capital' },
+    { co: 'Main Line Residential Yield', founder: 'VFN Real Estate Pool',  round: 'Stabilized multifamily',       size: '$12M LP raise', min: '$100K', traction: '6.8% cap · Wayne / Bryn Mawr',      lead: 'Sponsor: Schuylkill Bridge' },
+    { co: 'Lancaster Ave Hospitality',   founder: 'VFN Real Estate Pool',  round: 'Ground-up hospitality',        size: '$32M LP raise', min: '$500K', traction: 'Pre-leased to Main Line operator', lead: 'Sponsor: Brandywine' },
+  ],
+};
+
+function fnInitials(n) { return n.split(' ').map(w => w[0]).slice(0,2).join(''); }
+
+function fnFounderCard(f) {
+  const tagHtml = f.tags.map(([c, t]) => `<span class="ft ${c}">${t}</span>`).join('');
+  return `
+    <div class="fn-member">
+      <div class="avatar">${fnInitials(f.name)}</div>
+      <div class="name">${f.name} <em>${f.year}</em></div>
+      <div class="sub"><strong>${f.company}</strong> · ${f.sub}</div>
+      <div class="tags">${tagHtml}</div>
+    </div>
+  `;
+}
+function fnInvestorCard(i) {
+  return `
+    <div class="fn-member">
+      <div class="avatar accent">${fnInitials(i.name)}</div>
+      <div class="name">${i.name} <em>${i.year}</em></div>
+      <div class="sub"><strong>${i.firm}</strong></div>
+      <div class="tags"><span class="ft">${i.sub}</span></div>
+    </div>
+  `;
+}
+function fnDealCard(d, type) {
+  return `
+    <div class="fn-deal" data-co="${d.co}">
+      <div class="fn-deal-head">
+        <div>
+          <div class="fn-deal-co">${d.co}</div>
+          <div class="fn-deal-by">${d.founder}</div>
+        </div>
+        <span class="fn-deal-tag">${d.round} · ${d.size}</span>
+      </div>
+      <div class="fn-deal-meta">
+        <div><div class="lbl">Min check</div><div class="val">${d.min}</div></div>
+        <div><div class="lbl">Traction</div><div class="val">${d.traction}</div></div>
+        <div><div class="lbl">Status</div><div class="val">${d.lead}</div></div>
+      </div>
+      <div class="fn-deal-actions">
+        <button class="primary" data-fn-deal-req="${d.co}">Request access →</button>
+        <button data-fn-deal-int="${d.co}">Express interest</button>
+      </div>
+    </div>
+  `;
+}
+
+let fnActiveDealType = 'venture';
+function renderFnDeals() {
+  const list = FN_DEALS[fnActiveDealType] || [];
+  $('#fnDeals').innerHTML = list.map(d => fnDealCard(d, fnActiveDealType)).join('');
+  $$('#fnDeals [data-fn-deal-req], #fnDeals [data-fn-deal-int]').forEach(b => {
+    b.addEventListener('click', () => {
+      const co = b.dataset.fnDealReq || b.dataset.fnDealInt;
+      $('#fnDealTitle').textContent = co;
+      $('#fnDealSub').textContent = b.dataset.fnDealReq ? 'Request data-room access' : 'Express interest';
+      openModal('fnDealModal');
+    });
+  });
+}
+
+function renderFoundersNetwork() {
+  $('#fnFoundersGrid').innerHTML  = FN_FOUNDERS.map(fnFounderCard).join('');
+  $('#fnInvestorsGrid').innerHTML = FN_INVESTORS.map(fnInvestorCard).join('');
+  renderFnDeals();
+}
+
+// Deal-type tab switching
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-deal-type]');
+  if (!t) return;
+  fnActiveDealType = t.dataset.dealType;
+  $$('[data-deal-type]').forEach(b => b.classList.toggle('active', b === t));
+  renderFnDeals();
+});
+
+/* ===== Apply modal — tabs + forms ===== */
+function fnApplyForm(kind) {
+  const isFounder = kind === 'founder';
+  return `
+    <form class="fn-form" id="fnApplyForm">
+      <p class="m-sub" style="margin: 10px 0 18px 0;">Applications are reviewed by two existing members plus a network operator. Decisions within 10 business days.</p>
+      <div class="field-grid">
+        <div class="field"><label>Your name</label><input class="input" type="text" required placeholder="${isFounder ? 'Sarah Chen' : 'Michael Costa'}"/></div>
+        <div class="field"><label>Class year</label><input class="input" type="text" required placeholder="${isFounder ? '2008' : '1994'}"/></div>
+      </div>
+      <div class="field"><label>Email</label><input class="input" type="email" required placeholder="you@example.com"/></div>
+      ${isFounder ? `
+        <div class="field"><label>Company</label><input class="input" type="text" required placeholder="Ledgerline"/></div>
+        <div class="field-grid">
+          <div class="field"><label>Stage</label>
+            <select class="input"><option>Pre-seed</option><option>Seed</option><option>Series A</option><option>Series B</option><option>Series C+</option><option>Bootstrapped / Profitable</option></select>
+          </div>
+          <div class="field"><label>Industry</label>
+            <select class="input"><option>B2B SaaS</option><option>Fintech</option><option>Healthcare</option><option>Consumer</option><option>AI / ML</option><option>Climate</option><option>Industrial</option><option>Other</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Traction summary</label><textarea class="input" required placeholder="ARR, growth, customers, LOIs."></textarea></div>
+        <div class="field"><label>Why join?</label><textarea class="input" required placeholder="What specifically do you need from the network?"></textarea></div>
+      ` : `
+        <div class="field"><label>Firm or family office</label><input class="input" type="text" required placeholder="Brandywine Capital Partners"/></div>
+        <div class="field-grid">
+          <div class="field"><label>Stage focus</label>
+            <select class="input"><option>Pre-seed / Seed</option><option>Series A</option><option>Series B+</option><option>Growth / PE</option><option>All stages</option></select>
+          </div>
+          <div class="field"><label>Typical check</label>
+            <select class="input"><option>$25K–$100K</option><option>$100K–$500K</option><option>$500K–$2M</option><option>$2M–$5M</option><option>$5M–$20M</option><option>$20M+</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Portfolio snapshot</label><textarea class="input" required placeholder="Notable investments or thesis summary."></textarea></div>
+        <div class="field"><label>Value beyond capital</label><textarea class="input" required placeholder="Operator background, sector expertise, network."></textarea></div>
+      `}
+      <div class="field"><label>Vouching member (optional)</label><input class="input" type="text" placeholder="Name and class year"/></div>
+      <button type="submit" class="btn-block" style="margin-top: 6px;">Submit application →</button>
+      <p style="color: var(--ink-soft); font-size: 11.5px; margin-top: 12px; text-align: center;">Membership ${isFounder ? '$200/mo' : '$5,000/yr'} · invoiced on acceptance</p>
+    </form>
+  `;
+}
+function openFnApply(kind) {
+  setFnApplyTab(kind);
+  openModal('fnApplyModal');
+}
+function setFnApplyTab(kind) {
+  $$('#fnApplyTabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === kind));
+  $('#fnApplyBody').innerHTML = fnApplyForm(kind);
+  const f = $('#fnApplyForm');
+  if (f) f.addEventListener('submit', e => {
+    e.preventDefault();
+    const ref = 'VFN-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    $('#fnApplyBody').innerHTML = `
+      <div style="text-align: center; padding: 30px 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--ink); color: var(--accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 22px;">✓</div>
+        <h3 style="font-family: 'Instrument Serif', serif; font-size: 28px; margin: 0 0 8px 0;">Application received.</h3>
+        <p style="color: var(--ink-soft); font-size: 14px; line-height: 1.55; max-width: 38ch; margin: 0 auto 14px auto;">Your ${kind} application is in review. We respond within 10 business days at the email you provided.</p>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-soft);">Status: ${ref}</p>
+      </div>
+    `;
+  });
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-apply]');
+  if (!t) return;
+  openFnApply(t.dataset.apply);
+});
+document.addEventListener('click', e => {
+  const t = e.target.closest('#fnApplyTabs button');
+  if (!t) return;
+  setFnApplyTab(t.dataset.tab);
+});
+
+/* ============================================================
    Init
    ============================================================ */
 async function boot() {
@@ -2964,6 +3701,7 @@ async function boot() {
   renderTickets();
   renderDeals();
   renderVenueOverlays();
+  renderFoundersNetwork();
   initTicker();
   loadLeaderboard();
 }
