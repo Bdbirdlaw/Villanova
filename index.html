@@ -1605,22 +1605,30 @@
             <path d="M0 -7 L4 4 L0 1 L-4 4 Z" fill="rgba(255,255,255,0.55)"/>
           </g>
 
-          <!-- WFC bowl outline — rounded stadium oval -->
-          <rect x="170" y="180" width="860" height="440" rx="220" ry="220"
-                fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
-          <!-- 200-level ring suggestion -->
-          <rect x="240" y="230" width="720" height="340" rx="170" ry="170"
-                fill="none" stroke="rgba(19,181,234,0.10)" stroke-width="1" stroke-dasharray="4 4"/>
+          <!-- Outer arena bowl (elongated NHL-style oval) -->
+          <ellipse cx="600" cy="400" rx="500" ry="270"
+                   fill="rgba(255,255,255,0.025)"
+                   stroke="rgba(255,255,255,0.28)" stroke-width="2.5"/>
+          <!-- Upper-bowl boundary -->
+          <ellipse cx="600" cy="400" rx="420" ry="220"
+                   fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1.2"/>
+          <!-- Lower-bowl boundary -->
+          <ellipse cx="600" cy="400" rx="280" ry="160"
+                   fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
+          <!-- Faint concourse fill between rings -->
+          <path d="M 600 130 A 500 270 0 1 0 600 670 A 500 270 0 1 0 600 130 Z
+                   M 600 180 A 420 220 0 1 1 600 620 A 420 220 0 1 1 600 180 Z"
+                fill="rgba(255,255,255,0.015)" fill-rule="evenodd"/>
 
-          <!-- Court -->
+          <!-- Court — basketball-correct 47:25 ratio -->
           <rect x="450" y="345" width="300" height="120" fill="url(#wfcCourt2)"
                 stroke="#0F1F47" stroke-width="2.5" rx="3"/>
-          <line x1="600" y1="345" x2="600" y2="465" stroke="#0F1F47" stroke-width="1.5"/>
-          <circle cx="600" cy="405" r="26" fill="none" stroke="#0F1F47" stroke-width="1.5"/>
-          <rect x="450" y="375" width="46" height="60" fill="rgba(15,31,71,0.12)" stroke="#0F1F47" stroke-width="1.3"/>
-          <rect x="704" y="375" width="46" height="60" fill="rgba(15,31,71,0.12)" stroke="#0F1F47" stroke-width="1.3"/>
-          <path d="M 450 360 Q 540 405 450 450" fill="none" stroke="#0F1F47" stroke-width="1.3"/>
-          <path d="M 750 360 Q 660 405 750 450" fill="none" stroke="#0F1F47" stroke-width="1.3"/>
+          <line x1="600" y1="345" x2="600" y2="465" stroke="#0F1F47" stroke-width="1.4"/>
+          <circle cx="600" cy="405" r="26" fill="none" stroke="#0F1F47" stroke-width="1.4"/>
+          <rect x="450" y="375" width="46" height="60" fill="rgba(15,31,71,0.10)" stroke="#0F1F47" stroke-width="1.2"/>
+          <rect x="704" y="375" width="46" height="60" fill="rgba(15,31,71,0.10)" stroke="#0F1F47" stroke-width="1.2"/>
+          <path d="M 450 360 Q 540 405 450 450" fill="none" stroke="#0F1F47" stroke-width="1.2"/>
+          <path d="M 750 360 Q 660 405 750 450" fill="none" stroke="#0F1F47" stroke-width="1.2"/>
 
           <text x="600" y="420" font-family="Instrument Serif, serif" font-size="40" font-weight="700"
                 fill="#0F1F47" text-anchor="middle">V</text>
@@ -1748,6 +1756,7 @@
       <a href="#tickets">Tickets</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
+      <a href="/founders-network/">Founders Network</a>
       <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
     <div>© 2026 Nova Nation Exchange</div>
@@ -2648,41 +2657,52 @@ const PAV_SECTIONS = [
   { id: '207', top: '21%', left: '10%', width: '5%', height: '12%', price: '$55' },
 ];
 
+/* Coordinates placed along the WFC oval rings (cx=50%, cy=50%).
+   Lower bowl sits on the inner ring (rx≈23%, ry≈20%).
+   Upper bowl sits on the outer ring (rx≈35%, ry≈27%).               */
 const WFC_SECTIONS = [
-  // Lower bowl 100s
-  { id: '109', top: '28%', left: '39%', width: '6%', height: '8%',  price: '$155' },
-  { id: '110', top: '27%', left: '46%', width: '6%', height: '8%',  price: '$185' },
-  { id: '111', top: '26%', left: '53%', width: '6%', height: '8%',  price: '$215' },
-  { id: '112', top: '27%', left: '60%', width: '6%', height: '8%',  price: '$185' },
-  { id: '113', top: '28%', left: '67%', width: '6%', height: '8%',  price: '$155' },
-  { id: '114', top: '38%', left: '76%', width: '5%', height: '10%', price: '$135' },
-  { id: '115', top: '49%', left: '78%', width: '5%', height: '10%', price: '$145' },
-  { id: '116', top: '60%', left: '76%', width: '5%', height: '10%', price: '$135' },
-  { id: '108', top: '64%', left: '67%', width: '6%', height: '8%',  price: '$165' },
-  { id: '107', top: '65%', left: '60%', width: '6%', height: '8%',  price: '$195' },
-  { id: '106', top: '66%', left: '53%', width: '6%', height: '8%',  price: '$195' },
-  { id: '105', top: '65%', left: '46%', width: '6%', height: '8%',  price: '$165' },
-  { id: '104', top: '64%', left: '39%', width: '6%', height: '8%',  price: '$155' },
-  { id: '103', top: '60%', left: '19%', width: '5%', height: '10%', price: '$135' },
-  { id: '102', top: '49%', left: '17%', width: '5%', height: '10%', price: '$145' },
-  { id: '101', top: '38%', left: '19%', width: '5%', height: '10%', price: '$135' },
-  // Upper bowl 200s
-  { id: '209', top: '14%', left: '39%', width: '6%', height: '7%',  price: '$75' },
-  { id: '210', top: '13%', left: '46%', width: '6%', height: '7%',  price: '$85' },
-  { id: '211', top: '12%', left: '53%', width: '6%', height: '7%',  price: '$95' },
-  { id: '212', top: '13%', left: '60%', width: '6%', height: '7%',  price: '$85' },
-  { id: '213', top: '14%', left: '67%', width: '6%', height: '7%',  price: '$75' },
-  { id: '214', top: '27%', left: '88%', width: '4%', height: '10%', price: '$55' },
-  { id: '215', top: '46%', left: '90%', width: '4%', height: '10%', price: '$55' },
-  { id: '216', top: '63%', left: '88%', width: '4%', height: '10%', price: '$55' },
-  { id: '208', top: '78%', left: '67%', width: '6%', height: '7%',  price: '$75' },
-  { id: '207', top: '79%', left: '60%', width: '6%', height: '7%',  price: '$75' },
-  { id: '206', top: '80%', left: '53%', width: '6%', height: '7%',  price: '$85' },
-  { id: '205', top: '79%', left: '46%', width: '6%', height: '7%',  price: '$75' },
-  { id: '204', top: '78%', left: '39%', width: '6%', height: '7%',  price: '$75' },
-  { id: '203', top: '63%', left: '8%',  width: '4%', height: '10%', price: '$55' },
-  { id: '202', top: '46%', left: '6%',  width: '4%', height: '10%', price: '$55' },
-  { id: '201', top: '27%', left: '8%',  width: '4%', height: '10%', price: '$55' },
+  // === Lower bowl (100s) — wraps the court ===
+  // North sideline (5)
+  { id: '110', top: '28%', left: '40%', width: '6%', height: '7%',  price: '$165' },
+  { id: '111', top: '27%', left: '47%', width: '6%', height: '7%',  price: '$215' },
+  { id: '112', top: '27%', left: '54%', width: '6%', height: '7%',  price: '$215' },
+  { id: '113', top: '28%', left: '61%', width: '6%', height: '7%',  price: '$165' },
+  // NE corner & E baseline
+  { id: '114', top: '34%', left: '70%', width: '5%', height: '8%',  price: '$135' },
+  { id: '115', top: '46%', left: '73%', width: '5%', height: '8%',  price: '$155' },
+  { id: '116', top: '58%', left: '70%', width: '5%', height: '8%',  price: '$135' },
+  // South sideline (4)
+  { id: '108', top: '65%', left: '61%', width: '6%', height: '7%',  price: '$165' },
+  { id: '107', top: '66%', left: '54%', width: '6%', height: '7%',  price: '$215' },
+  { id: '106', top: '66%', left: '47%', width: '6%', height: '7%',  price: '$215' },
+  { id: '105', top: '65%', left: '40%', width: '6%', height: '7%',  price: '$165' },
+  // SW corner & W baseline
+  { id: '104', top: '58%', left: '25%', width: '5%', height: '8%',  price: '$135' },
+  { id: '103', top: '46%', left: '22%', width: '5%', height: '8%',  price: '$155' },
+  { id: '102', top: '34%', left: '25%', width: '5%', height: '8%',  price: '$135' },
+  // Center sideline mid (anchor points at top & bottom)
+  { id: '101', top: '21%', left: '47%', width: '6%', height: '6%',  price: '$95'  },
+  { id: '109', top: '73%', left: '47%', width: '6%', height: '6%',  price: '$95'  },
+
+  // === Upper bowl (200s) — outer ring ===
+  // North sideline (5)
+  { id: '210', top: '15%', left: '40%', width: '6%', height: '6%',  price: '$75' },
+  { id: '211', top: '14%', left: '47%', width: '6%', height: '6%',  price: '$85' },
+  { id: '212', top: '14%', left: '54%', width: '6%', height: '6%',  price: '$85' },
+  { id: '213', top: '15%', left: '61%', width: '6%', height: '6%',  price: '$75' },
+  // NE & E
+  { id: '214', top: '26%', left: '83%', width: '4%', height: '9%',  price: '$55' },
+  { id: '215', top: '46%', left: '86%', width: '4%', height: '9%',  price: '$55' },
+  { id: '216', top: '65%', left: '83%', width: '4%', height: '9%',  price: '$55' },
+  // South sideline (5)
+  { id: '208', top: '79%', left: '61%', width: '6%', height: '6%',  price: '$75' },
+  { id: '207', top: '80%', left: '54%', width: '6%', height: '6%',  price: '$85' },
+  { id: '206', top: '80%', left: '47%', width: '6%', height: '6%',  price: '$85' },
+  { id: '205', top: '79%', left: '40%', width: '6%', height: '6%',  price: '$75' },
+  // SW & W
+  { id: '204', top: '65%', left: '13%', width: '4%', height: '9%',  price: '$55' },
+  { id: '203', top: '46%', left: '10%', width: '4%', height: '9%',  price: '$55' },
+  { id: '202', top: '26%', left: '13%', width: '4%', height: '9%',  price: '$55' },
 ];
 
 const VENUES = {

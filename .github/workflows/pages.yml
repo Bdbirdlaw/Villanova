@@ -30,6 +30,9 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/index.html
+          if [ -d "founders-network" ]; then
+            cp -r founders-network _site/founders-network
+          fi
           # Tell Jekyll not to mangle our file
           touch _site/.nojekyll
 
