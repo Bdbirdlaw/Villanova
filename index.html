@@ -1055,6 +1055,87 @@
     font-weight: 500;
   }
 
+  /* ========== Seat map in ticket modal ========== */
+  .seat-map {
+    margin-top: 18px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--card-line);
+    background: linear-gradient(180deg, #0A1631 0%, #0F1F47 100%);
+    position: relative;
+    aspect-ratio: 16 / 11;
+  }
+  .seat-map .smbg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .seat-map .sm-label {
+    position: absolute;
+    top: 12px; left: 14px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    z-index: 4;
+  }
+  .seat-map .sm-yourtag {
+    position: absolute;
+    top: 12px; right: 14px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    padding: 4px 8px;
+    border-radius: 999px;
+    z-index: 4;
+  }
+  .seat-map .sm-section {
+    position: absolute;
+    border: 1px solid rgba(255,255,255,0.20);
+    background: rgba(255,255,255,0.04);
+    border-radius: 3px;
+    font-size: 8px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.55);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    display: flex; align-items: center; justify-content: center;
+    letter-spacing: 0.04em;
+    z-index: 1;
+  }
+  .seat-map .sm-section.you {
+    background: var(--accent);
+    border-color: #fff;
+    color: #fff;
+    box-shadow:
+      0 0 0 2px var(--accent),
+      0 0 14px rgba(212, 78, 44, 0.55);
+    z-index: 3;
+    animation: smPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes smPulse {
+    0%,100% { box-shadow: 0 0 0 2px var(--accent), 0 0 14px rgba(212, 78, 44, 0.55); }
+    50%     { box-shadow: 0 0 0 2px var(--accent), 0 0 22px rgba(212, 78, 44, 0.85); }
+  }
+  .seat-map .sm-fallback {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    color: rgba(255,255,255,0.78);
+    font-size: 13.5px;
+    padding: 24px;
+    line-height: 1.45;
+  }
+  .seat-map .sm-fallback .small {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+
   /* ========== Seat view (A View From My Seat) ========== */
   .seat-view {
     display: block;
@@ -1478,6 +1559,8 @@
     <div class="m-sub" id="modalMeta">Sat, Feb 7 · 4:00 PM · Finneran Pavilion</div>
     <div class="m-sub" id="modalSeat" style="margin-top:2px;">Section 109 · Row F · Seat 12</div>
 
+    <div class="seat-map" id="seatMap" aria-label="Seat map"></div>
+
     <a id="seatViewLink" class="seat-view" href="#" target="_blank" rel="noopener noreferrer" aria-label="See fan photos from this seat on A View From My Seat">
       <div class="seat-view-frame">
         <div class="seat-view-eyebrow">View from your seat</div>
@@ -1675,6 +1758,148 @@ const $  = (s,c=document) => c.querySelector(s);
 const $$ = (s,c=document) => Array.from(c.querySelectorAll(s));
 const fmt = n => '$' + Number(n).toFixed(2);
 
+/* =====================================================================
+   SEAT MAP — embedded in the ticket modal, highlights seller's section.
+   Two venue maps: Finneran Pavilion, Wells Fargo Center.
+   Other venues show a friendly fallback (and the AVFMS panel below it).
+   ===================================================================== */
+const PAV_SECTIONS = [
+  // Lower bowl 100s — wraps the court
+  { id: '108', top: '23%', left: '38%', width: '7%', height: '11%' },
+  { id: '109', top: '22%', left: '46%', width: '7%', height: '11%' },
+  { id: '110', top: '22%', left: '54%', width: '7%', height: '11%' },
+  { id: '111', top: '23%', left: '62%', width: '7%', height: '11%' },
+  { id: '112', top: '25%', left: '70%', width: '6%', height: '10%' },
+  { id: '113', top: '38%', left: '72%', width: '5%', height: '12%' },
+  { id: '114', top: '52%', left: '72%', width: '5%', height: '12%' },
+  { id: '115', top: '66%', left: '70%', width: '6%', height: '10%' },
+  { id: '101', top: '67%', left: '62%', width: '7%', height: '11%' },
+  { id: '102', top: '68%', left: '54%', width: '7%', height: '11%' },
+  { id: '103', top: '68%', left: '46%', width: '7%', height: '11%' },
+  { id: '104', top: '67%', left: '38%', width: '7%', height: '11%' },
+  { id: '105', top: '66%', left: '30%', width: '6%', height: '10%' },
+  { id: '106', top: '46%', left: '23%', width: '5%', height: '12%' },
+  { id: '107', top: '32%', left: '23%', width: '5%', height: '12%' },
+  // Upper bowl 200s
+  { id: '208', top: '10%', left: '38%', width: '7%', height: '9%' },
+  { id: '209', top: '9%',  left: '46%', width: '7%', height: '9%' },
+  { id: '210', top: '9%',  left: '54%', width: '7%', height: '9%' },
+  { id: '211', top: '10%', left: '62%', width: '7%', height: '9%' },
+  { id: '212', top: '21%', left: '85%', width: '5%', height: '12%' },
+  { id: '213', top: '36%', left: '86%', width: '5%', height: '12%' },
+  { id: '214', top: '51%', left: '86%', width: '5%', height: '12%' },
+  { id: '215', top: '66%', left: '85%', width: '5%', height: '12%' },
+  { id: '201', top: '81%', left: '62%', width: '7%', height: '9%' },
+  { id: '202', top: '82%', left: '54%', width: '7%', height: '9%' },
+  { id: '203', top: '82%', left: '46%', width: '7%', height: '9%' },
+  { id: '204', top: '81%', left: '38%', width: '7%', height: '9%' },
+  { id: '205', top: '66%', left: '10%', width: '5%', height: '12%' },
+  { id: '206', top: '46%', left: '9%',  width: '5%', height: '12%' },
+  { id: '207', top: '21%', left: '10%', width: '5%', height: '12%' },
+];
+
+const WFC_SECTIONS = [
+  // Lower bowl 100s
+  { id: '110', top: '28%', left: '40%', width: '6%', height: '7%' },
+  { id: '111', top: '27%', left: '47%', width: '6%', height: '7%' },
+  { id: '112', top: '27%', left: '54%', width: '6%', height: '7%' },
+  { id: '113', top: '28%', left: '61%', width: '6%', height: '7%' },
+  { id: '114', top: '34%', left: '70%', width: '5%', height: '8%' },
+  { id: '115', top: '46%', left: '73%', width: '5%', height: '8%' },
+  { id: '116', top: '58%', left: '70%', width: '5%', height: '8%' },
+  { id: '108', top: '65%', left: '61%', width: '6%', height: '7%' },
+  { id: '107', top: '66%', left: '54%', width: '6%', height: '7%' },
+  { id: '106', top: '66%', left: '47%', width: '6%', height: '7%' },
+  { id: '105', top: '65%', left: '40%', width: '6%', height: '7%' },
+  { id: '104', top: '58%', left: '25%', width: '5%', height: '8%' },
+  { id: '103', top: '46%', left: '22%', width: '5%', height: '8%' },
+  { id: '102', top: '34%', left: '25%', width: '5%', height: '8%' },
+  { id: '101', top: '21%', left: '47%', width: '6%', height: '6%' },
+  { id: '109', top: '73%', left: '47%', width: '6%', height: '6%' },
+  // Upper bowl 200s
+  { id: '210', top: '15%', left: '40%', width: '6%', height: '6%' },
+  { id: '211', top: '14%', left: '47%', width: '6%', height: '6%' },
+  { id: '212', top: '14%', left: '54%', width: '6%', height: '6%' },
+  { id: '213', top: '15%', left: '61%', width: '6%', height: '6%' },
+  { id: '214', top: '26%', left: '83%', width: '4%', height: '9%' },
+  { id: '215', top: '46%', left: '86%', width: '4%', height: '9%' },
+  { id: '216', top: '65%', left: '83%', width: '4%', height: '9%' },
+  { id: '208', top: '79%', left: '61%', width: '6%', height: '6%' },
+  { id: '207', top: '80%', left: '54%', width: '6%', height: '6%' },
+  { id: '206', top: '80%', left: '47%', width: '6%', height: '6%' },
+  { id: '205', top: '79%', left: '40%', width: '6%', height: '6%' },
+  { id: '204', top: '65%', left: '13%', width: '4%', height: '9%' },
+  { id: '203', top: '46%', left: '10%', width: '4%', height: '9%' },
+  { id: '202', top: '26%', left: '13%', width: '4%', height: '9%' },
+];
+
+const PAVILION_SVG = `
+  <svg class="smbg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path d="M 220 240 L 340 130 L 860 130 L 980 240 L 980 560 L 860 670 L 340 670 L 220 560 Z"
+          fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+    <rect x="450" y="330" width="300" height="150" fill="#C49B5D" stroke="#0F1F47" stroke-width="2" rx="3"/>
+    <line x1="600" y1="330" x2="600" y2="480" stroke="#0F1F47" stroke-width="1.4"/>
+    <circle cx="600" cy="405" r="28" fill="none" stroke="#0F1F47" stroke-width="1.4"/>
+    <rect x="450" y="370" width="46" height="70" fill="rgba(15,31,71,0.10)" stroke="#0F1F47" stroke-width="1.2"/>
+    <rect x="704" y="370" width="46" height="70" fill="rgba(15,31,71,0.10)" stroke="#0F1F47" stroke-width="1.2"/>
+    <text x="600" y="423" font-family="Instrument Serif, serif" font-size="46" font-weight="700"
+          fill="#0F1F47" text-anchor="middle">V</text>
+  </svg>
+`;
+
+const WFC_SVG = `
+  <svg class="smbg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <ellipse cx="600" cy="400" rx="500" ry="270" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.28)" stroke-width="2"/>
+    <ellipse cx="600" cy="400" rx="420" ry="220" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+    <ellipse cx="600" cy="400" rx="280" ry="160" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+    <rect x="450" y="345" width="300" height="120" fill="#C49B5D" stroke="#0F1F47" stroke-width="2" rx="3"/>
+    <line x1="600" y1="345" x2="600" y2="465" stroke="#0F1F47" stroke-width="1.4"/>
+    <circle cx="600" cy="405" r="26" fill="none" stroke="#0F1F47" stroke-width="1.4"/>
+    <text x="600" y="420" font-family="Instrument Serif, serif" font-size="40" font-weight="700"
+          fill="#0F1F47" text-anchor="middle">V</text>
+  </svg>
+`;
+
+function renderSeatMap(venue, section) {
+  const wrap = document.getElementById('seatMap');
+  if (!wrap) return;
+  const v = (venue || '').toLowerCase();
+  const generic = ['GA', 'NE', 'W', '—', '', undefined, null];
+
+  let sections, svg, label;
+  if (v.includes('finneran') || v.includes('pavilion at villanova') || v === 'finneran pavilion') {
+    sections = PAV_SECTIONS;
+    svg      = PAVILION_SVG;
+    label    = 'The Pavilion';
+  } else if (v.includes('wells fargo')) {
+    sections = WFC_SECTIONS;
+    svg      = WFC_SVG;
+    label    = 'Wells Fargo Center';
+  } else {
+    wrap.innerHTML = `
+      <div class="sm-fallback">
+        <div><strong>${escapeHtml(venue || 'Away venue')}</strong></div>
+        <div class="small">Seat map preview available for Pavilion &amp; Wells Fargo Center.</div>
+        <div class="small">See real fan photos in the panel below.</div>
+      </div>`;
+    return;
+  }
+
+  const sec = String(section);
+  const isGA = generic.includes(section);
+  const overlays = sections.map(s => {
+    const isYou = !isGA && String(s.id) === sec;
+    return `<div class="sm-section ${isYou ? 'you' : ''}" style="top:${s.top};left:${s.left};width:${s.width};height:${s.height}">${s.id}</div>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    ${svg}
+    <div class="sm-label">${label}${isGA ? '' : ' · Sec ' + sec}</div>
+    ${isGA ? '' : '<div class="sm-yourtag">Your seat</div>'}
+    ${overlays}
+  `;
+}
+
 /* AVFMS search URL — robust to any venue/section since it uses
    their on-site search rather than guessing a deep-link slug.
    A section like "GA" / "NE" / "—" falls back to a venue search. */
@@ -1839,6 +2064,9 @@ function openTicket(id) {
   const labelSection = generic.includes(t.section) ? 'General Admission' : `Section ${t.section}`;
   $('#seatViewLabel').textContent = `${labelSection} · ${t.venue}`;
   $('#seatViewLink').href = avfmsUrl(t.venue, t.section);
+
+  // Embedded seating chart with the seller's section highlighted.
+  renderSeatMap(t.venue, t.section);
 
   $('#pTicket').textContent = fmt(t.ask);
   $('#pFee').textContent    = fmt(fee);
