@@ -1144,10 +1144,20 @@
 
   /* ========== Mobile tweaks ========== */
   @media (max-width: 700px) {
-    .hero { padding: 40px 0 28px 0; }
-    .hero .lede { font-size: 16px; }
-    .hero .ctas { width: 100%; }
-    .hero .ctas .btn { flex: 1; justify-content: center; padding: 13px 18px; }
+    /* HERO — centered */
+    .hero { padding: 40px 0 32px 0; text-align: center; }
+    .hero .eyebrow-row { justify-content: center; }
+    .hero h1, .hero .lede { margin-left: auto; margin-right: auto; }
+    .hero h1 { max-width: 16ch; }
+    .hero .lede { font-size: 16px; max-width: 40ch; }
+    .hero .ctas {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      gap: 10px;
+    }
+    .hero .ctas .btn { width: 100%; justify-content: center; padding: 14px 22px; }
     .hero .signal-strip {
       grid-template-columns: 1fr 1fr;
       gap: 16px 0;
@@ -1163,9 +1173,25 @@
     section.frame { padding: 40px 0; }
     section.frame.tight { padding: 28px 0; }
     .wrap { padding: 0 18px; }
-    .sec-head { margin-bottom: 24px; }
+
+    /* SECTION HEADS — centered */
+    .sec-head { margin-bottom: 24px; text-align: center; }
     .sec-head h2 { font-size: 28px; }
-    .sec-head p { font-size: 15px; }
+    .sec-head p { font-size: 15px; margin-left: auto; margin-right: auto; max-width: 42ch; }
+    .sec-head .eyebrow { display: inline-block; }
+    .sec-head .actions { justify-content: center; }
+
+    /* Filter chips center */
+    .filter-bar { justify-content: center; }
+
+    /* Quote / Selectivity / Impact center */
+    .quote-card { padding: 32px 24px; }
+    .selectivity, .impact-card { text-align: center; }
+    .impact-card a { align-self: center; margin-top: 14px; }
+
+    /* Donate / footer rows center */
+    .donate-block-inner { text-align: center; }
+    .footer-brand p { margin-left: auto; margin-right: auto; }
 
     /* Header */
     .nav { height: 60px; gap: 12px; }

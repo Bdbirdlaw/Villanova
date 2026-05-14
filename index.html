@@ -1153,6 +1153,39 @@
     margin-top: 6px;
   }
 
+  /* ========== Mobile centering (everything < 700px) ========== */
+  @media (max-width: 700px) {
+    /* Hero */
+    .hero { text-align: center; }
+    .hero .badge-row { display: inline-flex; margin-left: auto; margin-right: auto; }
+    .hero h1, .hero p { margin-left: auto; margin-right: auto; }
+    .hero h1 { max-width: 14ch; }
+    .hero p { max-width: 36ch; }
+    .hero-cta { margin: 0 auto; }
+
+    /* Section heads */
+    .sec-head { text-align: center; }
+    .sec-head .sec-eyebrow { display: inline-block; }
+    .sec-head p { margin-left: auto; margin-right: auto; max-width: 42ch; }
+
+    /* Filter chips center when they fit */
+    .filters { justify-content: center; }
+
+    /* See more buttons center */
+    .see-more { justify-content: center; }
+
+    /* Leaderboard period tabs center */
+    .lb-period { margin: 0 auto 24px auto; }
+
+    /* Donate banner center */
+    .donate-block { text-align: center; }
+    .donate-block > div { display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .donate-block .donate-cta { display: inline-flex; margin: 0 auto; }
+
+    /* Footer center */
+    footer .foot-links { justify-content: center; }
+  }
+
   /* ========== Small phone tightening ========== */
   @media (max-width: 420px) {
     section { padding: 24px 0; }
