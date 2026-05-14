@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Nova Nation Exchange — Tickets, Deals & VASE.</title>
-<meta name="description" content="Fan-to-fan Villanova ticket marketplace. Main Line deals. 10% of every transaction supports the VASE Fund." />
-<meta name="theme-color" content="#0F1F47" />
-<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230F1F47'/><path d='M14 16 L32 50 L50 16 L42 16 L32 38 L22 16 Z' fill='white'/></svg>" />
+<title>Commodore Exchange — Tickets, Deals & NCC.</title>
+<meta name="description" content="Fan-to-fan Vanderbilt ticket marketplace. Music City deals. 10% of every transaction supports the NCC Fund." />
+<meta name="theme-color" content="#0E0E14" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230E0E14'/><path d='M14 16 L32 50 L50 16 L42 16 L32 38 L22 16 Z' fill='%23C2A33F'/></svg>" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,14 +17,14 @@
      Mobile-first, single column. Scale up at md+.
      ========================================================= */
   :root {
-    --bg:        #FBF8F1;
-    --bg-alt:    #F1ECDF;
-    --ink:       #0F1F47;
-    --ink-soft:  #5C6478;
-    --rule:      #E4DECC;
-    --accent:    #D44E2C;
+    --bg:        #FAF6E8;
+    --bg-alt:    #F1ECDC;
+    --ink:       #0E0E14;
+    --ink-soft:  #5C5C66;
+    --rule:      #E0D9C2;
+    --accent:    #B59149;
     --card:      #FFFFFF;
-    --card-line: #ECE6D4;
+    --card-line: #E8E1C9;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -53,7 +53,7 @@
 
   /* ========== Score ticker (continuous marquee) ========== */
   .ticker {
-    background: linear-gradient(180deg, var(--ink) 0%, #0A1631 100%);
+    background: linear-gradient(180deg, var(--ink) 0%, #08080C 100%);
     color: #FBF8F1;
     overflow: hidden;
     position: relative;
@@ -239,7 +239,7 @@
     transition: background 0.18s ease, transform 0.12s ease;
     white-space: nowrap;
   }
-  .nav-donate:hover { background: #1A2B5A; }
+  .nav-donate:hover { background: #1A1A24; }
   .nav-donate:active { transform: translateY(1px); }
 
   .nav-account-mobile {
@@ -681,7 +681,7 @@
   .lb-tab.active { background: var(--ink); color: var(--bg); }
 
   .lb-thermo {
-    background: linear-gradient(180deg, #0F1F47 0%, #1A2B5A 100%);
+    background: linear-gradient(180deg, #0E0E14 0%, #1A1A24 100%);
     color: var(--bg);
     border-radius: 18px;
     padding: 22px 24px;
@@ -1061,7 +1061,7 @@
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid var(--card-line);
-    background: linear-gradient(180deg, #0A1631 0%, #0F1F47 100%);
+    background: linear-gradient(180deg, #08080C 0%, #0E0E14 100%);
     position: relative;
     aspect-ratio: 16 / 11;
   }
@@ -1152,7 +1152,7 @@
     aspect-ratio: 16 / 9;
     background:
       radial-gradient(ellipse at 50% 100%, rgba(212,78,44,0.16), transparent 60%),
-      linear-gradient(160deg, #0F1F47 0%, #1A2B5A 100%);
+      linear-gradient(160deg, #0E0E14 0%, #1A1A24 100%);
     color: #fff;
     display: flex; flex-direction: column; justify-content: space-between;
     padding: 14px 16px;
@@ -1367,23 +1367,23 @@
 <!-- ============== HEADER ============== -->
 <header>
   <div class="wrap nav">
-    <a href="#" class="logo" aria-label="Nova Nation Exchange home">
+    <a href="#" class="logo" aria-label="Commodore Exchange home">
       <span class="mark" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M3 4 L12 22 L21 4 L17 4 L12 16 L7 4 Z" fill="white"/></svg>
       </span>
-      <span class="name">Nova <em>Nation</em></span>
+      <span class="name">Commodore <em>Exchange</em></span>
     </a>
 
     <nav class="nav-links" aria-label="Primary">
       <a href="#tickets">Tickets</a>
-      <a href="https://bdbirdlaw.github.io/Villanova/founders-network/">Founders Network</a>
+      <a href="https://bdbirdlaw.github.io/Vanderbilt/founders-network/">Founders Network</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
     </nav>
 
     <div class="nav-actions">
       <button class="nav-signin" id="navAccount" data-anon>Sign in</button>
-      <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="nav-donate">Donate</a>
+      <a href="https://commodoreclub.com/give" target="_blank" rel="noopener noreferrer" class="nav-donate">Donate</a>
     </div>
 
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
@@ -1394,21 +1394,21 @@
   <div class="menu-panel" id="menuPanel">
     <div class="wrap">
       <a href="#tickets">Tickets</a>
-      <a href="https://bdbirdlaw.github.io/Villanova/founders-network/">Founders Network</a>
+      <a href="https://bdbirdlaw.github.io/Vanderbilt/founders-network/">Founders Network</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
       <button class="nav-account-mobile" id="navAccountMobile" data-anon>Sign in</button>
-      <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate">
-        Donate to <em>VASE</em> →
+      <a href="https://commodoreclub.com/give" target="_blank" rel="noopener noreferrer" class="donate">
+        Donate to <em>NCC</em> →
       </a>
     </div>
   </div>
 </header>
 
 <!-- ============== SCORES TICKER ============== -->
-<div class="ticker" id="ticker" role="region" aria-label="Villanova scores ticker">
+<div class="ticker" id="ticker" role="region" aria-label="Vanderbilt scores ticker">
   <div class="ticker-track" id="tickerTrack">
-    <span class="tk-loading">Loading Villanova scores…</span>
+    <span class="tk-loading">Loading Vanderbilt scores…</span>
   </div>
 </div>
 
@@ -1418,12 +1418,12 @@
     <div class="hero">
       <div class="badge-row">
         <span class="dot" aria-hidden="true"></span>
-        Fan-built · 10% to VASE on every transaction
+        Fan-built · 10% to NCC on every transaction
       </div>
-      <h1>Tickets for every <em>Villanova</em> game.</h1>
+      <h1>Tickets for every <em>Vanderbilt</em> game.</h1>
       <p>
-        Fan-to-fan resale on the Main Line. Apple Wallet ready.
-        <strong>10% of every transaction</strong> goes directly to the VASE Fund.
+        Fan-to-fan resale on the Music City. Apple Wallet ready.
+        <strong>10% of every transaction</strong> goes directly to the NCC Fund.
       </p>
       <a href="#tickets" class="hero-cta">
         Browse Tickets
@@ -1438,14 +1438,14 @@
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-eyebrow">Buy Tickets</div>
-      <h2>Up next at the <em>Pavilion.</em></h2>
+      <h2>Up next at the <em>Memorial Gymnasium.</em></h2>
       <p>Tap any listing to reserve. Apple Wallet handoff at checkout.</p>
     </div>
 
     <div class="filters" role="tablist">
       <button class="filter active" data-sport="all">All games</button>
+      <button class="filter" data-sport="fb">Football</button>
       <button class="filter" data-sport="mbb">Men's Basketball</button>
-      <button class="filter" data-sport="wbb">Women's Basketball</button>
       <button class="filter" data-sport="home">Home only</button>
       <button class="filter sell-cta" id="openListBtn">+ List a ticket</button>
     </div>
@@ -1459,9 +1459,9 @@
 <section id="deals">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-eyebrow">Game-day deals · 100% match to VASE</div>
+      <div class="sec-eyebrow">Game-day deals · 100% match to NCC</div>
       <h2>Local partners, <em>double impact.</em></h2>
-      <p>Every dollar you save here, the business commits an equal dollar to the VASE Fund. Save money. Fund the program. Tap any tile for a one-time redemption code.</p>
+      <p>Every dollar you save here, the business commits an equal dollar to the NCC Fund. Save money. Fund the program. Tap any tile for a one-time redemption code.</p>
     </div>
     <div class="deals" id="dealsGrid"></div>
     <div class="see-more" id="dealMore" style="display:none"></div>
@@ -1472,9 +1472,9 @@
 <section id="leaderboard">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-eyebrow">Top Wildcats</div>
+      <div class="sec-eyebrow">Top Commodores</div>
       <h2>The <em>leaderboard.</em></h2>
-      <p>Every deal you redeem sends matching dollars to VASE. The fans who redeem the most climb the board.</p>
+      <p>Every deal you redeem sends matching dollars to NCC. The fans who redeem the most climb the board.</p>
     </div>
 
     <div class="lb-period">
@@ -1486,7 +1486,7 @@
     <div class="lb-thermo" id="lbThermo">
       <div class="lb-thermo-row">
         <div>
-          <div class="lb-thermo-eyebrow">Nova Nation has matched</div>
+          <div class="lb-thermo-eyebrow">Commodore Nation has matched</div>
           <div class="lb-thermo-amount" id="lbTotal">$0</div>
         </div>
         <div class="lb-thermo-meta">
@@ -1517,12 +1517,12 @@
     <div class="donate-block">
       <div>
         <div class="eyebrow">Skip the marketplace</div>
-        <h3>Give <em>directly</em> to Villanova athletics.</h3>
-        <p>Want to support the Wildcats without buying or selling anything? VASE accepts contributions of any size.</p>
+        <h3>Give <em>directly</em> to Vanderbilt athletics.</h3>
+        <p>Want to support the Commodores without buying or selling anything? NCC accepts contributions of any size.</p>
       </div>
       <div>
-        <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate-cta">
-          Donate to VASE
+        <a href="https://commodoreclub.com/give" target="_blank" rel="noopener noreferrer" class="donate-cta">
+          Donate to NCC
           <span class="arrow">→</span>
         </a>
       </div>
@@ -1533,18 +1533,18 @@
 <!-- ============== FOOTER ============== -->
 <footer>
   <div class="wrap">
-    <div class="foot-tag">Built by Wildcats. For Wildcats.</div>
+    <div class="foot-tag">Built by Commodores. For Commodores.</div>
     <div class="foot-links">
       <a href="#tickets">Tickets</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
-      <a href="https://bdbirdlaw.github.io/Villanova/founders-network/">Founders Network</a>
-      <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer">Donate</a>
+      <a href="https://bdbirdlaw.github.io/Vanderbilt/founders-network/">Founders Network</a>
+      <a href="https://commodoreclub.com/give" target="_blank" rel="noopener noreferrer">Donate</a>
     </div>
-    <div>© 2026 Nova Nation Exchange</div>
+    <div>© 2026 Commodore Exchange</div>
     <div class="disclaimer">
-      Not officially affiliated with Villanova University. The 10% transaction contribution is routed
-      quarterly to the VASE Fund (Villanova Athletics Strategic Excellence).
+      Not officially affiliated with Vanderbilt University. The 10% transaction contribution is routed
+      quarterly to the NCC Fund (Vanderbilt Athletics Strategic Excellence).
     </div>
   </div>
 </footer>
@@ -1556,7 +1556,7 @@
     <button class="modal-close" data-close="ticketModal" aria-label="Close">×</button>
     <div class="m-eyebrow" id="modalSport">Men's Basketball</div>
     <h3 id="modalTitle">vs <em>UConn</em></h3>
-    <div class="m-sub" id="modalMeta">Sat, Feb 7 · 4:00 PM · Finneran Pavilion</div>
+    <div class="m-sub" id="modalMeta">Sat, Feb 7 · 4:00 PM · Memorial Gymnasium</div>
     <div class="m-sub" id="modalSeat" style="margin-top:2px;">Section 109 · Row F · Seat 12</div>
 
     <div class="seat-map" id="seatMap" aria-label="Seat map"></div>
@@ -1565,7 +1565,7 @@
       <div class="seat-view-frame">
         <div class="seat-view-eyebrow">View from your seat</div>
         <div class="seat-view-bottom">
-          <div class="seat-view-label" id="seatViewLabel">Section 109 · Finneran Pavilion</div>
+          <div class="seat-view-label" id="seatViewLabel">Section 109 · Memorial Gymnasium</div>
           <div class="seat-view-cta">See fan photos →</div>
         </div>
       </div>
@@ -1576,7 +1576,7 @@
       <div class="row"><span>Ticket</span><span id="pTicket">$185.00</span></div>
       <div class="row"><span>Service fee</span><span id="pFee">$13.88</span></div>
       <div class="row"><span>Processing</span><span id="pProc">$4.63</span></div>
-      <div class="row vase"><span>10% to VASE</span><span id="pVase">$18.50</span></div>
+      <div class="row vase"><span>10% to NCC</span><span id="pVase">$18.50</span></div>
       <div class="row total"><span>Total</span><span id="pTotal">$222.01</span></div>
     </div>
 
@@ -1584,8 +1584,8 @@
       <input type="checkbox" id="roundupCheck"/>
       <span class="ru-text">
         Round up to <strong>$<span id="roundupTo">—</span></strong> — add
-        <span class="ru-amt" id="roundupAmt">—</span> to the VASE Fund.
-        <span class="ru-hint">100% of the round-up goes to Villanova Athletics.</span>
+        <span class="ru-amt" id="roundupAmt">—</span> to the NCC Fund.
+        <span class="ru-hint">100% of the round-up goes to Vanderbilt Athletics.</span>
       </span>
     </label>
 
@@ -1644,7 +1644,7 @@
     <button class="modal-close" data-close="listModal" aria-label="Close">×</button>
     <div class="m-eyebrow">Sell tickets</div>
     <h3>List a <em>ticket</em></h3>
-    <p class="m-sub">10% of every sale goes to the VASE Fund. You set the price.</p>
+    <p class="m-sub">10% of every sale goes to the NCC Fund. You set the price.</p>
     <form id="listForm" style="margin-top:18px;display:flex;flex-direction:column;gap:12px">
       <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-soft)">Game</label>
       <select id="listGame" class="input" required></select>
@@ -1667,7 +1667,7 @@
       </div>
 
       <div id="listMath" style="background:var(--card);border:1px solid var(--card-line);border-radius:12px;padding:12px;font-size:13px;color:var(--ink-soft);display:none">
-        <div style="display:flex;justify-content:space-between"><span>10% to VASE</span><span id="listVase" style="color:var(--accent);font-weight:600">—</span></div>
+        <div style="display:flex;justify-content:space-between"><span>10% to NCC</span><span id="listVase" style="color:var(--accent);font-weight:600">—</span></div>
         <div style="display:flex;justify-content:space-between"><span>Platform &amp; processing</span><span id="listFees">—</span></div>
         <div style="display:flex;justify-content:space-between;border-top:1px solid var(--rule);margin-top:6px;padding-top:6px;font-weight:700;color:var(--ink)"><span>You receive</span><span id="listNet">—</span></div>
       </div>
@@ -1694,9 +1694,9 @@
   <div class="modal" style="text-align:center;">
     <div class="modal-handle" aria-hidden="true"></div>
     <button class="modal-close" data-close="dealModal" aria-label="Close">×</button>
-    <div class="m-eyebrow" id="dealHood">Bryn Mawr</div>
+    <div class="m-eyebrow" id="dealHood">Midtown</div>
     <h3 id="dealBiz">Kelly's <em>Taproom</em></h3>
-    <p id="dealOffer" style="color: var(--ink-soft); margin: 10px 0 0 0; font-size: 14px;">$5 off any pitcher on Villanova game days.</p>
+    <p id="dealOffer" style="color: var(--ink-soft); margin: 10px 0 0 0; font-size: 14px;">$5 off any pitcher on Vanderbilt game days.</p>
     <div class="deal-code">
       <div class="label">Show this code</div>
       <div class="code" id="dealCode">VNVA-7K2X</div>
@@ -1705,53 +1705,66 @@
 
     <div class="deal-commit">
       <div class="deal-commit-row">
-        <span class="deal-commit-pill">Match to VASE</span>
+        <span class="deal-commit-pill">Match to NCC</span>
       </div>
-      <p>By redeeming this code, <strong id="dealCommitName">this business</strong> commits the dollar value of your discount to the <strong>VASE Fund</strong>. You save. The Wildcats win.</p>
+      <p>By redeeming this code, <strong id="dealCommitName">this business</strong> commits the dollar value of your discount to the <strong>NCC Fund</strong>. You save. The Commodores win.</p>
     </div>
 
-    <button class="btn-block" data-close="dealModal" style="margin-top:14px;">Got it. V-U Nova.</button>
+    <button class="btn-block" data-close="dealModal" style="margin-top:14px;">Got it. Anchor Down.</button>
   </div>
 </div>
 
 <script>
 /* ============================================================
-   Real 2025-26 Villanova basketball schedule data.
-   Sources: villanova.com schedule pages, bigeast.com, vu hoops.
+   Real 2025-26 Vanderbilt basketball schedule data.
+   Sources: vucommodores.com schedule pages, secsports.com, anchordown.com.
    Section / row / seat are illustrative until real seller
    inventory is wired up — the rest is verified.
    ============================================================ */
-const TICKETS = [
-  // ===== MEN'S BASKETBALL =====
-  { id:'M01', sport:'mbb', sportLabel:"Men's Basketball", opponent:'BYU',        isHome:false, isNeutral:true, date:'Mon, Nov 3',  time:'9:30 PM', venue:'T-Mobile Arena, Las Vegas', note:'Hall of Fame Series', section:'117', row:'12', seat:'8',  face:225, ask:265, hot:true },
-  { id:'M02', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Temple',     isHome:true,                  date:'Mon, Dec 1',  time:'7:00 PM', venue:'Finneran Pavilion',         note:'Big 5',              section:'109', row:'F',  seat:'12', face:60,  ask:75 },
-  { id:'M03', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Seton Hall', isHome:false,                 date:'Tue, Dec 23', time:'7:00 PM', venue:'Prudential Center, Newark', note:'Big East opener',    section:'8',   row:'18', seat:'4',  face:55,  ask:65 },
-  { id:'M04', sport:'mbb', sportLabel:"Men's Basketball", opponent:'DePaul',     isHome:true,                  date:'Wed, Dec 31', time:'2:00 PM', venue:'Finneran Pavilion',                                    section:'108', row:'M',  seat:'22', face:50,  ask:55 },
-  { id:'M05', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Creighton',  isHome:true,                  date:'Wed, Jan 7',  time:'7:30 PM', venue:'Finneran Pavilion',                                    section:'104', row:'D',  seat:'4',  face:95,  ask:110, hot:true },
-  { id:'M06', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Marquette',  isHome:false,                 date:'Sat, Jan 10', time:'2:30 PM', venue:'Fiserv Forum, Milwaukee',                              section:'214', row:'14', seat:'7',  face:75,  ask:85 },
-  { id:'M07', sport:'mbb', sportLabel:"Men's Basketball", opponent:'UConn',      isHome:true,                  date:'Sat, Jan 24', time:'4:30 PM', venue:'Finneran Pavilion',                                    section:'109', row:'F',  seat:'11', face:175, ask:225, hot:true },
-  { id:'M08', sport:'mbb', sportLabel:"Men's Basketball", opponent:'UConn',      isHome:false,                 date:'Sat, Feb 21', time:'6:00 PM', venue:'Gampel Pavilion, Storrs',                              section:'112', row:'C',  seat:'9',  face:140, ask:165 },
 
-  // ===== WOMEN'S BASKETBALL =====
-  { id:'W01', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Temple',     isHome:true,  date:'Sat, Nov 22', time:'2:00 PM',  venue:'Finneran Pavilion',         note:'Big 5',     section:'105', row:'C', seat:'6',  face:25, ask:30 },
-  { id:'W02', sport:'wbb', sportLabel:"Women's Basketball", opponent:'La Salle',   isHome:false, date:'Tue, Nov 25', time:'7:00 PM',  venue:'Tom Gola Arena, Philadelphia', note:'Big 5',  section:'B',   row:'5', seat:'10', face:18, ask:20 },
-  { id:'W03', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Creighton',  isHome:true,  date:'Thu, Jan 1',  time:'12:00 PM', venue:'Finneran Pavilion',                            section:'107', row:'D', seat:'15', face:25, ask:30 },
-  { id:'W04', sport:'wbb', sportLabel:"Women's Basketball", opponent:'UConn',      isHome:false, date:'Thu, Jan 15', time:'7:00 PM',  venue:'Gampel Pavilion, Storrs',                      section:'112', row:'B', seat:'2',  face:55, ask:65, hot:true },
-  { id:'W05', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Butler',     isHome:true,  date:'Sun, Jan 18', time:'2:00 PM',  venue:'Finneran Pavilion',                            section:'110', row:'E', seat:'11', face:22, ask:25 },
-  { id:'W06', sport:'wbb', sportLabel:"Women's Basketball", opponent:"St. John's", isHome:false, date:'Sat, Jan 24', time:'2:00 PM',  venue:'Carnesecca Arena, Queens',                     section:'B',   row:'6', seat:'14', face:22, ask:24 },
-  { id:'W07', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Providence', isHome:true,  date:'Tue, Jan 27', time:'7:00 PM',  venue:'Finneran Pavilion',                            section:'113', row:'L', seat:'14', face:22, ask:25 },
-  { id:'W08', sport:'wbb', sportLabel:"Women's Basketball", opponent:'DePaul',     isHome:true,  date:'Sat, Jan 31', time:'2:00 PM',  venue:'Finneran Pavilion',                            section:'106', row:'B', seat:'2',  face:18, ask:20 },
+const TICKETS = [
+  // ===== MEN'S FOOTBALL — 2026 season =====
+  { id:'F01', sport:'fb',  sportLabel:"Football", opponent:'Charleston Southern', isHome:true,  date:'Sat, Aug 29', time:'7:00 PM CT', venue:'FirstBank Stadium', note:'Season opener',                  section:'F',  row:'24', seat:'18', face:35,  ask:32 },
+  { id:'F02', sport:'fb',  sportLabel:"Football", opponent:'Virginia Tech',       isHome:false, date:'Sat, Sep 5',  time:'3:30 PM ET', venue:'Lane Stadium, Blacksburg',                                  section:'4',  row:'18', seat:'12', face:75,  ask:85 },
+  { id:'F03', sport:'fb',  sportLabel:"Football", opponent:'Georgia State',       isHome:true,  date:'Sat, Sep 12', time:'12:00 PM CT',venue:'FirstBank Stadium',                                        section:'M',  row:'12', seat:'6',  face:40,  ask:38 },
+  { id:'F04', sport:'fb',  sportLabel:"Football", opponent:'Tulsa',               isHome:true,  date:'Sat, Sep 19', time:'2:30 PM CT', venue:'FirstBank Stadium',                                        section:'L',  row:'8',  seat:'14', face:45,  ask:45 },
+  { id:'F05', sport:'fb',  sportLabel:"Football", opponent:'Alabama',             isHome:false, date:'Sat, Oct 3',  time:'7:00 PM CT', venue:'Bryant-Denny Stadium, Tuscaloosa',                         section:'U2', row:'42', seat:'8',  face:120, ask:185, hot:true },
+  { id:'F06', sport:'fb',  sportLabel:"Football", opponent:'Kentucky',            isHome:true,  date:'Sat, Oct 10', time:'6:30 PM CT', venue:'FirstBank Stadium',                                        section:'D',  row:'14', seat:'20', face:75,  ask:90 },
+  { id:'F07', sport:'fb',  sportLabel:"Football", opponent:'Missouri',            isHome:true,  date:'Sat, Oct 17', time:'11:00 AM CT',venue:'FirstBank Stadium',                                        section:'C',  row:'6',  seat:'4',  face:65,  ask:70 },
+  { id:'F08', sport:'fb',  sportLabel:"Football", opponent:'South Carolina',      isHome:false, date:'Sat, Oct 24', time:'TBD',        venue:'Williams-Brice Stadium, Columbia',                         section:'19', row:'20', seat:'12', face:85,  ask:95 },
+  { id:'F09', sport:'fb',  sportLabel:"Football", opponent:'Texas',               isHome:false, date:'Sat, Oct 31', time:'TBD',        venue:'Darrell K Royal Stadium, Austin',                          section:'126',row:'48', seat:'22', face:115, ask:165, hot:true },
+  { id:'F10', sport:'fb',  sportLabel:"Football", opponent:'Auburn',              isHome:true,  date:'Sat, Nov 7',  time:'2:30 PM CT', venue:'FirstBank Stadium',                                        section:'D',  row:'18', seat:'2',  face:75,  ask:80 },
+  { id:'F11', sport:'fb',  sportLabel:"Football", opponent:'LSU',                 isHome:false, date:'Sat, Nov 14', time:'6:45 PM CT', venue:'Tiger Stadium, Baton Rouge',                               section:'301',row:'24', seat:'18', face:135, ask:175, hot:true },
+  { id:'F12', sport:'fb',  sportLabel:"Football", opponent:'Tennessee',           isHome:true,  date:'Sat, Nov 28', time:'6:30 PM CT', venue:'FirstBank Stadium', note:'Rivalry · Third Saturday',       section:'A',  row:'5',  seat:'9',  face:185, ask:295, hot:true },
+
+  // ===== MEN'S BASKETBALL — 2026-27 season =====
+  { id:'B01', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Belmont',           isHome:true,  date:'Tue, Nov 10', time:'7:00 PM CT', venue:'Memorial Gymnasium', note:'Music City season opener', section:'1A', row:'4',  seat:'8',  face:45,  ask:45 },
+  { id:'B02', sport:'mbb', sportLabel:"Men's Basketball", opponent:'SMU',               isHome:true,  date:'Fri, Nov 20', time:'8:00 PM CT', venue:'Memorial Gymnasium',                                  section:'2D', row:'10', seat:'14', face:55,  ask:60 },
+  { id:'B03', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Florida',           isHome:false, date:'Wed, Jan 6',  time:'8:00 PM CT', venue:"O'Connell Center, Gainesville",                       section:'108',row:'18', seat:'4',  face:70,  ask:85 },
+  { id:'B04', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Kentucky',          isHome:true,  date:'Sat, Jan 16', time:'1:00 PM CT', venue:'Memorial Gymnasium', note:'Rivalry',                  section:'1D', row:'6',  seat:'11', face:165, ask:225, hot:true },
+  { id:'B05', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Arkansas',          isHome:true,  date:'Wed, Jan 20', time:'7:00 PM CT', venue:'Memorial Gymnasium',                                  section:'2B', row:'14', seat:'6',  face:65,  ask:75 },
+  { id:'B06', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Tennessee',         isHome:false, date:'Sat, Jan 30', time:'12:00 PM CT',venue:'Thompson-Boling Arena, Knoxville', note:'Rivalry',     section:'320',row:'9',  seat:'7',  face:90,  ask:115, hot:true },
+  { id:'B07', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Alabama',           isHome:true,  date:'Tue, Feb 9',  time:'8:00 PM CT', venue:'Memorial Gymnasium',                                  section:'1C', row:'8',  seat:'10', face:85,  ask:105, hot:true },
+  { id:'B08', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Auburn',            isHome:true,  date:'Sat, Feb 13', time:'5:00 PM CT', venue:'Memorial Gymnasium',                                  section:'2E', row:'12', seat:'22', face:80,  ask:90 },
+  { id:'B09', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Ole Miss',          isHome:false, date:'Wed, Feb 17', time:'7:00 PM CT', venue:'SJB Pavilion, Oxford',                                section:'113',row:'C',  seat:'5',  face:55,  ask:60 },
+  { id:'B10', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Tennessee',         isHome:true,  date:'Tue, Mar 2',  time:'8:00 PM CT', venue:'Memorial Gymnasium', note:'Rivalry · Senior Night',  section:'1A', row:'3',  seat:'4',  face:175, ask:285, hot:true },
+  { id:'B11', sport:'mbb', sportLabel:"Men's Basketball", opponent:'SEC Tournament',    isHome:false, date:'Thu, Mar 11', time:'TBD',        venue:'Bridgestone Arena, Nashville', note:'SEC Tournament', section:'112',row:'B',  seat:'1',  face:125, ask:185, hot:true },
+  { id:'B12', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Mississippi State', isHome:true,  date:'Sat, Feb 27', time:'3:00 PM CT', venue:'Memorial Gymnasium',                                  section:'2C', row:'9',  seat:'15', face:60,  ask:65 },
 ];
 
 const DEALS = [
-  { slug:'kellys-taproom',     biz:"Kelly's Taproom",          hood:'Bryn Mawr',       offer:'$5 off any pitcher on Villanova game days.',                     matchCents: 500  },
-  { slug:'brick-brew',         biz:'Brick & Brew',             hood:'Wayne',           offer:'20% off entrées with proof of Nova game attendance.',           matchCents: 1000 },
-  { slug:'refectory',          biz:'The Refectory',            hood:'Villanova',       offer:'Free appetizer with a stub from any home game.',                matchCents: 1200 },
-  { slug:'conshohocken-brew',  biz:'Conshohocken Brewing Co.', hood:'Conshohocken',    offer:'$2 off Wildcat-themed pours during home games.',                matchCents: 200  },
-  { slug:'white-dog-cafe',     biz:'White Dog Cafe',           hood:'Wayne',           offer:'Free dessert for parties of 4+ in Villanova gear.',             matchCents: 900  },
-  { slug:'iron-hill-kop',      biz:'Iron Hill Brewery',        hood:'King of Prussia', offer:'15% off your check after UConn or Georgetown games.',           matchCents: 600  },
-  { slug:'radnor-hotel',       biz:'The Radnor Hotel',         hood:'Radnor',          offer:'Champagne toast for groups celebrating a win.',                  matchCents: 800  },
-  { slug:'minellas-diner',     biz:"Minella's Diner",          hood:'Wayne',           offer:'Free coffee with breakfast on home-game mornings.',             matchCents: 300  },
+  { slug:'hattie-bs',          biz:"Hattie B's Hot Chicken",   hood:'Midtown',         offer:'$5 off any half-bird platter on game days. Tell them you anchored down.',          matchCents: 500  },
+  { slug:'tin-roof',           biz:'Tin Roof',                 hood:'Demonbreun',      offer:'$3 off pitchers and free wings for the table on Vanderbilt home football days.', matchCents: 800  },
+  { slug:'pancake-pantry',     biz:'Pancake Pantry',           hood:'Hillsboro Village',offer:'Free coffee with breakfast on Vanderbilt home-game mornings.',                  matchCents: 400  },
+  { slug:'sportsmans-grille',  biz:"Sportsman's Grille",       hood:'Hillsboro Village',offer:'20% off your check after every home win, $5 off after every home game.',       matchCents: 1000 },
+  { slug:'edleys-bbq',         biz:"Edley's Bar-B-Que",        hood:'12 South',        offer:'Free dessert for parties of 4+ in Vanderbilt gear on home-game days.',           matchCents: 900  },
+  { slug:'pharmacy-burger',    biz:'The Pharmacy Burger Parlor',hood:'East Nashville', offer:'$3 off any burger after a Tennessee or Kentucky win.',                          matchCents: 300  },
+  { slug:'burger-republic',    biz:'Burger Republic',          hood:'Green Hills',     offer:'15% off your check on Vanderbilt football Saturdays.',                          matchCents: 700  },
+  { slug:'loveless-cafe',      biz:'Loveless Cafe',            hood:'West Nashville',  offer:'Champagne toast (or biscuit) for groups celebrating a Commodore win.',         matchCents: 600  },
+  { slug:'5-spot',             biz:'The 5 Spot',               hood:'East Nashville',  offer:'No cover for fans in Vanderbilt gear on game-day nights.',                     matchCents: 400  },
+  { slug:'losers-bar',         biz:'Losers Bar',               hood:'Midtown',         offer:'$2 off well drinks and pitchers on Vandy home football game days.',             matchCents: 500  },
+  { slug:'fido',               biz:'Fido',                     hood:'Hillsboro Village',offer:'Free pastry with any espresso drink on game-day mornings.',                    matchCents: 350  },
+  { slug:'patterson-house',    biz:'The Patterson House',      hood:'Midtown',         offer:'$3 off any classic cocktail after a Vanderbilt win.',                           matchCents: 800  },
 ];
 
 const $  = (s,c=document) => c.querySelector(s);
@@ -1760,45 +1773,55 @@ const fmt = n => '$' + Number(n).toFixed(2);
 
 /* =====================================================================
    SEAT MAP — embedded in the ticket modal, highlights seller's section.
-   Two venue maps: Finneran Pavilion, Wells Fargo Center.
+   Two venue maps: Memorial Gymnasium, Bridgestone Arena.
    Other venues show a friendly fallback (and the AVFMS panel below it).
    ===================================================================== */
-const PAV_SECTIONS = [
-  // Lower bowl 100s — wraps the court
-  { id: '108', top: '23%', left: '38%', width: '7%', height: '11%' },
-  { id: '109', top: '22%', left: '46%', width: '7%', height: '11%' },
-  { id: '110', top: '22%', left: '54%', width: '7%', height: '11%' },
-  { id: '111', top: '23%', left: '62%', width: '7%', height: '11%' },
-  { id: '112', top: '25%', left: '70%', width: '6%', height: '10%' },
-  { id: '113', top: '38%', left: '72%', width: '5%', height: '12%' },
-  { id: '114', top: '52%', left: '72%', width: '5%', height: '12%' },
-  { id: '115', top: '66%', left: '70%', width: '6%', height: '10%' },
-  { id: '101', top: '67%', left: '62%', width: '7%', height: '11%' },
-  { id: '102', top: '68%', left: '54%', width: '7%', height: '11%' },
-  { id: '103', top: '68%', left: '46%', width: '7%', height: '11%' },
-  { id: '104', top: '67%', left: '38%', width: '7%', height: '11%' },
-  { id: '105', top: '66%', left: '30%', width: '6%', height: '10%' },
-  { id: '106', top: '46%', left: '23%', width: '5%', height: '12%' },
-  { id: '107', top: '32%', left: '23%', width: '5%', height: '12%' },
-  // Upper bowl 200s
-  { id: '208', top: '10%', left: '38%', width: '7%', height: '9%' },
-  { id: '209', top: '9%',  left: '46%', width: '7%', height: '9%' },
-  { id: '210', top: '9%',  left: '54%', width: '7%', height: '9%' },
-  { id: '211', top: '10%', left: '62%', width: '7%', height: '9%' },
-  { id: '212', top: '21%', left: '85%', width: '5%', height: '12%' },
-  { id: '213', top: '36%', left: '86%', width: '5%', height: '12%' },
-  { id: '214', top: '51%', left: '86%', width: '5%', height: '12%' },
-  { id: '215', top: '66%', left: '85%', width: '5%', height: '12%' },
-  { id: '201', top: '81%', left: '62%', width: '7%', height: '9%' },
-  { id: '202', top: '82%', left: '54%', width: '7%', height: '9%' },
-  { id: '203', top: '82%', left: '46%', width: '7%', height: '9%' },
-  { id: '204', top: '81%', left: '38%', width: '7%', height: '9%' },
-  { id: '205', top: '66%', left: '10%', width: '5%', height: '12%' },
-  { id: '206', top: '46%', left: '9%',  width: '5%', height: '12%' },
-  { id: '207', top: '21%', left: '10%', width: '5%', height: '12%' },
+/* Memorial Gymnasium — Vanderbilt men's basketball home venue.
+   Sections 1A–1E (north sideline), 2A–2E (south sideline),
+   3A/3B (east baseline / west baseline) — matches ticket data. */
+const MGYM_SECTIONS = [
+  // North sideline
+  { id: '1A', top: '22%', left: '22%', width: '11%', height: '13%' },
+  { id: '1B', top: '21%', left: '34%', width: '11%', height: '13%' },
+  { id: '1C', top: '20%', left: '46%', width: '11%', height: '13%' },
+  { id: '1D', top: '21%', left: '58%', width: '11%', height: '13%' },
+  { id: '1E', top: '22%', left: '70%', width: '9%', height: '13%' },
+  // East baseline
+  { id: '3A', top: '37%', left: '82%', width: '7%', height: '26%' },
+  // South sideline
+  { id: '2E', top: '65%', left: '70%', width: '9%', height: '13%' },
+  { id: '2D', top: '64%', left: '58%', width: '11%', height: '13%' },
+  { id: '2C', top: '63%', left: '46%', width: '11%', height: '13%' },
+  { id: '2B', top: '64%', left: '34%', width: '11%', height: '13%' },
+  { id: '2A', top: '65%', left: '22%', width: '11%', height: '13%' },
+  // West baseline
+  { id: '3B', top: '37%', left: '11%', width: '7%', height: '26%' },
 ];
 
-const WFC_SECTIONS = [
+/* FirstBank Stadium — Vanderbilt football. Sections A–F (west
+   side), J/F (end zones), K–O (east). Real layout simplified. */
+const FBS_SECTIONS = [
+  // West sideline (home side)
+  { id: 'A', top: '21%', left: '20%', width: '11%', height: '14%' },
+  { id: 'B', top: '20%', left: '32%', width: '11%', height: '14%' },
+  { id: 'C', top: '19%', left: '44%', width: '12%', height: '14%' },
+  { id: 'D', top: '20%', left: '57%', width: '11%', height: '14%' },
+  { id: 'E', top: '21%', left: '69%', width: '11%', height: '14%' },
+  // North end zone
+  { id: 'F', top: '37%', left: '83%', width: '7%', height: '26%' },
+  // East sideline
+  { id: 'O', top: '65%', left: '69%', width: '11%', height: '14%' },
+  { id: 'N', top: '66%', left: '57%', width: '11%', height: '14%' },
+  { id: 'M', top: '67%', left: '44%', width: '12%', height: '14%' },
+  { id: 'L', top: '66%', left: '32%', width: '11%', height: '14%' },
+  { id: 'K', top: '65%', left: '20%', width: '11%', height: '14%' },
+  // South end zone
+  { id: 'J', top: '37%', left: '10%', width: '7%', height: '26%' },
+];
+
+/* Bridgestone Arena — Nashville. Used for SEC Tournament games.
+   Lower bowl 100s + upper bowl 200s in concentric oval rings. */
+const BRA_SECTIONS = [
   // Lower bowl 100s
   { id: '110', top: '28%', left: '40%', width: '6%', height: '7%' },
   { id: '111', top: '27%', left: '47%', width: '6%', height: '7%' },
@@ -1833,30 +1856,55 @@ const WFC_SECTIONS = [
   { id: '202', top: '26%', left: '13%', width: '4%', height: '9%' },
 ];
 
-const PAVILION_SVG = `
+const MGYM_SVG = `
   <svg class="smbg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-    <path d="M 220 240 L 340 130 L 860 130 L 980 240 L 980 560 L 860 670 L 340 670 L 220 560 Z"
+    <rect x="160" y="120" width="880" height="560" rx="14" ry="14"
           fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-    <rect x="450" y="330" width="300" height="150" fill="#C49B5D" stroke="#0F1F47" stroke-width="2" rx="3"/>
-    <line x1="600" y1="330" x2="600" y2="480" stroke="#0F1F47" stroke-width="1.4"/>
-    <circle cx="600" cy="405" r="28" fill="none" stroke="#0F1F47" stroke-width="1.4"/>
-    <rect x="450" y="370" width="46" height="70" fill="rgba(15,31,71,0.10)" stroke="#0F1F47" stroke-width="1.2"/>
-    <rect x="704" y="370" width="46" height="70" fill="rgba(15,31,71,0.10)" stroke="#0F1F47" stroke-width="1.2"/>
-    <text x="600" y="423" font-family="Instrument Serif, serif" font-size="46" font-weight="700"
-          fill="#0F1F47" text-anchor="middle">V</text>
+    <rect x="450" y="330" width="300" height="150" fill="#C49B5D" stroke="#0E0E14" stroke-width="2" rx="3"/>
+    <line x1="600" y1="330" x2="600" y2="480" stroke="#0E0E14" stroke-width="1.4"/>
+    <circle cx="600" cy="405" r="28" fill="none" stroke="#0E0E14" stroke-width="1.4"/>
+    <rect x="450" y="370" width="46" height="70" fill="rgba(14,14,20,0.10)" stroke="#0E0E14" stroke-width="1.2"/>
+    <rect x="704" y="370" width="46" height="70" fill="rgba(14,14,20,0.10)" stroke="#0E0E14" stroke-width="1.2"/>
+    <text x="600" y="425" font-family="Instrument Serif, serif" font-size="48" font-weight="700"
+          fill="#0E0E14" text-anchor="middle">V</text>
   </svg>
 `;
 
-const WFC_SVG = `
+const FBS_SVG = `
+  <svg class="smbg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="120" y="110" width="960" height="580" rx="180" ry="160"
+          fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+    <!-- Field -->
+    <rect x="300" y="320" width="600" height="160" fill="#1C5C2F" stroke="#0E0E14" stroke-width="2" rx="2"/>
+    <!-- Yard lines -->
+    <line x1="360" y1="320" x2="360" y2="480" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+    <line x1="420" y1="320" x2="420" y2="480" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+    <line x1="480" y1="320" x2="480" y2="480" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+    <line x1="540" y1="320" x2="540" y2="480" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+    <line x1="600" y1="320" x2="600" y2="480" stroke="rgba(255,255,255,0.95)" stroke-width="1.5"/>
+    <line x1="660" y1="320" x2="660" y2="480" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+    <line x1="720" y1="320" x2="720" y2="480" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+    <line x1="780" y1="320" x2="780" y2="480" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+    <line x1="840" y1="320" x2="840" y2="480" stroke="rgba(255,255,255,0.65)" stroke-width="1.2"/>
+    <!-- End zones in Vandy gold -->
+    <rect x="300" y="320" width="60" height="160" fill="#B59149" stroke="#0E0E14" stroke-width="1.5"/>
+    <rect x="840" y="320" width="60" height="160" fill="#B59149" stroke="#0E0E14" stroke-width="1.5"/>
+    <!-- V at midfield -->
+    <text x="600" y="420" font-family="Instrument Serif, serif" font-size="48" font-weight="700"
+          fill="#B59149" text-anchor="middle">V</text>
+  </svg>
+`;
+
+const BRA_SVG = `
   <svg class="smbg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <ellipse cx="600" cy="400" rx="500" ry="270" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.28)" stroke-width="2"/>
     <ellipse cx="600" cy="400" rx="420" ry="220" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
     <ellipse cx="600" cy="400" rx="280" ry="160" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-    <rect x="450" y="345" width="300" height="120" fill="#C49B5D" stroke="#0F1F47" stroke-width="2" rx="3"/>
-    <line x1="600" y1="345" x2="600" y2="465" stroke="#0F1F47" stroke-width="1.4"/>
-    <circle cx="600" cy="405" r="26" fill="none" stroke="#0F1F47" stroke-width="1.4"/>
+    <rect x="450" y="345" width="300" height="120" fill="#C49B5D" stroke="#0E0E14" stroke-width="2" rx="3"/>
+    <line x1="600" y1="345" x2="600" y2="465" stroke="#0E0E14" stroke-width="1.4"/>
+    <circle cx="600" cy="405" r="26" fill="none" stroke="#0E0E14" stroke-width="1.4"/>
     <text x="600" y="420" font-family="Instrument Serif, serif" font-size="40" font-weight="700"
-          fill="#0F1F47" text-anchor="middle">V</text>
+          fill="#0E0E14" text-anchor="middle">V</text>
   </svg>
 `;
 
@@ -1867,19 +1915,23 @@ function renderSeatMap(venue, section) {
   const generic = ['GA', 'NE', 'W', '—', '', undefined, null];
 
   let sections, svg, label;
-  if (v.includes('finneran') || v.includes('pavilion at villanova') || v === 'finneran pavilion') {
-    sections = PAV_SECTIONS;
-    svg      = PAVILION_SVG;
-    label    = 'The Pavilion';
-  } else if (v.includes('wells fargo')) {
-    sections = WFC_SECTIONS;
-    svg      = WFC_SVG;
-    label    = 'Wells Fargo Center';
+  if (v.includes('memorial gymnasium') || v.includes('memorial gym')) {
+    sections = MGYM_SECTIONS;
+    svg      = MGYM_SVG;
+    label    = 'Memorial Gymnasium';
+  } else if (v.includes('firstbank') || v.includes('vanderbilt stadium')) {
+    sections = FBS_SECTIONS;
+    svg      = FBS_SVG;
+    label    = 'FirstBank Stadium';
+  } else if (v.includes('bridgestone')) {
+    sections = BRA_SECTIONS;
+    svg      = BRA_SVG;
+    label    = 'Bridgestone Arena';
   } else {
     wrap.innerHTML = `
       <div class="sm-fallback">
         <div><strong>${escapeHtml(venue || 'Away venue')}</strong></div>
-        <div class="small">Seat map preview available for Pavilion &amp; Wells Fargo Center.</div>
+        <div class="small">Seat map preview available for Memorial Gymnasium, FirstBank Stadium &amp; Bridgestone Arena.</div>
         <div class="small">See real fan photos in the panel below.</div>
       </div>`;
     return;
@@ -1978,11 +2030,11 @@ function renderTickets() {
 /* ===== Deals ===== */
 function dealCard(d, i) {
   return `
-    <button class="deal" data-deal="${i}" aria-label="${d.biz} deal — matches to VASE">
+    <button class="deal" data-deal="${i}" aria-label="${d.biz} deal — matches to NCC">
       <div class="deal-hood">${d.hood}</div>
       <h3>${d.biz}</h3>
       <p>${d.offer}</p>
-      <span class="deal-match">Match to VASE</span>
+      <span class="deal-match">Match to NCC</span>
       <span class="deal-cta">Get the code</span>
     </button>
   `;
@@ -1995,7 +2047,7 @@ function renderDeals() {
   if (moreEl) {
     const remaining = DEALS.length - visible.length;
     if (remaining > 0) {
-      moreEl.innerHTML = `<button class="see-more-btn" id="seeMoreDeals">See all ${DEALS.length} Main Line deals →</button>`;
+      moreEl.innerHTML = `<button class="see-more-btn" id="seeMoreDeals">See all ${DEALS.length} Music City deals →</button>`;
       moreEl.style.display = 'flex';
       document.getElementById('seeMoreDeals').addEventListener('click', () => {
         dealLimit = Infinity;
@@ -2145,9 +2197,9 @@ $('#menuBtn').addEventListener('click', () => {
 $$('#menuPanel a').forEach(a => a.addEventListener('click', () => $('#menuPanel').classList.remove('open')));
 
 /* ============================================================
-   SCORES TICKER — every current Villanova athletic event.
+   SCORES TICKER — every current Vanderbilt athletic event.
    Pulls from ESPN's public scoreboard JSON (no key required),
-   filters to Villanova across multiple sports, and falls back
+   filters to Vanderbilt across multiple sports, and falls back
    to a small mock list when the API is unreachable or it's
    the offseason and there are no live games today.
    ============================================================ */
@@ -2163,20 +2215,20 @@ const SCOREBOARDS = [
 ];
 
 const MOCK_SCORES = [
-  { tag:'MBB',  oppAbbr:'STJ', opp:"St. John's", us:79, them:66, status:'Final',          live:false, final:true,  win:true,  isHome:true  },
-  { tag:'MBB',  oppAbbr:'UCN', opp:'UConn',      us:71, them:75, status:'Final',          live:false, final:true,  win:false, isHome:false },
-  { tag:'WBB',  oppAbbr:'MAR', opp:'Marquette',  us:64, them:58, status:'Final',          live:false, final:true,  win:true,  isHome:true  },
-  { tag:'MLAX', oppAbbr:'ND',  opp:'Notre Dame', us:14, them:11, status:'Final',          live:false, final:true,  win:true,  isHome:true  },
-  { tag:'WLAX', oppAbbr:'PSU', opp:'Penn State', us:13, them:10, status:'Final',          live:false, final:true,  win:true,  isHome:false },
-  { tag:'BSB',  oppAbbr:'GTN', opp:'Georgetown', us:6,  them:4,  status:'Final · 9 inn',  live:false, final:true,  win:true,  isHome:true  },
-  { tag:'SB',   oppAbbr:'CRT', opp:'Creighton',  us:5,  them:3,  status:'Final · 7 inn',  live:false, final:true,  win:true,  isHome:true  },
-  { tag:'MBB',  oppAbbr:'CRT', opp:'Creighton',  us:32, them:28, status:'2H · 14:22',     live:true,  final:false, win:true,  isHome:true  },
+  { tag:'FB',  oppAbbr:'UK',   opp:'Kentucky',         us:24, them:20, status:'Final',         live:false, final:true,  win:true,  isHome:true  },
+  { tag:'FB',  oppAbbr:'BAMA', opp:'Alabama',          us:14, them:27, status:'Final',         live:false, final:true,  win:false, isHome:false },
+  { tag:'MBB', oppAbbr:'UK',   opp:'Kentucky',         us:78, them:74, status:'Final · OT',    live:false, final:true,  win:true,  isHome:true  },
+  { tag:'MBB', oppAbbr:'TENN', opp:'Tennessee',        us:65, them:71, status:'Final',         live:false, final:true,  win:false, isHome:false },
+  { tag:'FB',  oppAbbr:'MIZZ', opp:'Missouri',         us:31, them:24, status:'Final',         live:false, final:true,  win:true,  isHome:true  },
+  { tag:'MBB', oppAbbr:'AUB',  opp:'Auburn',           us:74, them:68, status:'Final',         live:false, final:true,  win:true,  isHome:true  },
+  { tag:'FB',  oppAbbr:'TENN', opp:'Tennessee',        us:27, them:24, status:'Final · OT',    live:false, final:true,  win:true,  isHome:true  },
+  { tag:'MBB', oppAbbr:'ARK',  opp:'Arkansas',         us:32, them:28, status:'2H · 14:22',    live:true,  final:false, win:true,  isHome:true  },
 ];
 
-function isVillanovaCompetitor(c) {
+function isVanderbiltCompetitor(c) {
   const t = c?.team || {};
   const fields = [t.location, t.displayName, t.shortDisplayName, t.name, t.nickname].filter(Boolean).map(s => s.toLowerCase());
-  return fields.some(s => s.includes('villanova'));
+  return fields.some(s => s.includes('vanderbilt'));
 }
 async function fetchOne(board) {
   try {
@@ -2187,7 +2239,7 @@ async function fetchOne(board) {
     for (const ev of (j.events || [])) {
       const comp = ev.competitions?.[0];
       const competitors = comp?.competitors || [];
-      const us = competitors.find(isVillanovaCompetitor);
+      const us = competitors.find(isVanderbiltCompetitor);
       if (!us) continue;
       const them = competitors.find(c => c !== us);
       const usScore   = parseInt(us.score || '0', 10);
@@ -2541,7 +2593,7 @@ async function openSaleStatus(txId) {
       <div class="summary" style="margin-top:18px">
         <div class="row"><span>Status</span><span>${sale.status.toUpperCase()}</span></div>
         <div class="row"><span>Transfer</span><span>${(sale.transfer_status || '—').replace(/_/g,' ').toUpperCase()}</span></div>
-        <div class="row vase"><span>To VASE</span><span>$${(sale.vase_cents/100).toFixed(2)}</span></div>
+        <div class="row vase"><span>To NCC</span><span>$${(sale.vase_cents/100).toFixed(2)}</span></div>
       </div>
     `;
     if (isSeller && sale.transfer_status === 'awaiting_seller') {
@@ -2619,14 +2671,14 @@ async function loadLeaderboard() {
 
     const leaders = data.leaders || [];
     if (leaders.length === 0) {
-      $list.innerHTML = `<div class="lb-empty">No redemptions yet for this period. Be the first Wildcat on the board.</div>`;
+      $list.innerHTML = `<div class="lb-empty">No redemptions yet for this period. Be the first Commodore on the board.</div>`;
     } else {
       $list.innerHTML = leaders.map((r, i) => {
         const rank = i + 1;
         const t = rank <= 3 ? ` t${rank}` : '';
         const meCls = (CURRENT_USER && r.user_id === CURRENT_USER.id) ? ' me' : '';
         const cls = `lb-row${t}${meCls}`;
-        const sub = [r.class_year, r.city].filter(Boolean).join(' · ') || 'Nova Nation';
+        const sub = [r.class_year, r.city].filter(Boolean).join(' · ') || 'Commodore Nation';
         return `
           <div class="${cls}">
             <div class="lb-rank">${rank}</div>
@@ -2634,7 +2686,7 @@ async function loadLeaderboard() {
               <div class="lb-name">${r.display_name}</div>
               <div class="lb-meta">${sub} · ${r.redemption_count} redemption${r.redemption_count === 1 ? '' : 's'}</div>
             </div>
-            <div class="lb-amt">${fmtUsd(r.matched_cents)}<span class="sm">to VASE</span></div>
+            <div class="lb-amt">${fmtUsd(r.matched_cents)}<span class="sm">to NCC</span></div>
           </div>
         `;
       }).join('');
@@ -2702,7 +2754,7 @@ async function recordRedemption(deal, code) {
     if (r.alreadyRedeemed) {
       showLbToast(`Already counted today — your earlier <strong>${deal.biz}</strong> redemption is on the board.`);
     } else {
-      showLbToast(`+<strong>${fmtUsd(deal.matchCents)}</strong> to VASE from your <strong>${deal.biz}</strong> redemption. Climb the board.`);
+      showLbToast(`+<strong>${fmtUsd(deal.matchCents)}</strong> to NCC from your <strong>${deal.biz}</strong> redemption. Climb the board.`);
       loadLeaderboard();
     }
   } catch (e) {
