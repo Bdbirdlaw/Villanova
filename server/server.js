@@ -528,7 +528,82 @@ app.post('/api/transfers/:txId/confirm', (req, res) => {
 });
 
 /* =====================================================================
-   9. HEALTH + STATIC
+   9. DEAL REDEMPTIONS + LEADERBOARD
+   ===================================================================== */
+app.post('/api/deals/redeem', requireAuth, (req, res) => {
+  const { dealSlug, businessName, neighborhood, code, matchCents } = req.body || {};
+  if (!dealSlug || !businessName || !code) return res.status(400).json({ error: 'missing_fields' });
+  const match = Math.max(0, Math.round(Number(matchCents) || 0));
+
+  // Cap to one redemption per business per calendar day (UTC) to prevent gaming.
+  const today = new Date().toISOString().slice(0, 10);
+  const dup = db.prepare(`
+    SELECT id FROM redemptions
+    WHERE user_id = ? AND deal_slug = ? AND substr(created_at, 1, 10) = ?
+  `).get(req.user.id, dealSlug, today);
+  if (dup) return res.json({ ok: true, alreadyRedeemed: true });
+
+  db.prepare(`
+    INSERT INTO redemptions (user_id, deal_slug, business_name, neighborhood, code, vase_match_cents)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `).run(req.user.id, dealSlug, businessName, neighborhood || null, code, match);
+  res.json({ ok: true });
+});
+
+app.get('/api/leaderboard', (req, res) => {
+  const period = (req.query.period || 'month').toLowerCase();
+  const limit = Math.min(50, Math.max(5, parseInt(req.query.limit || '10', 10)));
+  // SQLite date math: filter by created_at within window.
+  let dateWhere = '';
+  if (period === 'month') {
+    const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() - 1);
+    dateWhere = `AND r.created_at >= '${cutoff.toISOString()}'`;
+  } else if (period === 'week') {
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 7);
+    dateWhere = `AND r.created_at >= '${cutoff.toISOString()}'`;
+  } // 'season' = all-time
+
+  const rows = db.prepare(`
+    SELECT
+      u.id              AS user_id,
+      COALESCE(u.display_name, substr(u.email, 1, instr(u.email, '@') - 1)) AS display_name,
+      u.class_year,
+      u.city,
+      SUM(r.vase_match_cents) AS matched_cents,
+      COUNT(r.id)             AS redemption_count
+    FROM redemptions r
+    JOIN users u ON u.id = r.user_id
+    WHERE 1=1 ${dateWhere}
+    GROUP BY u.id
+    ORDER BY matched_cents DESC, redemption_count DESC
+    LIMIT ?
+  `).all(limit);
+
+  // Total VASE matched across all users for the period (the thermometer).
+  const total = db.prepare(`
+    SELECT COALESCE(SUM(vase_match_cents), 0) AS total, COUNT(*) AS count
+    FROM redemptions r
+    WHERE 1=1 ${dateWhere}
+  `).get();
+
+  // The current user's row (rank + total), if signed in.
+  let me = null;
+  if (req.user) {
+    const allRanked = db.prepare(`
+      SELECT user_id, SUM(vase_match_cents) AS matched_cents
+      FROM redemptions r
+      WHERE 1=1 ${dateWhere}
+      GROUP BY user_id
+      ORDER BY matched_cents DESC, COUNT(*) DESC
+    `).all();
+    const idx = allRanked.findIndex(r => r.user_id === req.user.id);
+    if (idx >= 0) me = { rank: idx + 1, matchedCents: allRanked[idx].matched_cents };
+  }
+  res.json({ period, leaders: rows, totals: total, me });
+});
+
+/* =====================================================================
+   10. HEALTH + STATIC
    ===================================================================== */
 app.get('/api/health', (_req, res) => {
   const userCount    = db.prepare('SELECT COUNT(*) AS n FROM users').get().n;

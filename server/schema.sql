@@ -104,3 +104,16 @@ CREATE TABLE IF NOT EXISTS vase_ledger (
   remitted_at TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS redemptions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  deal_slug TEXT NOT NULL,
+  business_name TEXT NOT NULL,
+  neighborhood TEXT,
+  code TEXT NOT NULL,
+  vase_match_cents INTEGER NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_redemptions_user ON redemptions(user_id);
+CREATE INDEX IF NOT EXISTS idx_redemptions_created ON redemptions(created_at);

@@ -845,6 +845,185 @@
     margin-top: 8px;
   }
 
+  /* ========== Leaderboard ========== */
+  .lb-period {
+    display: flex; gap: 4px;
+    background: rgba(15,31,71,0.05);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 3px;
+    width: fit-content;
+    margin: 0 auto 24px auto;
+  }
+  .lb-tab {
+    padding: 8px 16px;
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .lb-tab:hover { color: var(--ink); }
+  .lb-tab.active { background: var(--ink); color: var(--bg); }
+
+  .lb-thermo {
+    background: linear-gradient(180deg, #0F1F47 0%, #1A2B5A 100%);
+    color: var(--bg);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .lb-thermo::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 100%, rgba(212,78,44,0.22), transparent 60%);
+    pointer-events: none;
+  }
+  .lb-thermo-row {
+    position: relative; z-index: 1;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 14px;
+  }
+  .lb-thermo-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(251,248,241,0.65);
+    margin-bottom: 4px;
+  }
+  .lb-thermo-amount {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(40px, 6vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .lb-thermo-meta {
+    text-align: right;
+    font-size: 12px;
+    color: rgba(251,248,241,0.72);
+    line-height: 1.45;
+    letter-spacing: 0.04em;
+  }
+  .lb-thermo-meta span { color: var(--accent); font-weight: 700; }
+
+  .lb-list {
+    display: flex; flex-direction: column;
+    gap: 6px;
+  }
+  .lb-empty {
+    padding: 22px; text-align: center;
+    color: var(--ink-soft); font-size: 14px;
+    background: var(--card);
+    border: 1px dashed var(--rule);
+    border-radius: 14px;
+  }
+  .lb-row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 12px;
+    transition: transform 0.12s ease, box-shadow 0.18s ease;
+  }
+  .lb-row.me {
+    background: linear-gradient(180deg, rgba(212,78,44,0.06), rgba(212,78,44,0.02));
+    border-color: rgba(212,78,44,0.45);
+  }
+  .lb-row .lb-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    text-align: center;
+  }
+  .lb-row.t1 .lb-rank,
+  .lb-row.t2 .lb-rank,
+  .lb-row.t3 .lb-rank {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 800;
+    margin: 0 auto;
+  }
+  .lb-row.t1 .lb-rank { background: linear-gradient(180deg, #FFD86A, #E8A317); color: #4A2900; box-shadow: 0 2px 0 rgba(74,41,0,0.15); }
+  .lb-row.t2 .lb-rank { background: linear-gradient(180deg, #DDE3EA, #B0B7C2); color: #1B2A47; }
+  .lb-row.t3 .lb-rank { background: linear-gradient(180deg, #E1B58C, #B07D4B); color: #3A1F00; }
+  .lb-row .lb-info { min-width: 0; }
+  .lb-row .lb-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .lb-row .lb-meta {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .lb-row .lb-amt {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 15px;
+  }
+  .lb-row .lb-amt .sm {
+    display: block;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .lb-me {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 14px;
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    align-items: center;
+    gap: 12px;
+  }
+  .lb-me-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 17px;
+    font-weight: 800;
+    text-align: center;
+    color: var(--accent);
+  }
+  .lb-me-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .lb-me-name { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1; margin-top: 2px; }
+  .lb-me-amt { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+
+  /* Toast for new redemption */
+  .lb-toast {
+    position: fixed;
+    left: 50%; bottom: 24px;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 18px;
+    border-radius: 999px;
+    box-shadow: 0 14px 30px -8px rgba(15,31,71,0.4);
+    font-size: 13.5px;
+    z-index: 200;
+    transition: transform 0.4s cubic-bezier(.2,.9,.3,1);
+    border: 1px solid rgba(255,255,255,0.18);
+    max-width: calc(100% - 32px);
+  }
+  .lb-toast.show { transform: translateX(-50%) translateY(0); }
+  .lb-toast strong { color: var(--accent); }
+
   /* ========== Donate banner ========== */
   .donate-block {
     background: var(--ink);
@@ -1231,8 +1410,9 @@
 
     <nav class="nav-links" aria-label="Primary">
       <a href="#tickets">Buy Tickets</a>
-      <a href="#about">About</a>
       <a href="#deals">Deals</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#about">About</a>
       <button class="nav-account" id="navAccount" data-anon>Sign in</button>
       <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate">Donate to VASE</a>
     </nav>
@@ -1245,8 +1425,9 @@
   <div class="menu-panel" id="menuPanel">
     <div class="wrap">
       <a href="#tickets">Buy Tickets</a>
-      <a href="#about">About</a>
       <a href="#deals">Deals</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#about">About</a>
       <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate">
         Donate to <em>VASE</em> →
       </a>
@@ -1520,6 +1701,49 @@
   </div>
 </section>
 
+<!-- ============== LEADERBOARD ============== -->
+<section id="leaderboard">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Top Wildcats</div>
+      <h2>The <em>leaderboard.</em></h2>
+      <p>Every deal you redeem sends matching dollars to VASE. The fans who redeem the most climb the board.</p>
+    </div>
+
+    <div class="lb-period">
+      <button class="lb-tab active" data-period="month">This month</button>
+      <button class="lb-tab" data-period="season">All season</button>
+      <button class="lb-tab" data-period="week">Last 7 days</button>
+    </div>
+
+    <div class="lb-thermo" id="lbThermo">
+      <div class="lb-thermo-row">
+        <div>
+          <div class="lb-thermo-eyebrow">Nova Nation has matched</div>
+          <div class="lb-thermo-amount" id="lbTotal">$0</div>
+        </div>
+        <div class="lb-thermo-meta">
+          <span id="lbCount">0</span> redemptions<br/>
+          <span id="lbPeriodLabel">this month</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lb-list" id="lbList">
+      <div class="lb-empty">Sign in and redeem a deal to put yourself on the board.</div>
+    </div>
+
+    <div class="lb-me" id="lbMe" style="display:none">
+      <div class="lb-me-rank" id="lbMeRank">—</div>
+      <div class="lb-me-info">
+        <div class="lb-me-label">You</div>
+        <div class="lb-me-name" id="lbMeName">—</div>
+      </div>
+      <div class="lb-me-amt" id="lbMeAmt">$0</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============== DONATE ============== -->
 <section>
   <div class="wrap">
@@ -1750,14 +1974,14 @@ const TICKETS = [
 ];
 
 const DEALS = [
-  { biz:"Kelly's Taproom",          hood:'Bryn Mawr',      offer:'$5 off any pitcher on Villanova game days.' },
-  { biz:'Brick & Brew',             hood:'Wayne',          offer:'20% off entrées with proof of Nova game attendance.' },
-  { biz:'The Refectory',            hood:'Villanova',      offer:'Free appetizer with a stub from any home game.' },
-  { biz:'Conshohocken Brewing Co.', hood:'Conshohocken',   offer:'$2 off Wildcat-themed pours during home games.' },
-  { biz:'White Dog Cafe',           hood:'Wayne',          offer:'Free dessert for parties of 4+ in Villanova gear.' },
-  { biz:'Iron Hill Brewery',        hood:'King of Prussia',offer:'15% off your check after UConn or Georgetown games.' },
-  { biz:'The Radnor Hotel',         hood:'Radnor',         offer:'Champagne toast for groups celebrating a win.' },
-  { biz:"Minella's Diner",          hood:'Wayne',          offer:'Free coffee with breakfast on home-game mornings.' },
+  { slug:'kellys-taproom',     biz:"Kelly's Taproom",          hood:'Bryn Mawr',       offer:'$5 off any pitcher on Villanova game days.',                     matchCents: 500  },
+  { slug:'brick-brew',         biz:'Brick & Brew',             hood:'Wayne',           offer:'20% off entrées with proof of Nova game attendance.',           matchCents: 1000 },
+  { slug:'refectory',          biz:'The Refectory',            hood:'Villanova',       offer:'Free appetizer with a stub from any home game.',                matchCents: 1200 },
+  { slug:'conshohocken-brew',  biz:'Conshohocken Brewing Co.', hood:'Conshohocken',    offer:'$2 off Wildcat-themed pours during home games.',                matchCents: 200  },
+  { slug:'white-dog-cafe',     biz:'White Dog Cafe',           hood:'Wayne',           offer:'Free dessert for parties of 4+ in Villanova gear.',             matchCents: 900  },
+  { slug:'iron-hill-kop',      biz:'Iron Hill Brewery',        hood:'King of Prussia', offer:'15% off your check after UConn or Georgetown games.',           matchCents: 600  },
+  { slug:'radnor-hotel',       biz:'The Radnor Hotel',         hood:'Radnor',          offer:'Champagne toast for groups celebrating a win.',                  matchCents: 800  },
+  { slug:'minellas-diner',     biz:"Minella's Diner",          hood:'Wayne',           offer:'Free coffee with breakfast on home-game mornings.',             matchCents: 300  },
 ];
 
 const $  = (s,c=document) => c.querySelector(s);
@@ -2604,6 +2828,137 @@ renderTickets = function () {
 };
 
 /* ============================================================
+   LEADERBOARD
+   ============================================================ */
+let lbPeriod = 'month';
+
+function fmtUsd(cents) {
+  return '$' + (Number(cents || 0) / 100).toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+
+async function loadLeaderboard() {
+  const $list  = $('#lbList');
+  const $total = $('#lbTotal');
+  const $count = $('#lbCount');
+  const $label = $('#lbPeriodLabel');
+  $label.textContent = ({ month: 'this month', season: 'all season', week: 'last 7 days' })[lbPeriod];
+  try {
+    const data = await fetchJson('/api/leaderboard?period=' + lbPeriod);
+    $total.textContent = fmtUsd(data.totals?.total || 0);
+    $count.textContent = (data.totals?.count || 0).toLocaleString();
+
+    const leaders = data.leaders || [];
+    if (leaders.length === 0) {
+      $list.innerHTML = `<div class="lb-empty">No redemptions yet for this period. Be the first Wildcat on the board.</div>`;
+    } else {
+      $list.innerHTML = leaders.map((r, i) => {
+        const rank = i + 1;
+        const t = rank <= 3 ? ` t${rank}` : '';
+        const meCls = (CURRENT_USER && r.user_id === CURRENT_USER.id) ? ' me' : '';
+        const cls = `lb-row${t}${meCls}`;
+        const sub = [r.class_year, r.city].filter(Boolean).join(' · ') || 'Nova Nation';
+        return `
+          <div class="${cls}">
+            <div class="lb-rank">${rank}</div>
+            <div class="lb-info">
+              <div class="lb-name">${r.display_name}</div>
+              <div class="lb-meta">${sub} · ${r.redemption_count} redemption${r.redemption_count === 1 ? '' : 's'}</div>
+            </div>
+            <div class="lb-amt">${fmtUsd(r.matched_cents)}<span class="sm">to VASE</span></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    const meCard = $('#lbMe');
+    if (CURRENT_USER && data.me) {
+      meCard.style.display = 'grid';
+      $('#lbMeRank').textContent = '#' + data.me.rank;
+      $('#lbMeName').textContent = CURRENT_USER.displayName || CURRENT_USER.email.split('@')[0];
+      $('#lbMeAmt').textContent  = fmtUsd(data.me.matchedCents);
+    } else if (CURRENT_USER) {
+      meCard.style.display = 'grid';
+      $('#lbMeRank').textContent = '—';
+      $('#lbMeName').textContent = 'Redeem a deal to enter';
+      $('#lbMeAmt').textContent  = '$0';
+    } else {
+      meCard.style.display = 'none';
+    }
+  } catch (e) {
+    $list.innerHTML = `<div class="lb-empty">Leaderboard is live when the backend is running. ${API_BASE ? '' : 'Start <code>cd server &amp;&amp; npm run dev</code> to see it.'}</div>`;
+    $total.textContent = '$0';
+    $count.textContent = '0';
+    $('#lbMe').style.display = 'none';
+  }
+}
+
+$$('.lb-tab').forEach(b => b.addEventListener('click', () => {
+  $$('.lb-tab').forEach(t => t.classList.remove('active'));
+  b.classList.add('active');
+  lbPeriod = b.dataset.period;
+  loadLeaderboard();
+}));
+
+/* ============================================================
+   Record deal redemption (when signed in) and celebrate.
+   ============================================================ */
+function showLbToast(html, ms = 4000) {
+  let el = document.getElementById('lbToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'lbToast';
+    el.className = 'lb-toast';
+    document.body.appendChild(el);
+  }
+  el.innerHTML = html;
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => el.classList.remove('show'), ms);
+}
+
+async function recordRedemption(deal, code) {
+  if (!CURRENT_USER) return;
+  try {
+    const r = await fetchJson('/api/deals/redeem', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        dealSlug: deal.slug,
+        businessName: deal.biz,
+        neighborhood: deal.hood,
+        code,
+        matchCents: deal.matchCents,
+      }),
+    });
+    if (r.alreadyRedeemed) {
+      showLbToast(`Already counted today — your earlier <strong>${deal.biz}</strong> redemption is on the board.`);
+    } else {
+      showLbToast(`+<strong>${fmtUsd(deal.matchCents)}</strong> to VASE from your <strong>${deal.biz}</strong> redemption. Climb the board.`);
+      loadLeaderboard();
+    }
+  } catch (e) {
+    // Silent — leaderboard not available on static deploy.
+  }
+}
+
+/* Hook into the existing openDeal() (defined earlier) so we record
+   the redemption when a code is generated. */
+const _origOpenDeal = openDeal;
+openDeal = function (i) {
+  _origOpenDeal(i);
+  const d = DEALS[i];
+  if (!d) return;
+  const code = $('#dealCode').textContent;
+  if (CURRENT_USER) {
+    recordRedemption(d, code);
+  } else {
+    // Subtle prompt to sign in for credit.
+    setTimeout(() => {
+      showLbToast(`Sign in to earn this <strong>${fmtUsd(d.matchCents)}</strong> toward your leaderboard rank.`);
+    }, 600);
+  }
+};
+
+/* ============================================================
    Init
    ============================================================ */
 async function boot() {
@@ -2613,6 +2968,7 @@ async function boot() {
   renderDeals();
   renderVenueOverlays();
   initTicker();
+  loadLeaderboard();
 }
 boot();
 
