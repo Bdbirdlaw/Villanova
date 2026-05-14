@@ -188,11 +188,23 @@
 
   /* ========== Hero ========== */
   .hero {
-    padding: 96px 0 56px 0;
+    padding: 64px 0 56px 0;
     background:
-      radial-gradient(ellipse at top right, rgba(91,155,213,0.10), transparent 60%),
-      radial-gradient(ellipse at bottom left, rgba(184,149,87,0.06), transparent 50%);
-    border-bottom: 1px solid var(--line);
+      radial-gradient(ellipse 50% 60% at 100% 0%, rgba(184,149,87,0.18), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 0% 100%, rgba(91,155,213,0.14), transparent 60%),
+      linear-gradient(180deg, #F4F6FB 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: -80px; right: -120px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(15,31,71,0.05), transparent 70%);
+    pointer-events: none;
   }
   .hero .eyebrow-row {
     display: inline-flex; align-items: center; gap: 12px;

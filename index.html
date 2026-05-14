@@ -306,9 +306,47 @@
   .menu-panel a.donate em { font-style: italic; color: var(--accent); }
 
   /* ========== Hero ========== */
+  .hero-wrap {
+    position: relative;
+    background:
+      radial-gradient(ellipse 60% 70% at 100% 0%, rgba(212,78,44,0.08), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 0% 100%, rgba(15,31,71,0.06), transparent 60%),
+      linear-gradient(180deg, #F0E9D8 0%, #F6EFDE 60%, var(--bg) 100%);
+    border-bottom: 1px solid var(--ink);
+    overflow: hidden;
+  }
+  .hero-wrap::before {
+    content: "";
+    position: absolute;
+    top: 50%; right: -120px;
+    transform: translateY(-50%);
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,78,44,0.10), transparent 70%);
+    pointer-events: none;
+  }
   .hero {
-    padding: 32px 0 24px 0;
+    position: relative; z-index: 1;
+    padding: 36px 0 36px 0;
     text-align: left;
+  }
+  .hero .badge-row {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 18px;
+    padding: 6px 14px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    font-size: 11.5px;
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(15,31,71,0.04);
+  }
+  .hero .badge-row .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(212,78,44,0.18);
   }
   .hero .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -355,9 +393,14 @@
 
   /* ========== Section ========== */
   section {
-    padding: 30px 0;
+    padding: 34px 0;
     scroll-margin-top: 70px;
+    background: var(--bg);
+    position: relative;
   }
+  /* Subtle alternation for vertical rhythm */
+  #deals { background: #FAF5E8; }
+  #leaderboard { background: var(--bg); }
   section + section { border-top: 1px solid var(--rule); }
   .sec-head { margin-bottom: 18px; }
   .sec-eyebrow {
@@ -1256,18 +1299,23 @@
 </div>
 
 <!-- ============== HERO ============== -->
-<div class="wrap">
-  <div class="hero">
-    <div class="eyebrow">A fan-built ticket exchange</div>
-    <h1>Tickets for every <em>Villanova</em> game.</h1>
-    <p>
-      Fan-to-fan resale on the Main Line. Apple Wallet ready.
-      <strong>10% of every transaction</strong> goes directly to the VASE Fund.
-    </p>
-    <a href="#tickets" class="hero-cta">
-      Browse Tickets
-      <span class="arrow">→</span>
-    </a>
+<div class="hero-wrap">
+  <div class="wrap">
+    <div class="hero">
+      <div class="badge-row">
+        <span class="dot" aria-hidden="true"></span>
+        Fan-built · 10% to VASE on every transaction
+      </div>
+      <h1>Tickets for every <em>Villanova</em> game.</h1>
+      <p>
+        Fan-to-fan resale on the Main Line. Apple Wallet ready.
+        <strong>10% of every transaction</strong> goes directly to the VASE Fund.
+      </p>
+      <a href="#tickets" class="hero-cta">
+        Browse Tickets
+        <span class="arrow">→</span>
+      </a>
+    </div>
   </div>
 </div>
 
