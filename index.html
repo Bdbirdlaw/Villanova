@@ -1957,8 +1957,16 @@
           </label>
           <button type="submit" class="btn btn-primary w-full text-base">
             <span class="v-mark" style="width:18px;height:18px"><svg><use href="#vmark"/></svg></span>
-            Complete Purchase
+            Complete Purchase (Demo)
           </button>
+          <button type="button" id="payWithStripeBtn" class="btn btn-blue w-full text-base">
+            <span aria-hidden="true">⚡</span>
+            Pay with Stripe (Test Mode)
+          </button>
+          <p class="text-[11px] text-nova-navy/55 text-center italic">
+            Test mode uses Stripe Checkout with a Connect destination charge.
+            The 10% VASE share is held back as an application fee on every transaction.
+          </p>
           <button type="button" class="w-full text-sm text-nova-navy/70 hover:text-nova-navy underline" data-close="purchaseModal">Cancel</button>
         </form>
       </div>
@@ -2410,9 +2418,11 @@ function renderFAQ() {
 /* ============================================================
    PURCHASE MODAL
    ============================================================ */
+let currentTicketId = null;
 function openPurchaseModal(id) {
   const t = TICKETS.find(x => x.id === id);
   if (!t) return;
+  currentTicketId = id;
   $('#modalOppLogo').style.background = t.oppColor;
   $('#modalOppLogo').textContent = (t.opp || 'V')[0];
   $('#modalSport').textContent = sportLabel(t.sport);
@@ -2440,6 +2450,53 @@ function openPurchaseModal(id) {
 
   openModal('purchaseModal');
 }
+
+/* ============================================================
+   STRIPE CHECKOUT (real, when server is running)
+   ============================================================ */
+async function payWithStripe() {
+  if (!currentTicketId) return;
+  const btn = $('#payWithStripeBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="v-mark" style="width:18px;height:18px"><svg><use href="#vmark"/></svg></span> Routing to Stripe…';
+  try {
+    const buyerEmail = document.querySelector('#purchaseModal input[type="email"]')?.value || undefined;
+    const res = await fetch('/api/checkout/create-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ticketId: currentTicketId, buyerEmail }),
+    });
+    if (!res.ok) throw new Error('Checkout failed (' + res.status + ')');
+    const data = await res.json();
+    if (data?.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error('No checkout URL returned.');
+    }
+  } catch (e) {
+    alert(
+      'Stripe checkout unavailable: ' + e.message +
+      '\n\nMake sure the backend is running:\n  cd server && npm install && npm run dev\n\n' +
+      'Then add your test keys to server/.env.'
+    );
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+}
+document.addEventListener('click', e => {
+  if (e.target.closest('#payWithStripeBtn')) payWithStripe();
+});
+
+// Show a confirmation if we came back from a successful Stripe Checkout
+(() => {
+  const params = new URLSearchParams(location.search);
+  if (params.get('checkout') === 'success') {
+    setTimeout(() => openModal('confirmModal'), 600);
+    // Strip query so a refresh doesn't re-show it
+    history.replaceState({}, '', location.pathname + location.hash);
+  }
+})();
 
 /* ============================================================
    IOS SHEET + CONFIRM
