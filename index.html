@@ -596,6 +596,25 @@
   .deal-commit p strong { color: var(--ink); }
 
 
+  /* ========== See more button ========== */
+  .see-more {
+    display: flex; justify-content: center;
+    padding-top: 22px;
+  }
+  .see-more-btn {
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+  }
+  .see-more-btn:hover { background: var(--ink); color: var(--bg); }
+  .see-more-btn:active { transform: translateY(1px); }
+
   /* ========== Leaderboard ========== */
   .lb-period {
     display: flex; gap: 4px;
@@ -1232,6 +1251,7 @@
     </div>
 
     <div class="tickets" id="ticketGrid"></div>
+    <div class="see-more" id="ticketMore" style="display:none"></div>
   </div>
 </section>
 
@@ -1244,6 +1264,7 @@
       <p>Every dollar you save here, the business commits an equal dollar to the VASE Fund. Save money. Fund the program. Tap any tile for a one-time redemption code.</p>
     </div>
     <div class="deals" id="dealsGrid"></div>
+    <div class="see-more" id="dealMore" style="display:none"></div>
   </div>
 </section>
 
@@ -1571,14 +1592,40 @@ function ticketCard(t) {
 }
 
 let currentSport = 'all';
+let ticketLimit = 6;
 function renderTickets() {
   const list = TICKETS.filter(t => {
     if (currentSport === 'all')  return true;
     if (currentSport === 'home') return t.isHome === true;
     return t.sport === currentSport;
   });
-  $('#ticketGrid').innerHTML = list.map(ticketCard).join('') ||
+  const visible = list.slice(0, ticketLimit);
+  const remaining = list.length - visible.length;
+  const cards = visible.map(ticketCard).join('');
+  $('#ticketGrid').innerHTML = cards ||
     '<p style="color:var(--ink-soft); padding: 12px 0;">No listings in that category yet.</p>';
+  // See-more / collapse button rendered outside the grid for layout cleanliness
+  const moreEl = document.getElementById('ticketMore');
+  if (moreEl) {
+    if (remaining > 0) {
+      moreEl.innerHTML = `<button class="see-more-btn" id="seeMoreTickets">See all ${list.length} listings →</button>`;
+      moreEl.style.display = 'flex';
+      document.getElementById('seeMoreTickets').addEventListener('click', () => {
+        ticketLimit = Infinity;
+        renderTickets();
+      });
+    } else if (list.length > 6 && ticketLimit === Infinity) {
+      moreEl.innerHTML = `<button class="see-more-btn" id="collapseTickets">Show fewer</button>`;
+      moreEl.style.display = 'flex';
+      document.getElementById('collapseTickets').addEventListener('click', () => {
+        ticketLimit = 6;
+        renderTickets();
+        document.getElementById('tickets').scrollIntoView({ behavior: 'smooth' });
+      });
+    } else {
+      moreEl.style.display = 'none';
+    }
+  }
   $$('#ticketGrid .ticket').forEach(c =>
     c.addEventListener('click', () => openTicket(c.dataset.id))
   );
@@ -1596,8 +1643,32 @@ function dealCard(d, i) {
     </button>
   `;
 }
+let dealLimit = 4;
 function renderDeals() {
-  $('#dealsGrid').innerHTML = DEALS.map(dealCard).join('');
+  const visible = DEALS.slice(0, dealLimit);
+  $('#dealsGrid').innerHTML = visible.map((d, i) => dealCard(d, i)).join('');
+  const moreEl = document.getElementById('dealMore');
+  if (moreEl) {
+    const remaining = DEALS.length - visible.length;
+    if (remaining > 0) {
+      moreEl.innerHTML = `<button class="see-more-btn" id="seeMoreDeals">See all ${DEALS.length} Main Line deals →</button>`;
+      moreEl.style.display = 'flex';
+      document.getElementById('seeMoreDeals').addEventListener('click', () => {
+        dealLimit = Infinity;
+        renderDeals();
+      });
+    } else if (DEALS.length > 4 && dealLimit === Infinity) {
+      moreEl.innerHTML = `<button class="see-more-btn" id="collapseDeals">Show fewer</button>`;
+      moreEl.style.display = 'flex';
+      document.getElementById('collapseDeals').addEventListener('click', () => {
+        dealLimit = 4;
+        renderDeals();
+        document.getElementById('deals').scrollIntoView({ behavior: 'smooth' });
+      });
+    } else {
+      moreEl.style.display = 'none';
+    }
+  }
   $$('#dealsGrid .deal').forEach(c =>
     c.addEventListener('click', () => openDeal(parseInt(c.dataset.deal, 10)))
   );

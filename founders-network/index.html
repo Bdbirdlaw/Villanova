@@ -450,6 +450,102 @@
   .filter-chip:hover { border-color: var(--ink-faint); }
   .filter-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
+  /* ========== Asset class preview (overview) ========== */
+  .fn-asset-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 700px)  { .fn-asset-grid { grid-template-columns: 1fr 1fr; gap: 18px; } }
+  @media (min-width: 1024px) { .fn-asset-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+  .fn-asset-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  }
+  .fn-asset-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .fn-asset-card.venture::before { background: var(--accent); }
+  .fn-asset-card.pe::before      { background: var(--gold); }
+  .fn-asset-card.pd::before      { background: var(--accent-2); }
+  .fn-asset-card.re::before      { background: #2C7A2C; }
+  .fn-asset-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -16px rgba(15,31,71,0.14);
+  }
+  .fn-asset-card .label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .fn-asset-card h4 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.05;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.01em;
+  }
+  .fn-asset-card .count {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 4px 0 12px 0;
+  }
+  .fn-asset-card .count strong {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .fn-asset-card .desc {
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 14px 0;
+    flex: 1;
+  }
+  .fn-asset-card .sample {
+    padding-top: 12px;
+    margin-top: 4px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .fn-asset-card .sample .lbl {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .fn-asset-card .sample .co {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .fn-asset-card .sample .det { color: var(--ink-soft); font-size: 12px; margin-top: 1px; }
+  .fn-asset-card .cta {
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: var(--accent-2);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
   /* ========== Opportunities ========== */
   .opp {
     background: var(--bg-card);
@@ -1161,6 +1257,20 @@
           </div>
         </div>
         <div class="member-grid" id="featuredFounders"></div>
+      </div>
+    </section>
+
+    <section class="frame">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="eyebrow">Curated deal flow</div>
+          <h2>Active opportunities, <em>by asset class.</em></h2>
+          <p>Four distinct mandates inside the network — venture, private equity, private debt, and real estate. Selected opportunities surfaced privately to approved members.</p>
+          <div class="actions">
+            <a href="#/opportunities" class="btn ghost">Open the deal board <span class="arrow">→</span></a>
+          </div>
+        </div>
+        <div class="fn-asset-grid" id="fnAssetGrid"></div>
       </div>
     </section>
 
@@ -1945,6 +2055,46 @@ function renderFeatured() {
   $$('#featuredFounders .member').forEach(el => el.addEventListener('click', () => openFounder(el.dataset.founder)));
 
   $('#upcomingEvents').innerHTML = EVENTS.slice(0, 3).map(eventCard).join('');
+
+  renderAssetSummary();
+}
+
+function renderAssetSummary() {
+  const wrap = $('#fnAssetGrid');
+  if (!wrap) return;
+  const assets = [
+    { id: 'venture', label: 'Venture',        desc: 'Founder-led companies raising pre-seed through Series C+. Operator-friendly checks alongside lead investors.' },
+    { id: 'pe',      label: 'Private Equity', desc: 'Operator-led buyouts, roll-ups, and recapitalizations in mature, cash-generative businesses.' },
+    { id: 'pd',      label: 'Private Debt',   desc: 'Bridge convertibles, senior secured term notes, and asset-backed lending for alumni-led companies.' },
+    { id: 're',      label: 'Real Estate',    desc: 'Sponsor-led LP raises — value-add industrial, stabilized multifamily, and ground-up hospitality on the Main Line.' },
+  ];
+  wrap.innerHTML = assets.map(a => {
+    const list  = OPPORTUNITIES.filter(o => o.asset === a.id);
+    const count = list.length;
+    const open  = list.filter(o => (o.lead || '').toLowerCase().includes('open')).length;
+    const sample = list[0];
+    return `
+      <button class="fn-asset-card ${a.id}" data-asset-preset="${a.id}" aria-label="Explore ${a.label} deal flow">
+        <div class="label">${a.label}</div>
+        <h4>${count} active</h4>
+        <div class="count"><strong>${open}</strong> with lead open · <strong>${count - open}</strong> committed</div>
+        <p class="desc">${a.desc}</p>
+        ${sample ? `
+          <div class="sample">
+            <div class="lbl">Featured</div>
+            <div class="co">${sample.company}</div>
+            <div class="det">${sample.round} · min ${sample.minCheck}</div>
+          </div>` : ''}
+        <div class="cta">Explore ${a.label} deal flow →</div>
+      </button>
+    `;
+  }).join('');
+  $$('#fnAssetGrid [data-asset-preset]').forEach(el => {
+    el.addEventListener('click', () => {
+      oppAsset = el.dataset.assetPreset;
+      location.hash = '#/opportunities';
+    });
+  });
 }
 
 /* ===== Dashboard widgets ===== */
