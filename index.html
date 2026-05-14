@@ -498,6 +498,257 @@
   }
   .deal-cta::after { content: " →"; }
 
+  /* ========== Wells Fargo Center venue map ========== */
+  .wfc-stage {
+    background: linear-gradient(180deg, #0A1631 0%, #0F1F47 100%);
+    border-radius: 20px;
+    padding: 14px;
+    position: relative;
+    box-shadow: 0 12px 40px -16px rgba(15,31,71,0.4);
+    overflow: hidden;
+  }
+  .wfc-stage::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(19,181,234,0.16), transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(212,78,44,0.10), transparent 60%);
+    pointer-events: none;
+  }
+  .wfc-stage-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px 14px 12px;
+    position: relative; z-index: 1;
+  }
+  .wfc-stage-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    line-height: 1;
+    color: #FBF8F1;
+  }
+  .wfc-stage-title em { font-style: italic; color: var(--accent); }
+  .wfc-stage-meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .venue-toggle {
+    display: inline-flex;
+    gap: 2px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 999px;
+    padding: 3px;
+  }
+  .vt-btn {
+    padding: 7px 14px;
+    border-radius: 999px;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: background 0.18s ease, color 0.18s ease;
+    white-space: nowrap;
+  }
+  .vt-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .vt-btn.active {
+    background: rgba(255,255,255,0.16);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.16);
+  }
+  .wfc-map {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0F1F47;
+  }
+  .wfc-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .wfc-section {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 4px;
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.18);
+    transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.22s ease, transform 0.12s ease;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-family: 'JetBrains Mono', monospace;
+    backdrop-filter: blur(1px);
+  }
+  .wfc-section:hover {
+    background: rgba(19, 181, 234, 0.35);
+    border-color: rgba(19, 181, 234, 0.95);
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18), 0 0 12px rgba(19,181,234,0.4);
+    transform: scale(1.03);
+    z-index: 2;
+  }
+  .wfc-section.selected {
+    background: rgba(19, 181, 234, 0.5);
+    border-color: #FBF8F1;
+    color: #fff;
+    box-shadow:
+      0 0 0 2px var(--accent),
+      0 0 24px rgba(19, 181, 234, 0.6),
+      0 0 32px rgba(212, 78, 44, 0.35);
+    transform: scale(1.05);
+    z-index: 3;
+  }
+  .wfc-legend {
+    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    padding: 14px 12px 4px 12px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.06em;
+    position: relative; z-index: 1;
+  }
+  .wfc-legend .swatch {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+    border: 1.5px solid rgba(255,255,255,0.18);
+  }
+  .wfc-legend .swatch.lower { background: rgba(19,181,234,0.18); }
+  .wfc-legend .swatch.upper { background: rgba(255,255,255,0.05); }
+  .wfc-legend .swatch.floor { background: rgba(212,78,44,0.25); }
+
+  /* Section side panel (slides up on mobile, in from right on desktop) */
+  .wfc-panel {
+    position: fixed;
+    z-index: 90;
+    background: var(--bg);
+    border-top: 1px solid var(--ink);
+    box-shadow: 0 -20px 60px -20px rgba(15,31,71,0.4);
+    left: 0; right: 0; bottom: 0;
+    border-radius: 22px 22px 0 0;
+    padding: 18px 22px calc(24px + env(safe-area-inset-bottom)) 22px;
+    transform: translateY(120%);
+    transition: transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  .wfc-panel.open { transform: translateY(0); }
+  .wfc-panel-handle {
+    width: 44px; height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    margin: -4px auto 14px auto;
+  }
+  .wfc-panel-close {
+    position: absolute; top: 12px; right: 14px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    color: var(--ink);
+    font-size: 18px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .wfc-panel-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .wfc-panel-name {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 4px 0 0 0;
+    color: var(--ink);
+  }
+  .wfc-panel-name em { font-style: italic; color: var(--accent); }
+  .wfc-panel-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule);
+  }
+  .wfc-panel-price-block .wfc-pp-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .wfc-panel-price-block .wfc-pp {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .wfc-nil-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(180deg, #FFD86A 0%, #E8A317 100%);
+    color: #4A2900;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 0 rgba(74,41,0,0.18), 0 8px 18px -8px rgba(232,163,23,0.5);
+    white-space: nowrap;
+  }
+  .wfc-panel-actions {
+    margin-top: 18px;
+    display: flex; gap: 10px;
+  }
+  .wfc-panel-actions .btn-block { margin-top: 0; }
+  @media (min-width: 900px) {
+    .wfc-panel {
+      left: auto;
+      right: 24px;
+      bottom: 24px;
+      width: 380px;
+      border-radius: 20px;
+      transform: translateY(0) translateX(120%);
+      transition: transform 0.35s cubic-bezier(.2,.9,.3,1);
+      border-top: none;
+      border: 1px solid var(--rule);
+    }
+    .wfc-panel.open { transform: translateY(0) translateX(0); }
+    .wfc-panel-handle { display: none; }
+  }
+
+  /* Section-filtered ticket banner */
+  .section-filter-banner {
+    display: none;
+    align-items: center; justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    background: rgba(212, 78, 44, 0.08);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .section-filter-banner.show { display: flex; }
+  .section-filter-banner .clear {
+    background: transparent;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 13px;
+  }
+
   /* ========== About ========== */
   .about-quote {
     font-family: 'Instrument Serif', serif;
@@ -951,6 +1202,11 @@
       <p>Tap any listing to reserve. Apple Wallet handoff at checkout.</p>
     </div>
 
+    <div class="section-filter-banner" id="sectionFilterBanner">
+      <span id="sectionFilterText">Section filter</span>
+      <button class="clear" id="sectionFilterClear">Clear ×</button>
+    </div>
+
     <div class="filters" role="tablist">
       <button class="filter active" data-sport="all">All games</button>
       <button class="filter" data-sport="mbb">Men's Basketball</button>
@@ -962,6 +1218,187 @@
     <div class="tickets" id="ticketGrid"></div>
   </div>
 </section>
+
+<!-- ============== VENUE MAP — THE PAVILION ============== -->
+<section id="venue">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Venue map</div>
+      <h2>The <em>Pavilion,</em> section by section.</h2>
+      <p>Tap any section to see pricing and find tickets in that part of the arena.</p>
+    </div>
+
+    <div class="wfc-stage">
+      <div class="wfc-stage-head">
+        <div>
+          <div class="wfc-stage-title" id="venueTitle">Finneran <em>Pavilion</em></div>
+          <div class="wfc-stage-meta" id="venueMeta">Lancaster Ave · 6,500 capacity</div>
+        </div>
+        <div class="venue-toggle" role="tablist" aria-label="Select venue">
+          <button class="vt-btn active" data-venue="pavilion" role="tab" aria-selected="true">Pavilion</button>
+          <button class="vt-btn" data-venue="wfc" role="tab" aria-selected="false">Wells Fargo</button>
+        </div>
+      </div>
+
+      <div class="wfc-map" id="venueMap" aria-label="Interactive seating chart">
+        <svg class="wfc-bg" data-svg="pavilion" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <radialGradient id="vmGlow" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#1A2B5A" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#0F1F47" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="vmCourt" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#D4B47A"/>
+              <stop offset="100%" stop-color="#B8965E"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Stage glow -->
+          <rect width="1200" height="800" fill="url(#vmGlow)"/>
+
+          <!-- Title -->
+          <text x="600" y="48" font-family="Inter, sans-serif" font-size="11" font-weight="700"
+                fill="rgba(255,255,255,0.55)" text-anchor="middle" letter-spacing="6">FINNERAN PAVILION</text>
+          <text x="600" y="70" font-family="Instrument Serif, serif" font-style="italic" font-size="13"
+                fill="rgba(255,255,255,0.4)" text-anchor="middle" letter-spacing="2">Villanova Wildcats Basketball</text>
+
+          <!-- Compass -->
+          <g transform="translate(110, 110)" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="rgba(255,255,255,0.45)">
+            <circle r="22" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <text y="-12" text-anchor="middle">N</text>
+            <text y="20" text-anchor="middle">S</text>
+            <text x="-16" y="4" text-anchor="middle">W</text>
+            <text x="16" y="4" text-anchor="middle">E</text>
+            <path d="M0 -7 L4 4 L0 1 L-4 4 Z" fill="rgba(255,255,255,0.55)"/>
+          </g>
+
+          <!-- Arena outline (Pavilion-style irregular hexagon) -->
+          <path d="M 220 240 L 340 130 L 860 130 L 980 240 L 980 560 L 860 670 L 340 670 L 220 560 Z"
+                fill="rgba(255,255,255,0.025)"
+                stroke="rgba(255,255,255,0.25)"
+                stroke-width="2.5"
+                stroke-linejoin="round"/>
+
+          <!-- Court -->
+          <rect x="450" y="330" width="300" height="150" fill="url(#vmCourt)"
+                stroke="#0F1F47" stroke-width="2.5" rx="3"/>
+
+          <!-- Court center line -->
+          <line x1="600" y1="330" x2="600" y2="480" stroke="#0F1F47" stroke-width="1.5"/>
+          <!-- Center circle -->
+          <circle cx="600" cy="405" r="30" fill="none" stroke="#0F1F47" stroke-width="1.5"/>
+          <!-- Free throw lanes -->
+          <rect x="450" y="370" width="48" height="70" fill="rgba(15,31,71,0.12)" stroke="#0F1F47" stroke-width="1.3"/>
+          <rect x="702" y="370" width="48" height="70" fill="rgba(15,31,71,0.12)" stroke="#0F1F47" stroke-width="1.3"/>
+          <!-- Three-point arcs (approximate) -->
+          <path d="M 450 350 Q 540 405 450 460" fill="none" stroke="#0F1F47" stroke-width="1.3"/>
+          <path d="M 750 350 Q 660 405 750 460" fill="none" stroke="#0F1F47" stroke-width="1.3"/>
+
+          <!-- V at center court -->
+          <text x="600" y="423" font-family="Instrument Serif, serif" font-size="46" font-weight="700"
+                fill="#0F1F47" text-anchor="middle">V</text>
+
+          <!-- Court labels (visitor / score / nova) -->
+          <text x="490" y="500" font-family="Inter, sans-serif" font-size="8" font-weight="700"
+                fill="#0F1F47" text-anchor="middle" letter-spacing="2.5">VISITOR</text>
+          <text x="600" y="500" font-family="Inter, sans-serif" font-size="8" font-weight="700"
+                fill="#0F1F47" text-anchor="middle" letter-spacing="2.5">SCORE</text>
+          <text x="710" y="500" font-family="Inter, sans-serif" font-size="8" font-weight="700"
+                fill="#0F1F47" text-anchor="middle" letter-spacing="2.5">NOVA</text>
+
+          <!-- Subtle level divider rings (decorative) -->
+          <path d="M 220 240 L 340 130 L 860 130 L 980 240 L 980 560 L 860 670 L 340 670 L 220 560 Z"
+                fill="none" stroke="rgba(19,181,234,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
+        </svg>
+
+        <!-- Wells Fargo Center SVG -->
+        <svg class="wfc-bg" data-svg="wfc" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true" style="display:none">
+          <defs>
+            <radialGradient id="wfcGlow2" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#1A2B5A" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#0F1F47" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="wfcCourt2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#D4B47A"/>
+              <stop offset="100%" stop-color="#B8965E"/>
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="800" fill="url(#wfcGlow2)"/>
+
+          <text x="600" y="48" font-family="Inter, sans-serif" font-size="11" font-weight="700"
+                fill="rgba(255,255,255,0.55)" text-anchor="middle" letter-spacing="6">WELLS FARGO CENTER</text>
+          <text x="600" y="70" font-family="Instrument Serif, serif" font-style="italic" font-size="13"
+                fill="rgba(255,255,255,0.4)" text-anchor="middle" letter-spacing="2">South Philadelphia · ~19,500 capacity</text>
+
+          <g transform="translate(110, 110)" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="rgba(255,255,255,0.45)">
+            <circle r="22" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <text y="-12" text-anchor="middle">N</text>
+            <text y="20" text-anchor="middle">S</text>
+            <text x="-16" y="4" text-anchor="middle">W</text>
+            <text x="16" y="4" text-anchor="middle">E</text>
+            <path d="M0 -7 L4 4 L0 1 L-4 4 Z" fill="rgba(255,255,255,0.55)"/>
+          </g>
+
+          <!-- WFC bowl outline — rounded stadium oval -->
+          <rect x="170" y="180" width="860" height="440" rx="220" ry="220"
+                fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
+          <!-- 200-level ring suggestion -->
+          <rect x="240" y="230" width="720" height="340" rx="170" ry="170"
+                fill="none" stroke="rgba(19,181,234,0.10)" stroke-width="1" stroke-dasharray="4 4"/>
+
+          <!-- Court -->
+          <rect x="450" y="345" width="300" height="120" fill="url(#wfcCourt2)"
+                stroke="#0F1F47" stroke-width="2.5" rx="3"/>
+          <line x1="600" y1="345" x2="600" y2="465" stroke="#0F1F47" stroke-width="1.5"/>
+          <circle cx="600" cy="405" r="26" fill="none" stroke="#0F1F47" stroke-width="1.5"/>
+          <rect x="450" y="375" width="46" height="60" fill="rgba(15,31,71,0.12)" stroke="#0F1F47" stroke-width="1.3"/>
+          <rect x="704" y="375" width="46" height="60" fill="rgba(15,31,71,0.12)" stroke="#0F1F47" stroke-width="1.3"/>
+          <path d="M 450 360 Q 540 405 450 450" fill="none" stroke="#0F1F47" stroke-width="1.3"/>
+          <path d="M 750 360 Q 660 405 750 450" fill="none" stroke="#0F1F47" stroke-width="1.3"/>
+
+          <text x="600" y="420" font-family="Instrument Serif, serif" font-size="40" font-weight="700"
+                fill="#0F1F47" text-anchor="middle">V</text>
+          <text x="490" y="486" font-family="Inter, sans-serif" font-size="8" font-weight="700"
+                fill="#0F1F47" text-anchor="middle" letter-spacing="2.5">VISITOR</text>
+          <text x="600" y="486" font-family="Inter, sans-serif" font-size="8" font-weight="700"
+                fill="#0F1F47" text-anchor="middle" letter-spacing="2.5">SCORE</text>
+          <text x="710" y="486" font-family="Inter, sans-serif" font-size="8" font-weight="700"
+                fill="#0F1F47" text-anchor="middle" letter-spacing="2.5">NOVA</text>
+        </svg>
+
+        <!-- Section overlays are injected by JS -->
+        <div id="venueOverlays" class="venue-overlays" style="position:absolute;inset:0"></div>
+      </div>
+
+      <div class="wfc-legend">
+        <div><span class="swatch lower"></span>Lower bowl (100s)</div>
+        <div><span class="swatch upper"></span>Upper bowl (200s)</div>
+        <div><span class="swatch floor"></span>Floor / Courtside</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section detail panel -->
+<aside class="wfc-panel" id="venuePanel" role="dialog" aria-modal="false" aria-labelledby="venuePanelName">
+  <div class="wfc-panel-handle" aria-hidden="true"></div>
+  <button class="wfc-panel-close" id="venuePanelClose" aria-label="Close section panel">×</button>
+  <div class="wfc-panel-eyebrow">You're looking at</div>
+  <h3 class="wfc-panel-name" id="venuePanelName">Section <em>—</em></h3>
+  <div id="venuePanelLevel" class="m-sub" style="margin-top:4px">Lower bowl · Pavilion</div>
+
+  <div class="wfc-panel-row">
+    <div class="wfc-panel-price-block">
+      <div class="wfc-pp-label">Starting at</div>
+      <div class="wfc-pp" id="venuePanelPrice">—</div>
+    </div>
+    <span class="wfc-nil-badge">★ Supports Villanova NIL</span>
+  </div>
+
+  <div class="wfc-panel-actions">
+    <button class="btn-block" id="venuePanelSelect">Select Tickets →</button>
+  </div>
+</aside>
 
 <!-- ============== ABOUT ============== -->
 <section id="about">
@@ -1829,6 +2266,201 @@ $('#reserveBtn').addEventListener('click', async () => {
 });
 
 /* ============================================================
+   VENUE MAP — Pavilion + Wells Fargo Center
+   Section-level interactive seating chart with side panel.
+   ============================================================ */
+const PAV_SECTIONS = [
+  // Lower bowl 100s
+  { id: '108', top: '23%', left: '38%', width: '7%', height: '11%', price: '$155' },
+  { id: '109', top: '22%', left: '46%', width: '7%', height: '11%', price: '$185' },
+  { id: '110', top: '22%', left: '54%', width: '7%', height: '11%', price: '$215' },
+  { id: '111', top: '23%', left: '62%', width: '7%', height: '11%', price: '$155' },
+  { id: '112', top: '25%', left: '70%', width: '6%', height: '10%', price: '$125' },
+  { id: '113', top: '38%', left: '72%', width: '5%', height: '12%', price: '$135' },
+  { id: '114', top: '52%', left: '72%', width: '5%', height: '12%', price: '$135' },
+  { id: '115', top: '66%', left: '70%', width: '6%', height: '10%', price: '$125' },
+  { id: '101', top: '67%', left: '62%', width: '7%', height: '11%', price: '$165' },
+  { id: '102', top: '68%', left: '54%', width: '7%', height: '11%', price: '$195' },
+  { id: '103', top: '68%', left: '46%', width: '7%', height: '11%', price: '$195' },
+  { id: '104', top: '67%', left: '38%', width: '7%', height: '11%', price: '$165' },
+  { id: '105', top: '66%', left: '30%', width: '6%', height: '10%', price: '$125' },
+  { id: '106', top: '46%', left: '23%', width: '5%', height: '12%', price: '$135' },
+  { id: '107', top: '32%', left: '23%', width: '5%', height: '12%', price: '$135' },
+  // Upper bowl 200s
+  { id: '208', top: '10%', left: '38%', width: '7%', height: '9%',  price: '$75' },
+  { id: '209', top: '9%',  left: '46%', width: '7%', height: '9%',  price: '$95' },
+  { id: '210', top: '9%',  left: '54%', width: '7%', height: '9%',  price: '$95' },
+  { id: '211', top: '10%', left: '62%', width: '7%', height: '9%',  price: '$75' },
+  { id: '212', top: '21%', left: '85%', width: '5%', height: '12%', price: '$55' },
+  { id: '213', top: '36%', left: '86%', width: '5%', height: '12%', price: '$55' },
+  { id: '214', top: '51%', left: '86%', width: '5%', height: '12%', price: '$55' },
+  { id: '215', top: '66%', left: '85%', width: '5%', height: '12%', price: '$55' },
+  { id: '201', top: '81%', left: '62%', width: '7%', height: '9%',  price: '$75' },
+  { id: '202', top: '82%', left: '54%', width: '7%', height: '9%',  price: '$85' },
+  { id: '203', top: '82%', left: '46%', width: '7%', height: '9%',  price: '$85' },
+  { id: '204', top: '81%', left: '38%', width: '7%', height: '9%',  price: '$75' },
+  { id: '205', top: '66%', left: '10%', width: '5%', height: '12%', price: '$55' },
+  { id: '206', top: '46%', left: '9%',  width: '5%', height: '12%', price: '$55' },
+  { id: '207', top: '21%', left: '10%', width: '5%', height: '12%', price: '$55' },
+];
+
+const WFC_SECTIONS = [
+  // Lower bowl 100s
+  { id: '109', top: '28%', left: '39%', width: '6%', height: '8%',  price: '$155' },
+  { id: '110', top: '27%', left: '46%', width: '6%', height: '8%',  price: '$185' },
+  { id: '111', top: '26%', left: '53%', width: '6%', height: '8%',  price: '$215' },
+  { id: '112', top: '27%', left: '60%', width: '6%', height: '8%',  price: '$185' },
+  { id: '113', top: '28%', left: '67%', width: '6%', height: '8%',  price: '$155' },
+  { id: '114', top: '38%', left: '76%', width: '5%', height: '10%', price: '$135' },
+  { id: '115', top: '49%', left: '78%', width: '5%', height: '10%', price: '$145' },
+  { id: '116', top: '60%', left: '76%', width: '5%', height: '10%', price: '$135' },
+  { id: '108', top: '64%', left: '67%', width: '6%', height: '8%',  price: '$165' },
+  { id: '107', top: '65%', left: '60%', width: '6%', height: '8%',  price: '$195' },
+  { id: '106', top: '66%', left: '53%', width: '6%', height: '8%',  price: '$195' },
+  { id: '105', top: '65%', left: '46%', width: '6%', height: '8%',  price: '$165' },
+  { id: '104', top: '64%', left: '39%', width: '6%', height: '8%',  price: '$155' },
+  { id: '103', top: '60%', left: '19%', width: '5%', height: '10%', price: '$135' },
+  { id: '102', top: '49%', left: '17%', width: '5%', height: '10%', price: '$145' },
+  { id: '101', top: '38%', left: '19%', width: '5%', height: '10%', price: '$135' },
+  // Upper bowl 200s
+  { id: '209', top: '14%', left: '39%', width: '6%', height: '7%',  price: '$75' },
+  { id: '210', top: '13%', left: '46%', width: '6%', height: '7%',  price: '$85' },
+  { id: '211', top: '12%', left: '53%', width: '6%', height: '7%',  price: '$95' },
+  { id: '212', top: '13%', left: '60%', width: '6%', height: '7%',  price: '$85' },
+  { id: '213', top: '14%', left: '67%', width: '6%', height: '7%',  price: '$75' },
+  { id: '214', top: '27%', left: '88%', width: '4%', height: '10%', price: '$55' },
+  { id: '215', top: '46%', left: '90%', width: '4%', height: '10%', price: '$55' },
+  { id: '216', top: '63%', left: '88%', width: '4%', height: '10%', price: '$55' },
+  { id: '208', top: '78%', left: '67%', width: '6%', height: '7%',  price: '$75' },
+  { id: '207', top: '79%', left: '60%', width: '6%', height: '7%',  price: '$75' },
+  { id: '206', top: '80%', left: '53%', width: '6%', height: '7%',  price: '$85' },
+  { id: '205', top: '79%', left: '46%', width: '6%', height: '7%',  price: '$75' },
+  { id: '204', top: '78%', left: '39%', width: '6%', height: '7%',  price: '$75' },
+  { id: '203', top: '63%', left: '8%',  width: '4%', height: '10%', price: '$55' },
+  { id: '202', top: '46%', left: '6%',  width: '4%', height: '10%', price: '$55' },
+  { id: '201', top: '27%', left: '8%',  width: '4%', height: '10%', price: '$55' },
+];
+
+const VENUES = {
+  pavilion: {
+    title: 'Finneran <em>Pavilion</em>',
+    meta:  'Lancaster Ave · 6,500 capacity',
+    label: 'Finneran Pavilion',
+    sections: PAV_SECTIONS,
+  },
+  wfc: {
+    title: 'Wells Fargo <em>Center</em>',
+    meta:  'South Philadelphia · ~19,500 capacity',
+    label: 'Wells Fargo Center',
+    sections: WFC_SECTIONS,
+  },
+};
+
+let activeVenue = 'pavilion';
+let selectedSection = null;
+
+function renderVenueOverlays() {
+  const v = VENUES[activeVenue];
+  const wrap = $('#venueOverlays');
+  wrap.innerHTML = v.sections.map(s => `
+    <button class="wfc-section"
+            data-id="${s.id}"
+            data-price="${s.price}"
+            style="position:absolute;top:${s.top};left:${s.left};width:${s.width};height:${s.height}"
+            aria-label="Section ${s.id}, starting at ${s.price}">
+      ${s.id}
+    </button>
+  `).join('');
+  $$('#venueOverlays .wfc-section').forEach(el => {
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      openSectionPanel(el.dataset.id, el.dataset.price, el);
+    });
+  });
+}
+
+function setVenue(id) {
+  if (!VENUES[id]) return;
+  activeVenue = id;
+  const v = VENUES[id];
+  $('#venueTitle').innerHTML = v.title;
+  $('#venueMeta').textContent = v.meta;
+  $$('.vt-btn').forEach(b => {
+    const on = b.dataset.venue === id;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', on);
+  });
+  $$('.wfc-bg').forEach(svg => svg.style.display = svg.dataset.svg === id ? '' : 'none');
+  closeSectionPanel();
+  renderVenueOverlays();
+}
+
+function openSectionPanel(sectionId, price) {
+  selectedSection = sectionId;
+  $$('#venueOverlays .wfc-section').forEach(el => el.classList.toggle('selected', el.dataset.id === sectionId));
+  $('#venuePanelName').innerHTML = `Section <em>${sectionId}</em>`;
+  $('#venuePanelLevel').textContent =
+    (sectionId.startsWith('2') ? 'Upper bowl' : 'Lower bowl') + ' · ' + VENUES[activeVenue].label;
+  $('#venuePanelPrice').textContent = price;
+  $('#venuePanel').classList.add('open');
+}
+function closeSectionPanel() {
+  $('#venuePanel').classList.remove('open');
+  $$('#venueOverlays .wfc-section').forEach(el => el.classList.remove('selected'));
+  selectedSection = null;
+}
+$('#venuePanelClose').addEventListener('click', closeSectionPanel);
+$('#venuePanelSelect').addEventListener('click', () => {
+  if (!selectedSection) return;
+  currentSectionFilter = { venueLabel: VENUES[activeVenue].label, section: selectedSection };
+  renderTickets();
+  document.getElementById('tickets').scrollIntoView({ behavior: 'smooth' });
+  closeSectionPanel();
+});
+$$('.vt-btn').forEach(b => b.addEventListener('click', () => setVenue(b.dataset.venue)));
+
+/* ============================================================
+   Section-aware ticket filter (used by venue map "Select Tickets")
+   ============================================================ */
+let currentSectionFilter = null;  // { venueLabel, section } | null
+
+function applySectionFilterUI() {
+  const banner = $('#sectionFilterBanner');
+  if (currentSectionFilter) {
+    banner.classList.add('show');
+    $('#sectionFilterText').innerHTML =
+      `Tickets in <strong>Section ${currentSectionFilter.section}</strong> at ${currentSectionFilter.venueLabel}`;
+  } else {
+    banner.classList.remove('show');
+  }
+}
+$('#sectionFilterClear').addEventListener('click', () => {
+  currentSectionFilter = null;
+  renderTickets();
+});
+
+// Wrap renderTickets to also respect the section filter.
+const _origRenderTickets = renderTickets;
+renderTickets = function () {
+  const list = TICKETS.filter(t => {
+    if (currentSport === 'home' && !t.isHome) return false;
+    if (currentSport !== 'all' && currentSport !== 'home' && t.sport !== currentSport) return false;
+    if (currentSectionFilter) {
+      if (!(t.venue || '').includes(currentSectionFilter.venueLabel.split(',')[0])) return false;
+      if (String(t.section) !== String(currentSectionFilter.section)) return false;
+    }
+    return true;
+  });
+  $('#ticketGrid').innerHTML = list.map(ticketCard).join('') ||
+    `<div style="grid-column:1/-1;padding:24px;text-align:center;color:var(--ink-soft);background:var(--card);border:1px dashed var(--card-line);border-radius:14px">
+       No listings in that section yet.
+       <button class="clear" style="color:var(--accent);font-weight:600;margin-left:6px" onclick="currentSectionFilter=null;renderTickets()">Clear filter</button>
+     </div>`;
+  $$('#ticketGrid .ticket').forEach(c => c.addEventListener('click', () => openTicket(c.dataset.id)));
+  applySectionFilterUI();
+};
+
+/* ============================================================
    Init
    ============================================================ */
 async function boot() {
@@ -1836,6 +2468,7 @@ async function boot() {
   await loadListingsFromServer();
   renderTickets();
   renderDeals();
+  renderVenueOverlays();
   initTicker();
 }
 boot();
