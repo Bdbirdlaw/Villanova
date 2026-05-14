@@ -958,6 +958,39 @@
   }
   .input:focus { border-color: var(--ink); }
 
+  .roundup-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: rgba(212, 78, 44, 0.08);
+    border: 1px solid rgba(212, 78, 44, 0.35);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .roundup-row:hover { background: rgba(212, 78, 44, 0.12); border-color: rgba(212, 78, 44, 0.55); }
+  .roundup-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .roundup-row .ru-text { line-height: 1.4; }
+  .roundup-row .ru-amt { color: var(--accent); font-weight: 700; }
+  .roundup-row .ru-hint {
+    display: block;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+
   .btn-block {
     width: 100%;
     padding: 16px;
@@ -1497,6 +1530,15 @@
       <div class="row total"><span>Total</span><span id="pTotal">$222.01</span></div>
     </div>
 
+    <label class="roundup-row" id="roundupRow" style="display:none">
+      <input type="checkbox" id="roundupCheck"/>
+      <span class="ru-text">
+        Round up to <strong>$<span id="roundupTo">—</span></strong> — add
+        <span class="ru-amt" id="roundupAmt">—</span> to the VASE Fund.
+        <span class="ru-hint">100% of the round-up goes to Villanova Athletics.</span>
+      </span>
+    </label>
+
     <input id="buyerEmail" class="input" type="email" placeholder="Email for ticket transfer" inputmode="email"/>
     <button class="btn-block" id="reserveBtn">Reserve →</button>
     <button class="btn-block secondary" data-close="ticketModal">Cancel</button>
@@ -1735,6 +1777,25 @@ window.addEventListener('keydown', e => {
 });
 
 let currentTicket = null;
+let _baseTotalCents = 0;
+let _baseVaseCents  = 0;
+let roundupCents    = 0;
+
+function calcRoundupCents(totalCents) {
+  const next = Math.ceil(totalCents / 500) * 500;  // next $5
+  return Math.max(0, next - totalCents);
+}
+function paintReceipt() {
+  const total = _baseTotalCents + roundupCents;
+  const vase  = _baseVaseCents  + roundupCents;
+  $('#pVase').textContent  = '$' + (vase  / 100).toFixed(2);
+  $('#pTotal').textContent = '$' + (total / 100).toFixed(2);
+}
+$('#roundupCheck').addEventListener('change', e => {
+  roundupCents = e.target.checked ? calcRoundupCents(_baseTotalCents) : 0;
+  paintReceipt();
+});
+
 function openTicket(id) {
   const t = TICKETS.find(x => x.id === id);
   if (!t) return;
@@ -1756,8 +1817,23 @@ function openTicket(id) {
   $('#pTicket').textContent = fmt(t.ask);
   $('#pFee').textContent    = fmt(fee);
   $('#pProc').textContent   = fmt(proc);
-  $('#pVase').textContent   = fmt(vase);
-  $('#pTotal').textContent  = fmt(total);
+
+  // Store base values for round-up math.
+  _baseTotalCents = Math.round(total * 100);
+  _baseVaseCents  = Math.round(vase  * 100);
+  roundupCents = 0;
+  $('#roundupCheck').checked = false;
+
+  const ru = calcRoundupCents(_baseTotalCents);
+  if (ru > 0 && ru < 500) {
+    $('#roundupTo').textContent  = ((_baseTotalCents + ru) / 100).toFixed(0);
+    $('#roundupAmt').textContent = '$' + (ru / 100).toFixed(2);
+    $('#roundupRow').style.display = 'flex';
+  } else {
+    $('#roundupRow').style.display = 'none';
+  }
+  paintReceipt();
+
   openModal('ticketModal');
 }
 
@@ -2247,9 +2323,10 @@ $('#reserveBtn').addEventListener('click', async () => {
   const btn = $('#reserveBtn'); const orig = btn.textContent;
   btn.disabled = true; btn.textContent = 'Routing to checkout…';
   try {
+    const baseBody = { buyerEmail: $('#buyerEmail').value || undefined, roundupCents };
     const body = currentTicket._listingId
-      ? { listingId: currentTicket._listingId, buyerEmail: $('#buyerEmail').value || undefined }
-      : { ticketId:  currentTicket.id,         buyerEmail: $('#buyerEmail').value || undefined };
+      ? { listingId: currentTicket._listingId, ...baseBody }
+      : { ticketId:  currentTicket.id,         ...baseBody };
     const r = await fetch('/api/checkout/create-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -383,7 +383,7 @@ app.get('/api/listings/:id/preview', (req, res) => {
 
 app.post('/api/checkout/create-session', async (req, res) => {
   try {
-    const { listingId, buyerEmail } = req.body || {};
+    const { listingId, buyerEmail, roundupCents } = req.body || {};
     if (!buyerEmail || !/.+@.+\..+/.test(buyerEmail)) return res.status(400).json({ error: 'email_required' });
 
     const l = db.prepare(`
@@ -397,42 +397,66 @@ app.post('/api/checkout/create-session', async (req, res) => {
     if (!l || l.status !== 'active') return res.status(404).json({ error: 'unavailable' });
 
     const b = breakdown(l.ask_cents);
+    // Round-up donation must be 0–499 cents (next-$5 roll).
+    const ru = Math.max(0, Math.min(499, Math.round(Number(roundupCents) || 0)));
+
+    // Round-up rides on top of the base ticket bundle, all credited to VASE.
+    const txVase   = b.vase    + ru;
+    const txTotal  = b.total   + ru;
+    const txAppFee = b.app_fee + ru;
+
     const txr = db.prepare(`
       INSERT INTO transactions
         (listing_id, buyer_email, ticket_cents, fee_cents, proc_cents, vase_cents, total_cents, status)
       VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
-    `).run(l.id, buyerEmail, b.ticket, b.fee, b.proc, b.vase, b.total);
+    `).run(l.id, buyerEmail, b.ticket, b.fee, b.proc, txVase, txTotal);
     const txId = txr.lastInsertRowid;
 
     const prefix = l.is_home || l.is_neutral ? 'vs' : '@';
+    const line_items = [{
+      price_data: {
+        currency: 'usd',
+        unit_amount: b.total,
+        product_data: {
+          name: `Villanova ${prefix} ${l.opponent} · Sec ${l.section}`,
+          description: `${l.date_label} · ${l.time_label} · ${l.venue}. Includes 10% VASE Fund contribution.`,
+        },
+      },
+      quantity: 1,
+    }];
+    if (ru > 0) {
+      line_items.push({
+        price_data: {
+          currency: 'usd',
+          unit_amount: ru,
+          product_data: {
+            name: 'VASE Fund · round-up donation',
+            description: '100% of this round-up routed to Villanova Athletics Strategic Excellence.',
+          },
+        },
+        quantity: 1,
+      });
+    }
+
     const sessionParams = {
       mode: 'payment',
       payment_method_types: ['card'],
       customer_email: buyerEmail,
-      line_items: [{
-        price_data: {
-          currency: 'usd',
-          unit_amount: b.total,
-          product_data: {
-            name: `Villanova ${prefix} ${l.opponent} · Sec ${l.section}`,
-            description: `${l.date_label} · ${l.time_label} · ${l.venue}. Includes 10% VASE Fund contribution.`,
-          },
-        },
-        quantity: 1,
-      }],
+      line_items,
       success_url: `${PUBLIC_URL}/?checkout=success&tx=${txId}`,
       cancel_url:  `${PUBLIC_URL}/?checkout=cancel&tx=${txId}`,
       metadata: {
         transaction_id: String(txId),
         listing_id:     String(l.id),
-        vase_cents:     String(b.vase),
+        vase_cents:     String(txVase),
+        roundup_cents:  String(ru),
       },
     };
     if (l.stripe_account_id && l.charges_enabled) {
       sessionParams.payment_intent_data = {
-        application_fee_amount: b.app_fee,
+        application_fee_amount: txAppFee,
         transfer_data: { destination: l.stripe_account_id },
-        metadata: { transaction_id: String(txId), vase_cents: String(b.vase) },
+        metadata: { transaction_id: String(txId), vase_cents: String(txVase), roundup_cents: String(ru) },
       };
     }
     const session = await stripe.checkout.sessions.create(sessionParams);
