@@ -1237,11 +1237,6 @@
       <p>Tap any listing to reserve. Apple Wallet handoff at checkout.</p>
     </div>
 
-    <div class="section-filter-banner" id="sectionFilterBanner">
-      <span id="sectionFilterText">Section filter</span>
-      <button class="clear" id="sectionFilterClear">Clear ×</button>
-    </div>
-
     <div class="filters" role="tablist">
       <button class="filter active" data-sport="all">All games</button>
       <button class="filter" data-sport="mbb">Men's Basketball</button>
@@ -2249,48 +2244,6 @@ $('#reserveBtn').addEventListener('click', async () => {
     btn.disabled = false; btn.textContent = orig;
   }
 });
-
-
-/* ============================================================
-   Section-aware ticket filter (used by venue map "Select Tickets")
-   ============================================================ */
-let currentSectionFilter = null;  // { venueLabel, section } | null
-
-function applySectionFilterUI() {
-  const banner = $('#sectionFilterBanner');
-  if (currentSectionFilter) {
-    banner.classList.add('show');
-    $('#sectionFilterText').innerHTML =
-      `Tickets in <strong>Section ${currentSectionFilter.section}</strong> at ${currentSectionFilter.venueLabel}`;
-  } else {
-    banner.classList.remove('show');
-  }
-}
-$('#sectionFilterClear').addEventListener('click', () => {
-  currentSectionFilter = null;
-  renderTickets();
-});
-
-// Wrap renderTickets to also respect the section filter.
-const _origRenderTickets = renderTickets;
-renderTickets = function () {
-  const list = TICKETS.filter(t => {
-    if (currentSport === 'home' && !t.isHome) return false;
-    if (currentSport !== 'all' && currentSport !== 'home' && t.sport !== currentSport) return false;
-    if (currentSectionFilter) {
-      if (!(t.venue || '').includes(currentSectionFilter.venueLabel.split(',')[0])) return false;
-      if (String(t.section) !== String(currentSectionFilter.section)) return false;
-    }
-    return true;
-  });
-  $('#ticketGrid').innerHTML = list.map(ticketCard).join('') ||
-    `<div style="grid-column:1/-1;padding:24px;text-align:center;color:var(--ink-soft);background:var(--card);border:1px dashed var(--card-line);border-radius:14px">
-       No listings in that section yet.
-       <button class="clear" style="color:var(--accent);font-weight:600;margin-left:6px" onclick="currentSectionFilter=null;renderTickets()">Clear filter</button>
-     </div>`;
-  $$('#ticketGrid .ticket').forEach(c => c.addEventListener('click', () => openTicket(c.dataset.id)));
-  applySectionFilterUI();
-};
 
 /* ============================================================
    LEADERBOARD
