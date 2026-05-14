@@ -168,9 +168,12 @@
     border-bottom: 1px solid var(--rule);
   }
   .nav {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center;
+    gap: 20px;
     height: 60px;
   }
+  .nav .logo { flex-shrink: 0; }
+  .nav .menu-btn { margin-left: auto; }
   .logo {
     display: flex; align-items: center; gap: 10px;
     color: var(--ink);
@@ -190,22 +193,54 @@
   }
   .logo .name em { font-style: italic; color: var(--accent); }
 
-  .nav-account, .nav-account-mobile {
-    padding: 9px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--ink);
+  .nav-actions {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .nav-signin {
+    padding: 8px 12px;
+    border-radius: 8px;
     background: transparent;
     color: var(--ink);
-    font-size: 13.5px;
-    font-weight: 600;
-    margin-left: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    transition: background 0.15s ease, color 0.15s ease;
   }
-  .nav-account:hover { background: var(--bg-alt); }
-  .nav-account[data-signed], .nav-account-mobile[data-signed] {
+  .nav-signin:hover { background: var(--bg-alt); }
+  .nav-signin[data-signed] {
+    background: var(--bg-alt);
+    font-weight: 600;
+    padding: 8px 12px 8px 28px;
+    position: relative;
+  }
+  .nav-signin[data-signed]::before {
+    content: "";
+    position: absolute;
+    left: 11px; top: 50%;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 2px rgba(212, 78, 44, 0.18);
+  }
+  .nav-donate {
+    padding: 9px 16px;
+    border-radius: 999px;
     background: var(--ink);
     color: var(--bg);
-    border-color: var(--ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    transition: background 0.18s ease, transform 0.12s ease;
+    white-space: nowrap;
   }
+  .nav-donate:hover { background: #1A2B5A; }
+  .nav-donate:active { transform: translateY(1px); }
+
   .nav-account-mobile {
     display: block;
     width: 100%;
@@ -213,6 +248,16 @@
     padding: 14px;
     border-radius: 12px;
     text-align: center;
+    background: var(--bg-alt);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .nav-account-mobile[data-signed] {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
   }
   .sell-cta {
     margin-left: auto;
@@ -1343,22 +1388,18 @@
   @media (min-width: 700px) {
     .wrap { max-width: 920px; padding: 0 28px; }
     .nav-links {
-      display: flex; align-items: center; gap: 4px;
+      display: flex; align-items: center; gap: 2px;
     }
     .nav-links a {
-      padding: 10px 14px;
+      padding: 8px 12px;
       font-size: 14px;
       font-weight: 500;
+      color: var(--ink);
       border-radius: 8px;
+      line-height: 1;
     }
     .nav-links a:hover { background: var(--bg-alt); }
-    .nav-links a.donate {
-      background: var(--ink);
-      color: var(--bg);
-      padding: 10px 18px;
-      font-weight: 600;
-    }
-    .nav-links a.donate:hover { background: #1A2B5A; }
+    .nav-actions { display: inline-flex; }
     .menu-btn, .menu-panel { display: none !important; }
 
     .hero { padding: 64px 0 48px 0; }
@@ -1409,13 +1450,16 @@
     </a>
 
     <nav class="nav-links" aria-label="Primary">
-      <a href="#tickets">Buy Tickets</a>
+      <a href="#tickets">Tickets</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
       <a href="#about">About</a>
-      <button class="nav-account" id="navAccount" data-anon>Sign in</button>
-      <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate">Donate to VASE</a>
     </nav>
+
+    <div class="nav-actions">
+      <button class="nav-signin" id="navAccount" data-anon>Sign in</button>
+      <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="nav-donate">Donate</a>
+    </div>
 
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -1424,14 +1468,14 @@
 
   <div class="menu-panel" id="menuPanel">
     <div class="wrap">
-      <a href="#tickets">Buy Tickets</a>
+      <a href="#tickets">Tickets</a>
       <a href="#deals">Deals</a>
       <a href="#leaderboard">Leaderboard</a>
       <a href="#about">About</a>
+      <button class="nav-account-mobile" id="navAccountMobile" data-anon>Sign in</button>
       <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate">
         Donate to <em>VASE</em> →
       </a>
-      <button class="nav-account-mobile" id="navAccountMobile" data-anon>Sign in</button>
     </div>
   </div>
 </header>
