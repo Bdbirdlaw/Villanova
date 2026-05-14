@@ -42,6 +42,7 @@
     font-size: 16px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   a { color: inherit; text-decoration: none; }
   button { font-family: inherit; cursor: pointer; border: none; background: transparent; color: inherit; }
@@ -204,7 +205,7 @@
     box-shadow: 0 0 0 4px rgba(184,149,87,0.18);
   }
   .hero h1 {
-    font-size: clamp(48px, 7vw, 92px);
+    font-size: clamp(36px, 7vw, 92px);
     max-width: 18ch;
     margin-bottom: 22px;
   }
@@ -1131,9 +1132,71 @@
 
   /* ========== Mobile tweaks ========== */
   @media (max-width: 700px) {
-    .hero { padding: 56px 0 36px 0; }
-    section.frame { padding: 56px 0; }
-    section.frame.tight { padding: 36px 0; }
+    .hero { padding: 40px 0 28px 0; }
+    .hero .lede { font-size: 16px; }
+    .hero .ctas { width: 100%; }
+    .hero .ctas .btn { flex: 1; justify-content: center; padding: 13px 18px; }
+    .hero .signal-strip {
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 0;
+      padding-top: 22px;
+    }
+    .signal { padding-right: 14px; }
+    .signal + .signal { padding-left: 14px; }
+    /* Stack with no left border on first column of second row */
+    .signal:nth-child(3) { border-left: none; padding-left: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .signal:nth-child(4) { padding-top: 14px; border-top: 1px solid var(--line); }
+    .signal .n { font-size: 28px; }
+
+    section.frame { padding: 40px 0; }
+    section.frame.tight { padding: 28px 0; }
+    .wrap { padding: 0 18px; }
+    .sec-head { margin-bottom: 24px; }
+    .sec-head h2 { font-size: 28px; }
+    .sec-head p { font-size: 15px; }
+
+    /* Header */
+    .nav { height: 60px; gap: 12px; }
+    .wordmark .text, .nav .brand .name { font-size: 17px; }
+    .nav .brand .name .sub { font-size: 9px; }
+
+    /* Member cards: bigger tap targets */
+    .member { padding: 18px; }
+    .member .name { font-size: 20px; }
+
+    /* Pricing tier padding */
+    .price-card { padding: 26px 22px; }
+    .price-card h3 { font-size: 26px; }
+    .price-card .price { font-size: 36px; }
+
+    /* Asset class preview */
+    .fn-asset-card { padding: 18px; }
+    .fn-asset-card h4 { font-size: 22px; }
+
+    /* Opportunity card padding */
+    .opp { padding: 18px 18px 16px 18px; }
+    .opp .company { font-size: 22px; }
+    .opp .opp-actions .btn { padding: 9px 14px; font-size: 12.5px; }
+
+    /* Event card */
+    .event { padding: 14px 14px; gap: 12px; }
+    .event .date-tile { padding: 10px 6px; }
+    .event .date-tile .d { font-size: 24px; }
+
+    /* App form */
+    .app-form { padding: 22px 18px; }
+    .app-form .field-grid { grid-template-columns: 1fr; gap: 0; }
+
+    /* Filter chips: bigger touch target */
+    .filter-chip { padding: 10px 14px; font-size: 13px; }
+    .filter-bar { gap: 6px; }
+
+    /* Donate banner */
+    .donate-block-inner { padding: 36px 22px; }
+
+    /* Footer */
+    .footer-grid { gap: 24px; padding-bottom: 28px; }
+    .footer-col h5 { margin-bottom: 10px; }
   }
 </style>
 </head>

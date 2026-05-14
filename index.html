@@ -36,6 +36,7 @@
     font-size: 16px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   a { color: inherit; text-decoration: none; }
   button { font-family: inherit; cursor: pointer; border: none; background: transparent; color: inherit; }
@@ -306,7 +307,7 @@
 
   /* ========== Hero ========== */
   .hero {
-    padding: 40px 0 32px 0;
+    padding: 32px 0 24px 0;
     text-align: left;
   }
   .hero .eyebrow {
@@ -324,10 +325,10 @@
   .hero h1 {
     font-family: 'Instrument Serif', serif;
     font-weight: 400;
-    font-size: 44px;
-    line-height: 1.02;
+    font-size: 38px;
+    line-height: 1.04;
     letter-spacing: -0.02em;
-    margin: 0 0 20px 0;
+    margin: 0 0 18px 0;
     color: var(--ink);
   }
   .hero h1 em { font-style: italic; color: var(--accent); }
@@ -1107,6 +1108,48 @@
     font-weight: 700;
     letter-spacing: 0.12em;
     margin-top: 6px;
+  }
+
+  /* ========== Small phone tightening ========== */
+  @media (max-width: 420px) {
+    section { padding: 24px 0; }
+    .wrap { padding: 0 16px; }
+    .hero { padding: 24px 0 18px 0; }
+    .hero h1 { font-size: 32px; margin-bottom: 14px; }
+    .hero p  { font-size: 15px; margin-bottom: 22px; }
+    .hero-cta { padding: 14px 20px; font-size: 14px; }
+    .sec-head h2 { font-size: 26px; }
+    .sec-head p  { font-size: 14px; }
+    .ticket-foot { flex-wrap: wrap; }
+    .ticket-cta  { padding: 9px 14px; font-size: 12.5px; }
+    .ticket-price .amt { font-size: 26px; }
+    .donate-block { padding: 28px 22px; border-radius: 18px; }
+    .donate-block h3 { font-size: 24px; }
+    .donate-cta { padding: 13px 20px; font-size: 13.5px; }
+    /* Leaderboard density */
+    .lb-row { grid-template-columns: 34px 1fr auto; gap: 10px; padding: 10px 12px; }
+    .lb-row .lb-name { font-size: 18px; }
+    .lb-row.t1 .lb-rank,
+    .lb-row.t2 .lb-rank,
+    .lb-row.t3 .lb-rank { width: 26px; height: 26px; font-size: 12px; }
+    .lb-thermo { padding: 20px 22px; }
+    .lb-thermo-amount { font-size: 36px; }
+    .lb-me { padding: 12px 14px; grid-template-columns: 40px 1fr auto; }
+    .lb-me-name { font-size: 18px; }
+    /* Ticker text tighter */
+    .ticker { height: 36px; }
+    .tk-game { padding: 0 14px; gap: 8px; }
+    .tk-score, .tk-status { font-size: 11.5px; }
+    /* Filter chip tap target */
+    .filter { padding: 10px 16px; font-size: 13px; }
+    /* Footer */
+    footer .foot-tag { font-size: 14px; }
+    footer .foot-links { gap: 12px; font-size: 12.5px; }
+    /* Modals: a hair tighter */
+    .modal { padding: 18px 18px calc(22px + env(safe-area-inset-bottom)) 18px; }
+    .modal h3 { font-size: 26px; }
+    /* See-more button */
+    .see-more-btn { padding: 11px 18px; font-size: 13.5px; }
   }
 
   /* ========== Tablet+ ========== */
