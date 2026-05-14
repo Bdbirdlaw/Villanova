@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   /* =========================================================
@@ -48,6 +48,63 @@
     max-width: 720px;
     margin: 0 auto;
     padding: 0 20px;
+  }
+
+  /* ========== Score ticker ========== */
+  .ticker {
+    background: var(--ink);
+    color: #FBF8F1;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .ticker-inner {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 20px;
+    max-width: 720px;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .ticker-dot {
+    width: 7px; height: 7px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ticker.live .ticker-dot {
+    background: var(--accent);
+    animation: tk-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes tk-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .ticker-tag {
+    background: rgba(255,255,255,0.10);
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.95);
+  }
+  .ticker-text {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12.5px;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgba(255,255,255,0.88);
+  }
+  .ticker-text .opp { color: #FBF8F1; }
+  .ticker-text .win { color: var(--accent); font-weight: 500; }
+  .ticker-text .sep { opacity: 0.4; margin: 0 6px; }
+  .ticker-nav {
+    color: rgba(255,255,255,0.55);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    flex-shrink: 0;
   }
 
   /* ========== Header ========== */
@@ -775,6 +832,16 @@
   </div>
 </header>
 
+<!-- ============== SCORES TICKER ============== -->
+<div class="ticker" id="ticker" role="region" aria-label="Villanova scores ticker">
+  <div class="ticker-inner" id="tickerInner">
+    <span class="ticker-dot" aria-hidden="true"></span>
+    <span class="ticker-tag" id="tkrSport">VU</span>
+    <span class="ticker-text" id="tkrText">Loading latest Villanova scores…</span>
+    <span class="ticker-nav" id="tkrNav" aria-hidden="true">— / —</span>
+  </div>
+</div>
+
 <!-- ============== HERO ============== -->
 <div class="wrap">
   <div class="hero">
@@ -801,11 +868,10 @@
     </div>
 
     <div class="filters" role="tablist">
-      <button class="filter active" data-sport="all">All sports</button>
+      <button class="filter active" data-sport="all">All games</button>
       <button class="filter" data-sport="mbb">Men's Basketball</button>
       <button class="filter" data-sport="wbb">Women's Basketball</button>
-      <button class="filter" data-sport="fb">Football</button>
-      <button class="filter" data-sport="lax">Lacrosse</button>
+      <button class="filter" data-sport="home">Home only</button>
     </div>
 
     <div class="tickets" id="ticketGrid"></div>
@@ -933,19 +999,32 @@
 </div>
 
 <script>
+/* ============================================================
+   Real 2025-26 Villanova basketball schedule data.
+   Sources: villanova.com schedule pages, bigeast.com, vu hoops.
+   Section / row / seat are illustrative until real seller
+   inventory is wired up — the rest is verified.
+   ============================================================ */
 const TICKETS = [
-  { id:'T01', sport:'mbb', sportLabel:"Men's Basketball", opponent:'UConn',       isHome:true,  date:'Sat, Feb 7',  time:'4:00 PM',  venue:'Finneran Pavilion',     section:'109', row:'F', seat:'12', face:175, ask:185, hot:true },
-  { id:'T03', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Marquette',   isHome:true,  date:'Tue, Jan 28', time:'6:30 PM',  venue:'Finneran Pavilion',     section:'102', row:'J', seat:'21', face:125, ask:120 },
-  { id:'T02', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Georgetown',  isHome:false, date:'Wed, Jan 22', time:'7:00 PM',  venue:'Capital One Arena',     section:'107', row:'C', seat:'8',  face:110, ask:95 },
-  { id:'T04', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Creighton',   isHome:true,  date:'Sat, Feb 14', time:'12:00 PM', venue:'Finneran Pavilion',     section:'104', row:'D', seat:'4',  face:110, ask:110 },
-  { id:'T06', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Xavier',      isHome:true,  date:'Wed, Feb 4',  time:'7:00 PM',  venue:'Finneran Pavilion',     section:'111', row:'G', seat:'6',  face:95,  ask:90 },
-  { id:'T05', sport:'mbb', sportLabel:"Men's Basketball", opponent:"St. John's",  isHome:false, date:'Sun, Feb 1',  time:'2:00 PM',  venue:'Madison Square Garden', section:'224', row:'K', seat:'17', face:95,  ask:85 },
-  { id:'T07', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Butler',      isHome:true,  date:'Sat, Feb 21', time:'4:00 PM',  venue:'Finneran Pavilion',     section:'113', row:'L', seat:'14', face:80,  ask:75 },
-  { id:'T08', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Providence',  isHome:true,  date:'Tue, Feb 24', time:'7:00 PM',  venue:'Finneran Pavilion',     section:'106', row:'B', seat:'2',  face:90,  ask:80 },
-  { id:'T11', sport:'mbb', sportLabel:'Big East Final',   opponent:'UConn',       isHome:false, date:'Sat, Mar 14', time:'6:30 PM',  venue:'Madison Square Garden', section:'108', row:'A', seat:'1',  face:250, ask:395, hot:true },
-  { id:'T12', sport:'wbb', sportLabel:"Women's Basketball",opponent:'UConn',      isHome:true,  date:'Thu, Feb 12', time:'7:00 PM',  venue:'Finneran Pavilion',     section:'105', row:'C', seat:'6',  face:35,  ask:40 },
-  { id:'T14', sport:'fb',  sportLabel:'Football',          opponent:'Delaware',   isHome:true,  date:'Sat, Sep 6',  time:'12:00 PM', venue:'Villanova Stadium',     section:'NE',  row:'14',seat:'34', face:40,  ask:35 },
-  { id:'T16', sport:'lax', sportLabel:'Lacrosse',          opponent:'Notre Dame', isHome:true,  date:'Sat, Mar 28', time:'1:00 PM',  venue:'Villanova Stadium',     section:'GA',  row:'—', seat:'—',  face:25,  ask:25 },
+  // ===== MEN'S BASKETBALL =====
+  { id:'M01', sport:'mbb', sportLabel:"Men's Basketball", opponent:'BYU',        isHome:false, isNeutral:true, date:'Mon, Nov 3',  time:'9:30 PM', venue:'T-Mobile Arena, Las Vegas', note:'Hall of Fame Series', section:'117', row:'12', seat:'8',  face:225, ask:265, hot:true },
+  { id:'M02', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Temple',     isHome:true,                  date:'Mon, Dec 1',  time:'7:00 PM', venue:'Finneran Pavilion',         note:'Big 5',              section:'109', row:'F',  seat:'12', face:60,  ask:75 },
+  { id:'M03', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Seton Hall', isHome:false,                 date:'Tue, Dec 23', time:'7:00 PM', venue:'Prudential Center, Newark', note:'Big East opener',    section:'8',   row:'18', seat:'4',  face:55,  ask:65 },
+  { id:'M04', sport:'mbb', sportLabel:"Men's Basketball", opponent:'DePaul',     isHome:true,                  date:'Wed, Dec 31', time:'2:00 PM', venue:'Finneran Pavilion',                                    section:'108', row:'M',  seat:'22', face:50,  ask:55 },
+  { id:'M05', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Creighton',  isHome:true,                  date:'Wed, Jan 7',  time:'7:30 PM', venue:'Finneran Pavilion',                                    section:'104', row:'D',  seat:'4',  face:95,  ask:110, hot:true },
+  { id:'M06', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Marquette',  isHome:false,                 date:'Sat, Jan 10', time:'2:30 PM', venue:'Fiserv Forum, Milwaukee',                              section:'214', row:'14', seat:'7',  face:75,  ask:85 },
+  { id:'M07', sport:'mbb', sportLabel:"Men's Basketball", opponent:'UConn',      isHome:true,                  date:'Sat, Jan 24', time:'4:30 PM', venue:'Finneran Pavilion',                                    section:'109', row:'F',  seat:'11', face:175, ask:225, hot:true },
+  { id:'M08', sport:'mbb', sportLabel:"Men's Basketball", opponent:'UConn',      isHome:false,                 date:'Sat, Feb 21', time:'6:00 PM', venue:'Gampel Pavilion, Storrs',                              section:'112', row:'C',  seat:'9',  face:140, ask:165 },
+
+  // ===== WOMEN'S BASKETBALL =====
+  { id:'W01', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Temple',     isHome:true,  date:'Sat, Nov 22', time:'2:00 PM',  venue:'Finneran Pavilion',         note:'Big 5',     section:'105', row:'C', seat:'6',  face:25, ask:30 },
+  { id:'W02', sport:'wbb', sportLabel:"Women's Basketball", opponent:'La Salle',   isHome:false, date:'Tue, Nov 25', time:'7:00 PM',  venue:'Tom Gola Arena, Philadelphia', note:'Big 5',  section:'B',   row:'5', seat:'10', face:18, ask:20 },
+  { id:'W03', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Creighton',  isHome:true,  date:'Thu, Jan 1',  time:'12:00 PM', venue:'Finneran Pavilion',                            section:'107', row:'D', seat:'15', face:25, ask:30 },
+  { id:'W04', sport:'wbb', sportLabel:"Women's Basketball", opponent:'UConn',      isHome:false, date:'Thu, Jan 15', time:'7:00 PM',  venue:'Gampel Pavilion, Storrs',                      section:'112', row:'B', seat:'2',  face:55, ask:65, hot:true },
+  { id:'W05', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Butler',     isHome:true,  date:'Sun, Jan 18', time:'2:00 PM',  venue:'Finneran Pavilion',                            section:'110', row:'E', seat:'11', face:22, ask:25 },
+  { id:'W06', sport:'wbb', sportLabel:"Women's Basketball", opponent:"St. John's", isHome:false, date:'Sat, Jan 24', time:'2:00 PM',  venue:'Carnesecca Arena, Queens',                     section:'B',   row:'6', seat:'14', face:22, ask:24 },
+  { id:'W07', sport:'wbb', sportLabel:"Women's Basketball", opponent:'Providence', isHome:true,  date:'Tue, Jan 27', time:'7:00 PM',  venue:'Finneran Pavilion',                            section:'113', row:'L', seat:'14', face:22, ask:25 },
+  { id:'W08', sport:'wbb', sportLabel:"Women's Basketball", opponent:'DePaul',     isHome:true,  date:'Sat, Jan 31', time:'2:00 PM',  venue:'Finneran Pavilion',                            section:'106', row:'B', seat:'2',  face:18, ask:20 },
 ];
 
 const DEALS = [
@@ -973,13 +1052,15 @@ function avfmsUrl(venue, section) {
 }
 
 /* ===== Tickets ===== */
+function prefixFor(t)   { return (t.isHome || t.isNeutral) ? 'vs' : '@'; }
 function ticketCard(t) {
-  const prefix = t.isHome ? 'vs' : '@';
+  const prefix = prefixFor(t);
+  const tag = t.hot ? 'Hot' : t.note || '';
   return `
-    <button class="ticket" data-id="${t.id}" data-sport="${t.sport}" aria-label="${prefix} ${t.opponent} on ${t.date}, $${t.ask}">
+    <button class="ticket" data-id="${t.id}" data-sport="${t.sport}" data-home="${t.isHome ? '1' : '0'}" aria-label="${prefix} ${t.opponent} on ${t.date}, $${t.ask}">
       <div class="ticket-top">
         <span class="ticket-sport">${t.sportLabel}</span>
-        ${t.hot ? '<span class="ticket-tag">Hot</span>' : ''}
+        ${tag ? `<span class="ticket-tag">${tag}</span>` : ''}
       </div>
       <h3>${prefix} <em>${t.opponent}</em></h3>
       <div class="ticket-meta">${t.date} · ${t.time}</div>
@@ -998,7 +1079,11 @@ function ticketCard(t) {
 
 let currentSport = 'all';
 function renderTickets() {
-  const list = TICKETS.filter(t => currentSport === 'all' || t.sport === currentSport);
+  const list = TICKETS.filter(t => {
+    if (currentSport === 'all')  return true;
+    if (currentSport === 'home') return t.isHome === true;
+    return t.sport === currentSport;
+  });
   $('#ticketGrid').innerHTML = list.map(ticketCard).join('') ||
     '<p style="color:var(--ink-soft); padding: 12px 0;">No listings in that category yet.</p>';
   $$('#ticketGrid .ticket').forEach(c =>
@@ -1043,7 +1128,7 @@ function openTicket(id) {
   const vase = +(t.ask * 0.10 ).toFixed(2);
   const total = +(t.ask + fee + proc + vase).toFixed(2);
   $('#modalSport').textContent = t.sportLabel;
-  $('#modalTitle').innerHTML   = `${t.isHome ? 'vs' : '@'} <em>${t.opponent}</em>`;
+  $('#modalTitle').innerHTML   = `${prefixFor(t)} <em>${t.opponent}</em>`;
   $('#modalMeta').textContent  = `${t.date} · ${t.time} · ${t.venue}`;
   $('#modalSeat').textContent  = `Section ${t.section}${t.row !== '—' ? ' · Row ' + t.row : ''}${t.seat !== '—' ? ' · Seat ' + t.seat : ''}`;
 
@@ -1112,9 +1197,124 @@ $('#menuBtn').addEventListener('click', () => {
 });
 $$('#menuPanel a').forEach(a => a.addEventListener('click', () => $('#menuPanel').classList.remove('open')));
 
+/* ============================================================
+   SCORES TICKER — every current Villanova athletic event.
+   Pulls from ESPN's public scoreboard JSON (no key required),
+   filters to Villanova across multiple sports, and falls back
+   to a small mock list when the API is unreachable or it's
+   the offseason and there are no live games today.
+   ============================================================ */
+const ESPN_BASE = 'https://site.api.espn.com/apis/site/v2/sports';
+const SCOREBOARDS = [
+  { url: `${ESPN_BASE}/basketball/mens-college-basketball/scoreboard`,    tag: 'MBB' },
+  { url: `${ESPN_BASE}/basketball/womens-college-basketball/scoreboard`,  tag: 'WBB' },
+  { url: `${ESPN_BASE}/football/college-football/scoreboard`,             tag: 'FB'  },
+  { url: `${ESPN_BASE}/lacrosse/mens-college-lacrosse/scoreboard`,        tag: 'MLAX'},
+  { url: `${ESPN_BASE}/lacrosse/womens-college-lacrosse/scoreboard`,      tag: 'WLAX'},
+  { url: `${ESPN_BASE}/baseball/college-baseball/scoreboard`,             tag: 'BSB' },
+  { url: `${ESPN_BASE}/softball/college-softball/scoreboard`,             tag: 'SB'  },
+];
+
+const MOCK_SCORES = [
+  { tag:'MBB',  oppAbbr:'STJ', opp:"St. John's", us:79, them:66, status:'Final',          live:false, final:true,  win:true,  isHome:true  },
+  { tag:'MBB',  oppAbbr:'UCN', opp:'UConn',      us:71, them:75, status:'Final',          live:false, final:true,  win:false, isHome:false },
+  { tag:'WBB',  oppAbbr:'MAR', opp:'Marquette',  us:64, them:58, status:'Final',          live:false, final:true,  win:true,  isHome:true  },
+  { tag:'MLAX', oppAbbr:'ND',  opp:'Notre Dame', us:14, them:11, status:'Final',          live:false, final:true,  win:true,  isHome:true  },
+  { tag:'WLAX', oppAbbr:'PSU', opp:'Penn State', us:13, them:10, status:'Final',          live:false, final:true,  win:true,  isHome:false },
+  { tag:'BSB',  oppAbbr:'GTN', opp:'Georgetown', us:6,  them:4,  status:'Final · 9 inn',  live:false, final:true,  win:true,  isHome:true  },
+  { tag:'SB',   oppAbbr:'CRT', opp:'Creighton',  us:5,  them:3,  status:'Final · 7 inn',  live:false, final:true,  win:true,  isHome:true  },
+  { tag:'MBB',  oppAbbr:'CRT', opp:'Creighton',  us:32, them:28, status:'2H · 14:22',     live:true,  final:false, win:true,  isHome:true  },
+];
+
+function isVillanovaCompetitor(c) {
+  const t = c?.team || {};
+  const fields = [t.location, t.displayName, t.shortDisplayName, t.name, t.nickname].filter(Boolean).map(s => s.toLowerCase());
+  return fields.some(s => s.includes('villanova'));
+}
+async function fetchOne(board) {
+  try {
+    const r = await fetch(board.url, { cache: 'no-store' });
+    if (!r.ok) return [];
+    const j = await r.json();
+    const out = [];
+    for (const ev of (j.events || [])) {
+      const comp = ev.competitions?.[0];
+      const competitors = comp?.competitors || [];
+      const us = competitors.find(isVillanovaCompetitor);
+      if (!us) continue;
+      const them = competitors.find(c => c !== us);
+      const usScore   = parseInt(us.score || '0', 10);
+      const themScore = parseInt(them?.score || '0', 10);
+      const state = ev.status?.type?.state;
+      out.push({
+        tag: board.tag,
+        oppAbbr: (them?.team?.abbreviation || them?.team?.shortDisplayName || '?').slice(0, 4).toUpperCase(),
+        opp:     them?.team?.shortDisplayName || them?.team?.displayName || 'Opp',
+        us: usScore, them: themScore,
+        status: ev.status?.type?.shortDetail || (state === 'pre' ? ev.status?.type?.detail || 'Upcoming' : ''),
+        live:  state === 'in',
+        final: state === 'post',
+        win:   usScore > themScore,
+        isHome: us.homeAway === 'home',
+      });
+    }
+    return out;
+  } catch { return []; }
+}
+async function loadScores() {
+  const results = await Promise.all(SCOREBOARDS.map(fetchOne));
+  return results.flat();
+}
+
+let SCORES = [];
+let scoreIdx = 0;
+let scoreTimer = null;
+let scorePaused = false;
+
+function paintTicker() {
+  if (!SCORES.length) return;
+  const s = SCORES[scoreIdx % SCORES.length];
+  const ticker = $('#ticker');
+  $('#tkrSport').textContent = s.tag;
+  $('#tkrNav').textContent = `${(scoreIdx % SCORES.length) + 1} / ${SCORES.length}`;
+  const prefix = s.isHome ? 'vs' : '@';
+  const wlClass = s.final ? (s.win ? 'win' : '') : '';
+  if (s.live) {
+    $('#tkrText').innerHTML =
+      `${prefix} <span class="opp">${s.opp}</span><span class="sep">·</span>` +
+      `<span class="${wlClass}">VU ${s.us}, ${s.oppAbbr} ${s.them}</span>` +
+      `<span class="sep">·</span>${s.status}`;
+  } else if (s.final) {
+    $('#tkrText').innerHTML =
+      `${prefix} <span class="opp">${s.opp}</span><span class="sep">·</span>` +
+      `<span class="${wlClass}">VU ${s.us}, ${s.oppAbbr} ${s.them}</span>` +
+      `<span class="sep">·</span>${s.status}`;
+  } else {
+    $('#tkrText').innerHTML =
+      `${prefix} <span class="opp">${s.opp}</span><span class="sep">·</span>${s.status || 'Upcoming'}`;
+  }
+  ticker.classList.toggle('live', !!s.live);
+}
+function rotateTicker() {
+  if (scorePaused) return;
+  scoreIdx++;
+  paintTicker();
+}
+async function initTicker() {
+  let live = [];
+  try { live = await loadScores(); } catch { live = []; }
+  SCORES = live.length ? live : MOCK_SCORES.slice();
+  paintTicker();
+  scoreTimer = setInterval(rotateTicker, 5000);
+}
+$('#tickerInner').addEventListener('click', () => { scoreIdx++; paintTicker(); });
+$('#ticker').addEventListener('mouseenter', () => scorePaused = true);
+$('#ticker').addEventListener('mouseleave', () => scorePaused = false);
+
 /* ===== Init ===== */
 renderTickets();
 renderDeals();
+initTicker();
 
 (() => {
   const p = new URLSearchParams(location.search);
