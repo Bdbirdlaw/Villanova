@@ -584,6 +584,81 @@
     font-weight: 500;
   }
 
+  /* ========== Seat view (A View From My Seat) ========== */
+  .seat-view {
+    display: block;
+    margin-top: 18px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--card-line);
+    transition: transform 0.15s ease;
+  }
+  .seat-view:active { transform: scale(0.99); }
+  .seat-view:hover  { box-shadow: 0 4px 16px rgba(15,31,71,0.08); }
+  .seat-view-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(212,78,44,0.16), transparent 60%),
+      linear-gradient(160deg, #0F1F47 0%, #1A2B5A 100%);
+    color: #fff;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 14px 16px;
+  }
+  /* faint suggestion of a court / field */
+  .seat-view-frame::before {
+    content: "";
+    position: absolute; left: 12%; right: 12%; top: 55%; bottom: 16%;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  .seat-view-frame::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 78%;
+    transform: translate(-50%, -50%);
+    width: 70px; height: 34px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .seat-view-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    position: relative; z-index: 1;
+  }
+  .seat-view-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px;
+    position: relative; z-index: 1;
+  }
+  .seat-view-label {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .seat-view-cta {
+    background: rgba(255,255,255,0.95);
+    color: var(--ink);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .seat-view-attr {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-align: right;
+    padding: 0 4px;
+  }
+
   .deal-code {
     margin-top: 18px;
     padding: 18px;
@@ -815,6 +890,17 @@
     <div class="m-sub" id="modalMeta">Sat, Feb 7 · 4:00 PM · Finneran Pavilion</div>
     <div class="m-sub" id="modalSeat" style="margin-top:2px;">Section 109 · Row F · Seat 12</div>
 
+    <a id="seatViewLink" class="seat-view" href="#" target="_blank" rel="noopener noreferrer" aria-label="See fan photos from this seat on A View From My Seat">
+      <div class="seat-view-frame">
+        <div class="seat-view-eyebrow">View from your seat</div>
+        <div class="seat-view-bottom">
+          <div class="seat-view-label" id="seatViewLabel">Section 109 · Finneran Pavilion</div>
+          <div class="seat-view-cta">See fan photos →</div>
+        </div>
+      </div>
+    </a>
+    <div class="seat-view-attr">Photos via <em>A View From My Seat</em></div>
+
     <div class="summary">
       <div class="row"><span>Ticket</span><span id="pTicket">$185.00</span></div>
       <div class="row"><span>Service fee</span><span id="pFee">$13.88</span></div>
@@ -876,6 +962,15 @@ const DEALS = [
 const $  = (s,c=document) => c.querySelector(s);
 const $$ = (s,c=document) => Array.from(c.querySelectorAll(s));
 const fmt = n => '$' + Number(n).toFixed(2);
+
+/* AVFMS search URL — robust to any venue/section since it uses
+   their on-site search rather than guessing a deep-link slug.
+   A section like "GA" / "NE" / "—" falls back to a venue search. */
+function avfmsUrl(venue, section) {
+  const generic = ['GA', 'NE', 'W', '—', '', undefined, null];
+  const q = generic.includes(section) ? venue : `${venue} section ${section}`;
+  return 'https://aviewfrommyseat.com/?s=' + encodeURIComponent(q);
+}
 
 /* ===== Tickets ===== */
 function ticketCard(t) {
@@ -951,6 +1046,12 @@ function openTicket(id) {
   $('#modalTitle').innerHTML   = `${t.isHome ? 'vs' : '@'} <em>${t.opponent}</em>`;
   $('#modalMeta').textContent  = `${t.date} · ${t.time} · ${t.venue}`;
   $('#modalSeat').textContent  = `Section ${t.section}${t.row !== '—' ? ' · Row ' + t.row : ''}${t.seat !== '—' ? ' · Seat ' + t.seat : ''}`;
+
+  const generic = ['GA','NE','W','—'];
+  const labelSection = generic.includes(t.section) ? 'General Admission' : `Section ${t.section}`;
+  $('#seatViewLabel').textContent = `${labelSection} · ${t.venue}`;
+  $('#seatViewLink').href = avfmsUrl(t.venue, t.section);
+
   $('#pTicket').textContent = fmt(t.ask);
   $('#pFee').textContent    = fmt(fee);
   $('#pProc').textContent   = fmt(proc);
