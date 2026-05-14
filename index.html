@@ -3,2947 +3,1160 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Nova Nation Exchange — For Villanova Fans, By Villanova Fans. 10% to VASE on every transaction.</title>
-<meta name="description" content="Fan-owned ticket resale and Main Line deals for Villanova Wildcats fans. Every transaction sends 10% directly to the VASE Fund (Villanova Athletics Strategic Excellence). Built by Wildcats. For Wildcats." />
-<meta name="theme-color" content="#00205B" />
-<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%2300205B'/><path d='M14 14 L32 50 L50 14 L42 14 L32 38 L22 14 Z' fill='%23FFFFFF' stroke='%2313B5EA' stroke-width='2' stroke-linejoin='round'/></svg>" />
+<title>Nova Nation Exchange — Tickets, Deals & the VASE Fund.</title>
+<meta name="description" content="A fan-built ticket exchange and Main Line deals board for Villanova Wildcats fans. Ten percent of every transaction supports the VASE Fund." />
+<meta name="theme-color" content="#1B2A47" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%231B2A47'/><path d='M14 16 L32 50 L50 16 L42 16 L32 38 L22 16 Z' fill='%23F4EBD3'/></svg>" />
 
-<!-- Tailwind CSS via CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700;1,900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
-<script>
-  // Tailwind config — Villanova palette
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          'nova-navy':   '#00205B',
-          'nova-navy-2': '#001746',
-          'nova-blue':   '#13B5EA',
-          'nova-blue-2': '#0F94C2',
-          'nova-cream':  '#F8F6F0',
-          'nova-gold':   '#FFD100',
-          'nova-gold-2': '#C9A400',
-          'nova-ink':    '#0A0F1F',
-          'nova-paper':  '#FFFDF7',
-        },
-        fontFamily: {
-          'display': ['"Playfair Display"', 'Georgia', 'serif'],
-          'sans':    ['Inter', 'system-ui', 'sans-serif'],
-          'mono':    ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-        }
-      }
-    }
-  };
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-  /* ============================================================
-     NOVA NATION EXCHANGE — CUSTOM CSS
-     Ticket-stub motifs, Pavilion court, championship banners,
-     Apple Wallet pass, marquees, perforations.
-     ============================================================ */
-
+  /* =========================================================
+     NOVA NATION EXCHANGE
+     Editorial / classifieds aesthetic. Cream paper, navy ink,
+     a single signal-blue accent. Built to feel hand-set.
+     ========================================================= */
   :root {
-    --nova-navy:  #00205B;
-    --nova-navy-2:#001746;
-    --nova-blue:  #13B5EA;
-    --nova-blue-2:#0F94C2;
-    --nova-cream: #F8F6F0;
-    --nova-gold:  #FFD100;
-    --nova-gold-2:#C9A400;
-    --nova-paper: #FFFDF7;
-    --nova-ink:   #0A0F1F;
+    --paper: #F4EBD3;       /* warm cream "newsprint" */
+    --paper-deep: #EADFC0;
+    --ink: #1B2A47;         /* deep navy */
+    --ink-soft: #4B5773;
+    --ink-line: #2D3B58;
+    --accent: #E04E2C;      /* hand-stamped red-orange — signal color */
+    --signal: #2E78B5;      /* secondary signal */
+    --rule: rgba(27,42,71,0.18);
   }
-
+  * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    color: var(--nova-ink);
-    background: var(--nova-cream);
+    margin: 0;
+    background-color: var(--paper);
+    /* faint paper grain via layered radial dots */
+    background-image:
+      radial-gradient(rgba(27,42,71,0.04) 1px, transparent 1px),
+      radial-gradient(rgba(27,42,71,0.025) 1px, transparent 1px);
+    background-size: 24px 24px, 7px 7px;
+    background-position: 0 0, 3px 3px;
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.55;
   }
-  *:focus-visible {
-    outline: 3px solid var(--nova-blue);
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
-  ::selection { background: var(--nova-blue); color: #fff; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: transparent; color: inherit; }
+  *:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  ::selection { background: var(--ink); color: var(--paper); }
 
-  /* ---------- Newsprint / banner background textures ---------- */
-  .bg-newsprint {
-    background-color: var(--nova-cream);
-    background-image:
-      radial-gradient(rgba(0,32,91,0.06) 1px, transparent 1px),
-      radial-gradient(rgba(0,32,91,0.04) 1px, transparent 1px);
-    background-size: 22px 22px, 11px 11px;
-    background-position: 0 0, 6px 6px;
-  }
-  .bg-banner-navy {
-    background:
-      linear-gradient(180deg, #001746 0%, #00205B 50%, #001746 100%);
-    background-size: cover;
-    position: relative;
-  }
-  .bg-banner-navy::before {
-    content: "";
-    position: absolute; inset: 0;
-    background-image:
-      repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 6px);
-    pointer-events: none;
-  }
-  .bg-court {
-    background:
-      radial-gradient(ellipse at center, #002a78 0%, #00205B 55%, #001237 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  /* Stylized Pavilion court lines */
-  .court-art {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    background-image:
-      /* Center circle */
-      radial-gradient(circle at 50% 60%, transparent 86px, rgba(19,181,234,0.35) 86px, rgba(19,181,234,0.35) 88px, transparent 89px),
-      /* Inner court border */
-      linear-gradient(transparent 60%, rgba(19,181,234,0.18) 60.2%, transparent 60.6%),
-      /* Free throw arcs (approx) */
-      radial-gradient(circle at 50% 30%, transparent 60px, rgba(19,181,234,0.18) 60px, rgba(19,181,234,0.18) 61px, transparent 62px),
-      radial-gradient(circle at 50% 90%, transparent 60px, rgba(19,181,234,0.18) 60px, rgba(19,181,234,0.18) 61px, transparent 62px);
-  }
-  .court-baseline-top, .court-baseline-bottom {
-    position: absolute; left: 8%; right: 8%; height: 2px;
-    background: rgba(19,181,234,0.35);
-  }
-  .court-baseline-top { top: 12%; }
-  .court-baseline-bottom { bottom: 12%; }
-  .court-sideline-left, .court-sideline-right {
-    position: absolute; top: 12%; bottom: 12%; width: 2px;
-    background: rgba(19,181,234,0.25);
-  }
-  .court-sideline-left { left: 8%; }
-  .court-sideline-right { right: 8%; }
-  .court-key {
-    position: absolute; left: 50%; transform: translateX(-50%);
-    width: 180px; height: 110px;
-    border: 2px solid rgba(19,181,234,0.25);
-    background: rgba(19,181,234,0.06);
-  }
-  .court-key.top { top: 12%; }
-  .court-key.bottom { bottom: 12%; }
-  .court-v {
-    position: absolute; left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: clamp(180px, 28vw, 380px);
-    color: rgba(19,181,234,0.10);
-    line-height: 1;
-    letter-spacing: -0.06em;
-    pointer-events: none;
-    user-select: none;
-  }
-  .court-motto {
-    position: absolute; left: 50%; bottom: 6%;
-    transform: translateX(-50%);
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 14px;
-    letter-spacing: 0.4em;
-    color: rgba(248,246,240,0.18);
+  .serif    { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; }
+  .serif-it { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+  .mono     { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ============ Masthead ============ */
+  .masthead {
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .masthead-top {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 28px 8px 28px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .masthead-top .iss {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .masthead-top .iss .dot { color: var(--accent); }
+  .masthead-mid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 28px 16px 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  }
+  .wordmark {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--ink);
+  }
+  .wordmark .mark {
+    width: 34px; height: 34px;
+    border: 1.5px solid var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    transform: rotate(-2deg);
+    background: var(--paper);
+  }
+  .wordmark .mark svg { width: 18px; height: 18px; }
+  .wordmark .text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .wordmark .text em { font-style: italic; color: var(--accent); }
+
+  nav.nav-links {
+    display: flex; align-items: center; gap: 4px;
+  }
+  nav.nav-links a {
+    position: relative;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  nav.nav-links a::after {
+    content: ""; position: absolute;
+    left: 14px; right: 14px; bottom: 6px;
+    height: 1px; background: var(--ink);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  nav.nav-links a:hover::after { transform: scaleX(1); }
+  nav.nav-links a.donate {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 18px;
+    margin-left: 6px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  nav.nav-links a.donate::after { display: none; }
+  nav.nav-links a.donate:hover { background: var(--accent); }
+
+  .menu-btn {
+    display: none;
+    width: 40px; height: 40px;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    color: var(--ink);
+    align-items: center; justify-content: center;
+  }
+
+  /* ============ Hero ============ */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 28px 56px 28px;
+    position: relative;
+  }
+  .hero .eyebrow-row {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+  }
+  .hero .eyebrow-row hr {
+    flex: 0 0 56px; margin: 0; border: none; border-top: 1px solid var(--ink);
+  }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 14ch;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero h1 .pen {
+    position: relative;
     white-space: nowrap;
   }
-
-  /* ---------- The V mark (inline reusable) ---------- */
-  .v-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+  .hero h1 .pen::after {
+    content: "";
+    position: absolute;
+    left: -2%; right: -2%;
+    bottom: 0.08em;
+    height: 0.18em;
+    background: var(--accent);
+    opacity: 0.25;
+    border-radius: 4px;
+    transform: rotate(-1deg);
+    z-index: -1;
   }
-  .v-mark svg { display: block; width: 100%; height: 100%; }
+  .hero-lower {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  .hero-lower p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 50ch;
+    margin: 0;
+  }
+  .hero-lower p strong { color: var(--ink); font-weight: 600; }
+  .hero-meta {
+    border-top: 1px solid var(--ink);
+    padding-top: 14px;
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .hero-cta {
+    margin-top: 32px;
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 16px 26px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .hero-cta:hover { background: var(--accent); transform: translateX(2px); }
+  .hero-cta .arrow { font-family: 'Instrument Serif', serif; font-size: 18px; transform: translateY(-1px); }
 
-  /* ---------- Ticket stub aesthetic ---------- */
-  .ticket-stub {
+  /* small "no. 01" tag in the corner */
+  .corner-num {
+    position: absolute;
+    top: 80px; right: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* ============ Section frame ============ */
+  section.frame {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 28px;
+    border-top: 1px solid var(--ink);
+    scroll-margin-top: 130px;
     position: relative;
-    background: var(--nova-paper);
-    border-radius: 14px;
-    box-shadow:
-      0 1px 0 rgba(0,32,91,0.05),
-      0 10px 25px -10px rgba(0,32,91,0.25),
-      0 30px 60px -30px rgba(0,32,91,0.15);
-    overflow: hidden;
-    transition: transform .25s ease, box-shadow .25s ease;
   }
-  .ticket-stub::before,
-  .ticket-stub::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0;
-    height: 12px;
-    background-image: radial-gradient(circle at 6px 6px, var(--nova-cream) 4px, transparent 5px);
-    background-size: 14px 12px;
-    background-repeat: repeat-x;
-    background-position: 0 0;
-    pointer-events: none;
+  .frame-head {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    margin-bottom: 36px;
   }
-  .ticket-stub::before { top: -6px; }
-  .ticket-stub::after  { bottom: -6px; }
-  .ticket-stub:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 1px 0 rgba(0,32,91,0.06),
-      0 18px 35px -14px rgba(0,32,91,0.35),
-      0 50px 80px -40px rgba(19,181,234,0.25);
+  .frame-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
   }
-  .ticket-stub:hover .perf-glow::before,
-  .ticket-stub:hover .perf-glow::after { opacity: 1; }
-  .perf-glow::before,
-  .perf-glow::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0;
-    height: 12px;
-    background-image: radial-gradient(circle at 6px 6px, rgba(19,181,234,0.6) 3px, transparent 4px);
-    background-size: 14px 12px;
-    background-repeat: repeat-x;
-    background-position: 0 0;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .25s ease;
-    filter: drop-shadow(0 0 6px rgba(19,181,234,0.5));
+  .frame-head h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(32px, 4.5vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0;
   }
-  .perf-glow::before { top: -6px; }
-  .perf-glow::after  { bottom: -6px; }
+  .frame-head h2 em { font-style: italic; color: var(--accent); }
+  .frame-head .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: right;
+  }
+  .frame-sub {
+    grid-column: 2 / 4;
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 12px 0 0 0;
+  }
 
-  .ticket-divider {
-    border: none;
-    border-top: 2px dashed rgba(0,32,91,0.25);
-    margin: 12px 0;
+  /* ============ Filters ============ */
+  .filters {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 28px;
   }
-  .ticket-seat-box {
-    border: 1.5px dashed rgba(0,32,91,0.4);
-    border-radius: 8px;
-    padding: 8px 10px;
-    background: rgba(19,181,234,0.04);
+  .filter {
+    padding: 8px 14px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: background 0.15s ease, color 0.15s ease;
   }
-  .vase-badge {
-    display: inline-flex;
+  .filter:hover { background: rgba(27,42,71,0.06); }
+  .filter.active { background: var(--ink); color: var(--paper); }
+
+  /* ============ Ticket classifieds ============ */
+  .listings {
+    border-top: 1px solid var(--ink);
+  }
+  .listing {
+    display: grid;
+    grid-template-columns: 60px 1fr 1.6fr 1fr 130px;
     align-items: center;
-    gap: 6px;
-    background: linear-gradient(180deg, #13B5EA 0%, #0F94C2 100%);
-    color: white;
-    font-weight: 700;
+    gap: 24px;
+    padding: 22px 8px;
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+    transition: background 0.2s ease, padding 0.2s ease;
+    position: relative;
+  }
+  .listing::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 60%;
+    background: var(--accent);
+    transition: width 0.25s ease;
+  }
+  .listing:hover { background: rgba(27,42,71,0.04); padding-left: 22px; }
+  .listing:hover::before { width: 3px; }
+  .listing .l-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+  }
+  .listing .l-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .listing .l-date .small {
+    display: block;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .listing .l-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+  }
+  .listing .l-title em { font-style: italic; color: var(--accent); }
+  .listing .l-title .sport {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    font-style: normal;
+  }
+  .listing .l-seat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .listing .l-seat .sub {
+    display: block;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+  }
+  .listing .l-price {
+    text-align: right;
+  }
+  .listing .l-price .amt {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .listing .l-price .per {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 5px;
+  }
+  .listing .l-price .strike {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    margin-right: 4px;
+  }
+
+  /* ============ Deals ============ */
+  .deals {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .deal {
+    background: var(--paper);
+    padding: 28px 26px;
+    display: flex; flex-direction: column;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    position: relative;
+  }
+  .deal:hover { background: var(--paper-deep); }
+  .deal .deal-head {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  }
+  .deal .deal-no {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+  }
+  .deal .deal-hood {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .deal h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .deal h3 em { font-style: italic; }
+  .deal p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+    flex: 1;
+  }
+  .deal .deal-cta {
+    align-self: flex-start;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px;
+  }
+
+  /* ============ About ============ */
+  .about {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 32px;
+  }
+  .about .about-num { grid-column: 1 / 2; }
+  .about .about-quote {
+    grid-column: 2 / 4;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0 0 36px 0;
+    max-width: 22ch;
+  }
+  .about .about-quote::before { content: "“"; color: var(--accent); margin-right: 4px; }
+  .about .about-quote::after  { content: "”"; color: var(--accent); margin-left: 4px; }
+  .about-body { grid-column: 2 / 3; }
+  .about-body p {
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin: 0 0 16px 0;
+  }
+  .about-body p strong { color: var(--ink); font-weight: 600; }
+  .about-stats {
+    grid-column: 3 / 4;
+    display: flex; flex-direction: column;
+    border-left: 1px solid var(--ink);
+    padding-left: 24px;
+  }
+  .about-stats .stat {
+    padding: 16px 0;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .about-stats .stat:last-child { border-bottom: none; }
+  .about-stats .stat .n {
+    font-family: 'Instrument Serif', serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .about-stats .stat .l {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  /* ============ Donate banner ============ */
+  .donate-block {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .donate-block-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 72px 28px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .donate-block h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(34px, 4.5vw, 60px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px 0;
+  }
+  .donate-block h3 em { font-style: italic; color: var(--accent); }
+  .donate-block p {
+    margin: 0;
+    color: rgba(244,235,211,0.75);
+    font-size: 16px;
+    max-width: 46ch;
+  }
+  .donate-cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 18px 28px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .donate-cta:hover { background: var(--accent); color: var(--paper); transform: translateX(2px); }
+
+  /* ============ Footer ============ */
+  footer.foot {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 28px 48px 28px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  footer.foot .center {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  footer.foot .right {
+    display: flex; justify-content: flex-end; gap: 18px;
+  }
+  footer.foot a:hover { color: var(--accent); }
+  .disclaimer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 28px 36px 28px;
     font-size: 11px;
     letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 4px 9px;
-    border-radius: 999px;
-    border: 1.5px solid #00205B;
-    box-shadow: 0 2px 0 rgba(0,32,91,0.2);
-    white-space: nowrap;
-  }
-  .vase-badge .v-mark { width: 12px; height: 12px; }
-  .vase-badge .v-mark path { fill: #00205B; stroke: #FFFFFF; stroke-width: 2; }
-
-  /* ---------- Championship banner card ---------- */
-  .banner-card {
-    position: relative;
-    background:
-      linear-gradient(180deg, #00205B 0%, #001746 100%);
-    color: var(--nova-cream);
-    border-radius: 6px;
-    padding: 20px 18px;
-    overflow: hidden;
-    border: 1px solid rgba(255,209,0,0.35);
-    box-shadow: 0 12px 30px -12px rgba(0,0,0,0.5);
-  }
-  .banner-card::before,
-  .banner-card::after {
-    content: "";
-    position: absolute;
-    left: 8px; right: 8px;
-    height: 4px;
-    background: repeating-linear-gradient(90deg, var(--nova-gold) 0 8px, transparent 8px 14px);
-    opacity: 0.8;
-  }
-  .banner-card::before { top: 8px; }
-  .banner-card::after  { bottom: 8px; }
-  .banner-card.top-hero {
-    background:
-      linear-gradient(180deg, #00205B 0%, #001746 60%, #00205B 100%);
-    border: 2px solid var(--nova-gold);
-    box-shadow:
-      0 0 0 4px rgba(255,209,0,0.1),
-      0 18px 40px -16px rgba(0,0,0,0.6);
-  }
-  .banner-card.top-hero::before,
-  .banner-card.top-hero::after {
-    background: repeating-linear-gradient(90deg, var(--nova-gold) 0 14px, transparent 14px 20px);
-    height: 6px;
-  }
-  .banner-card .tail {
-    position: absolute;
-    bottom: -10px; left: 50%;
-    transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 14px solid transparent;
-    border-right: 14px solid transparent;
-    border-top: 14px solid #001746;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    border-top: 1px dashed var(--rule);
+    padding-top: 18px;
   }
 
-  /* ---------- Apple Wallet pass ---------- */
-  .wallet-pass {
-    width: 280px;
-    max-width: 100%;
-    background: linear-gradient(160deg, #00205B 0%, #001746 100%);
-    color: white;
-    border-radius: 18px;
-    padding: 18px 18px 14px 18px;
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,0.08),
-      0 18px 40px -10px rgba(0,0,0,0.4);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif;
-    position: relative;
-    overflow: hidden;
-  }
-  .wallet-pass::before {
-    content: "";
-    position: absolute; right: -40px; top: -40px;
-    width: 180px; height: 180px;
-    background: radial-gradient(circle at center, rgba(19,181,234,0.25), transparent 60%);
-    pointer-events: none;
-  }
-  .wallet-pass .pass-row {
-    display: flex; justify-content: space-between; align-items: flex-start;
-  }
-  .wallet-pass .pass-label {
-    font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 2px;
-  }
-  .wallet-pass .pass-value {
-    font-size: 14px; font-weight: 600;
-  }
-  .wallet-pass .pass-headline {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 1.1;
-    margin: 12px 0 2px 0;
-  }
-  .wallet-pass .pass-sub {
-    font-size: 12px; color: rgba(255,255,255,0.75);
-  }
-  .wallet-pass .pass-srs {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
-    margin: 14px 0 10px 0;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .wallet-pass .pass-srs .pass-value { font-size: 16px; font-weight: 700; }
-  .wallet-pass .pass-barcode {
-    height: 50px;
-    background:
-      repeating-linear-gradient(90deg,
-        #fff 0 2px, transparent 2px 3px,
-        #fff 3px 4px, transparent 4px 7px,
-        #fff 7px 9px, transparent 9px 11px,
-        #fff 11px 12px, transparent 12px 14px);
-    border-radius: 6px;
-    margin-top: 8px;
-    opacity: 0.95;
-  }
-  .wallet-pass .pass-footer {
-    margin-top: 10px;
-    font-size: 10.5px;
-    color: var(--nova-blue);
-    letter-spacing: 0.04em;
-    display: flex; align-items: center; gap: 6px;
-    border-top: 1px dashed rgba(255,255,255,0.18);
-    padding-top: 8px;
-  }
-  .wallet-pass .pass-footer .v-mark { width: 12px; height: 12px; }
-  .wallet-pass .pass-footer .v-mark path { fill: #fff; stroke: var(--nova-blue); stroke-width: 2; }
-
-  .add-to-wallet {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: #000;
-    color: #fff;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif;
-    font-weight: 500;
-    font-size: 13px;
-    border: 1px solid #1a1a1a;
-    cursor: pointer;
-    transition: transform .15s ease, background .2s ease;
-  }
-  .add-to-wallet:hover { transform: translateY(-1px); background: #111; }
-  .add-to-wallet .wallet-icon {
-    width: 22px; height: 22px;
-    background: linear-gradient(135deg, #ff3b30, #ff9500, #ffcc00, #34c759, #007aff, #af52de);
-    border-radius: 5px;
-    position: relative;
-  }
-  .add-to-wallet .wallet-icon::after {
-    content: ""; position: absolute; inset: 4px;
-    background: #000; border-radius: 2px;
-  }
-
-  /* ---------- Receipt aesthetic ---------- */
-  .receipt {
-    font-family: 'JetBrains Mono', monospace;
-    background: var(--nova-paper);
-    border: 1px dashed rgba(0,32,91,0.35);
-    border-radius: 10px;
-    padding: 18px 20px;
-  }
-  .receipt .row {
-    display: flex; justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px dashed rgba(0,32,91,0.18);
-    font-size: 14px;
-  }
-  .receipt .row:last-child { border-bottom: none; }
-  .receipt .row.total {
-    padding-top: 12px; margin-top: 6px;
-    border-top: 2px solid var(--nova-navy);
-    font-weight: 700;
-    font-size: 16px;
-  }
-  .receipt .row.vase {
-    color: var(--nova-navy);
-    background: linear-gradient(90deg, rgba(19,181,234,0.12), transparent);
-    border-radius: 6px;
-    padding: 8px 10px;
-    border-bottom: 1px dashed rgba(0,32,91,0.25);
-    font-weight: 700;
-  }
-
-  /* ---------- Marquees ---------- */
-  .marquee {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-  }
-  .marquee-track {
-    display: inline-flex;
-    align-items: center;
-    gap: 48px;
-    animation: marquee-scroll 38s linear infinite;
-    white-space: nowrap;
-    padding-left: 100%;
-  }
-  .marquee-track.fast { animation-duration: 24s; }
-  .marquee-track.slow { animation-duration: 60s; }
-  @keyframes marquee-scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-  }
-
-  /* ---------- VASE counter pulse ---------- */
-  .vase-tick {
-    transition: color .2s, transform .2s;
-  }
-  .vase-tick.flash {
-    color: var(--nova-gold);
-    transform: translateY(-1px);
-  }
-
-  /* ---------- Score ticker ---------- */
-  .score-ticker {
-    overflow: hidden;
-    width: 100%;
-  }
-  .score-card {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    font-size: 12.5px;
-    color: var(--nova-cream);
-    cursor: pointer;
-    transition: background .2s ease, border-color .2s ease;
-  }
-  .score-card:hover { background: rgba(19,181,234,0.12); border-color: rgba(19,181,234,0.45); }
-  .score-card .opp-logo {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: 'Inter'; font-weight: 800; font-size: 11px;
-    color: #fff;
-    flex-shrink: 0;
-  }
-  .live-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #ff3b30;
-    box-shadow: 0 0 0 0 rgba(255,59,48,0.7);
-    animation: live-pulse 1.4s ease-out infinite;
-    display: inline-block;
-  }
-  @keyframes live-pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(255,59,48,0.7); }
-    70%  { box-shadow: 0 0 0 8px rgba(255,59,48,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,59,48,0); }
-  }
-  .score-pulse { animation: score-pulse 1.6s ease-in-out infinite; }
-  @keyframes score-pulse {
-    0%,100% { color: var(--nova-blue); text-shadow: 0 0 0 rgba(19,181,234,0); }
-    50%     { color: #6FD8FF; text-shadow: 0 0 8px rgba(19,181,234,0.6); }
-  }
-
-  /* ---------- Buttons ---------- */
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    gap: 10px;
-    padding: 14px 22px;
-    border-radius: 10px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
-    cursor: pointer;
-    border: 2px solid transparent;
-  }
-  .btn-primary {
-    background: var(--nova-navy);
-    color: #fff;
-    box-shadow: 0 8px 20px -8px rgba(0,32,91,0.6);
-  }
-  .btn-primary:hover { background: #001a4a; transform: translateY(-2px); box-shadow: 0 14px 28px -10px rgba(0,32,91,0.7); }
-  .btn-outline {
-    background: transparent;
-    color: var(--nova-navy);
-    border-color: var(--nova-navy);
-  }
-  .btn-outline:hover { background: var(--nova-navy); color: #fff; transform: translateY(-2px); }
-  .btn-blue {
-    background: var(--nova-blue);
-    color: #00205B;
-    font-weight: 700;
-  }
-  .btn-blue:hover { background: #2BC2F2; transform: translateY(-2px); }
-  .btn-gold {
-    background: var(--nova-gold);
-    color: var(--nova-navy);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .btn-gold:hover { background: #FFDB33; transform: translateY(-2px); }
-
-  /* ---------- Filter chips ---------- */
-  .chip {
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: #fff;
-    border: 1.5px solid rgba(0,32,91,0.2);
-    color: var(--nova-navy);
-    font-weight: 500;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background .2s ease, border-color .2s ease, color .2s ease;
-    white-space: nowrap;
-  }
-  .chip:hover { border-color: var(--nova-blue); }
-  .chip.active {
-    background: var(--nova-navy);
-    color: #fff;
-    border-color: var(--nova-navy);
-  }
-
-  /* ---------- Modal ---------- */
-  .modal-backdrop {
+  /* ============ Modal ============ */
+  .modal-bg {
     position: fixed; inset: 0;
-    background: rgba(0,15,40,0.65);
-    backdrop-filter: blur(6px);
+    background: rgba(27,42,71,0.55);
     z-index: 100;
     display: none;
     align-items: center; justify-content: center;
     padding: 20px;
   }
-  .modal-backdrop.open { display: flex; animation: fadeIn .25s ease; }
+  .modal-bg.open { display: flex; animation: fadein 0.2s ease; }
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
   .modal {
-    background: var(--nova-paper);
-    border-radius: 18px;
-    max-width: 920px;
-    width: 100%;
+    background: var(--paper);
+    width: 100%; max-width: 520px;
     max-height: 92vh;
     overflow-y: auto;
-    box-shadow: 0 30px 90px -20px rgba(0,0,0,0.5);
-    border: 1px solid rgba(0,32,91,0.12);
-    animation: slideUp .35s cubic-bezier(.16,1,.3,1);
-  }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-  .ios-sheet {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 200;
-    display: none;
-    align-items: flex-end; justify-content: center;
-    padding: 0;
-  }
-  .ios-sheet.open { display: flex; animation: fadeIn .2s ease; }
-  .ios-sheet-card {
-    background: rgba(245,245,247,0.96);
-    backdrop-filter: blur(20px);
-    border-radius: 14px;
-    width: calc(100% - 32px);
-    max-width: 380px;
-    margin: 0 16px 32px 16px;
-    overflow: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif;
-    animation: iosSlide .3s cubic-bezier(.2,.9,.3,1);
-  }
-  @keyframes iosSlide { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  .ios-sheet-card .ios-head {
-    padding: 18px 16px 14px 16px;
-    text-align: center;
-    border-bottom: 0.5px solid rgba(60,60,67,0.2);
-  }
-  .ios-sheet-card .ios-head .t1 { font-weight: 600; font-size: 15px; color: #000; }
-  .ios-sheet-card .ios-head .t2 { font-size: 12.5px; color: #3c3c43; margin-top: 4px; }
-  .ios-sheet-card .ios-buttons { display: grid; grid-template-columns: 1fr 1fr; }
-  .ios-sheet-card .ios-btn {
-    padding: 14px 8px;
-    text-align: center;
-    color: #007aff;
-    font-size: 16px;
-    cursor: pointer;
-    border-top: 0.5px solid rgba(60,60,67,0.2);
-  }
-  .ios-sheet-card .ios-btn:first-child { border-right: 0.5px solid rgba(60,60,67,0.2); }
-  .ios-sheet-card .ios-btn.primary { font-weight: 600; }
-  .ios-sheet-card .ios-btn:hover { background: rgba(0,0,0,0.04); }
-
-  /* ---------- Toast ---------- */
-  .toast {
-    position: fixed; right: 20px; bottom: 80px;
-    z-index: 90;
-    background: var(--nova-navy);
-    color: var(--nova-cream);
-    border-radius: 12px;
-    padding: 12px 16px 12px 14px;
-    min-width: 250px; max-width: 320px;
-    box-shadow: 0 18px 40px -10px rgba(0,32,91,0.45);
-    border-left: 3px solid var(--nova-gold);
-    transform: translateY(20px); opacity: 0;
-    transition: transform .35s cubic-bezier(.16,1,.3,1), opacity .3s ease;
-    font-size: 13px;
-  }
-  .toast.show { transform: translateY(0); opacity: 1; }
-
-  /* ---------- Floating VASE widget ---------- */
-  .vase-widget {
-    position: fixed; left: 20px; bottom: 20px;
-    z-index: 90;
-    background: var(--nova-navy);
-    color: #fff;
-    border-radius: 14px;
-    padding: 10px 14px;
-    display: inline-flex; align-items: center; gap: 10px;
-    box-shadow: 0 18px 40px -10px rgba(0,32,91,0.5);
-    border: 1px solid rgba(19,181,234,0.4);
-    font-size: 12.5px;
-  }
-  .vase-widget .v-mark { width: 22px; height: 22px; }
-  .vase-widget .num {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--nova-blue);
-  }
-
-  /* ---------- Accordion (FAQ) ---------- */
-  details.faq {
-    background: #fff;
-    border: 1px solid rgba(0,32,91,0.12);
-    border-radius: 12px;
-    padding: 0;
-    transition: box-shadow .2s ease;
-  }
-  details.faq + details.faq { margin-top: 12px; }
-  details.faq[open] { box-shadow: 0 10px 30px -12px rgba(0,32,91,0.18); }
-  details.faq summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 18px 22px;
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--nova-navy);
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 14px;
-  }
-  details.faq summary::-webkit-details-marker { display: none; }
-  details.faq summary::after {
-    content: "+";
-    font-family: 'Inter';
-    font-size: 22px;
-    color: var(--nova-blue);
-    transition: transform .2s ease;
-  }
-  details.faq[open] summary::after { content: "−"; }
-  details.faq .answer {
-    padding: 0 22px 20px 22px;
-    color: #374151;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  /* ---------- Form: stepper ---------- */
-  .step-dot {
-    width: 28px; height: 28px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    background: #fff;
-    border: 2px solid rgba(0,32,91,0.25);
-    color: var(--nova-navy);
-    font-weight: 700;
-    font-size: 13px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .step-dot.active { background: var(--nova-navy); color: #fff; border-color: var(--nova-navy); }
-  .step-dot.done   { background: var(--nova-blue); color: #fff; border-color: var(--nova-blue); }
-  .step-line {
-    flex: 1; height: 2px;
-    background: rgba(0,32,91,0.2);
-    margin: 0 8px;
-  }
-  .step-line.done { background: var(--nova-blue); }
-
-  /* ---------- V-mark bullet list ---------- */
-  .v-list { list-style: none; padding: 0; margin: 0; }
-  .v-list li {
-    display: flex; gap: 12px; align-items: flex-start;
-    padding: 8px 0;
-  }
-  .v-list li .v-mark { width: 22px; height: 22px; margin-top: 2px; flex-shrink: 0; }
-
-  /* ---------- Section divider with V ---------- */
-  .v-divider {
-    display: flex; align-items: center; gap: 18px;
-    margin: 40px 0 30px 0;
-    color: rgba(0,32,91,0.4);
-  }
-  .v-divider::before, .v-divider::after {
-    content: ""; flex: 1; height: 1px;
-    background: rgba(0,32,91,0.18);
-  }
-  .v-divider .v-mark { width: 32px; height: 32px; }
-
-  /* ---------- Star rating ---------- */
-  .stars { color: var(--nova-gold); font-size: 12px; letter-spacing: 1px; }
-
-  /* ---------- Animation helpers ---------- */
-  .fade-in { animation: fadeUp .8s ease both; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-  .pulse-once { animation: pulseOnce .6s ease; }
-  @keyframes pulseOnce {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); color: var(--nova-gold); }
-    100% { transform: scale(1); }
-  }
-
-  /* ---------- Pull quote ---------- */
-  .pull-quote {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: clamp(28px, 4vw, 48px);
-    line-height: 1.15;
-    color: var(--nova-cream);
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
+    padding: 36px 32px 32px 32px;
     position: relative;
+    border: 1px solid var(--ink);
+    box-shadow: 14px 14px 0 var(--ink);
   }
-  .pull-quote::before, .pull-quote::after {
-    content: """;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5em;
-    color: var(--nova-gold);
-    opacity: 0.55;
-  }
-  .pull-quote::after { content: """; }
-
-  /* ---------- Live feed ---------- */
-  .live-feed {
-    height: 220px;
-    overflow: hidden;
-    position: relative;
-    border: 1px dashed rgba(248,246,240,0.25);
-    border-radius: 10px;
-    padding: 10px 14px;
-    background: rgba(0,15,40,0.35);
-  }
-  .live-feed-item {
-    padding: 8px 0;
-    border-bottom: 1px dashed rgba(248,246,240,0.15);
-    font-size: 13.5px;
-    color: var(--nova-cream);
-    display: flex; gap: 10px; align-items: center;
-    animation: slideInFeed .55s cubic-bezier(.16,1,.3,1);
-  }
-  @keyframes slideInFeed { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
-  .live-feed-item .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--nova-blue);
-    box-shadow: 0 0 8px rgba(19,181,234,0.6);
-  }
-
-  /* ---------- Deal stub ---------- */
-  .deal-stub {
-    background: var(--nova-paper);
-    border: 1.5px dashed rgba(0,32,91,0.3);
-    border-radius: 12px;
-    padding: 18px;
-    position: relative;
-    transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
-  }
-  .deal-stub:hover {
-    transform: translateY(-3px);
-    border-color: var(--nova-blue);
-    box-shadow: 0 18px 35px -16px rgba(19,181,234,0.35);
-  }
-
-  /* ---------- Mobile tweaks ---------- */
-  @media (max-width: 900px) {
-    .desktop-only { display: none !important; }
-  }
-  @media (min-width: 901px) {
-    .mobile-only { display: none !important; }
-  }
-  @media (max-width: 640px) {
-    .court-v { font-size: 200px; }
-    .modal { border-radius: 18px 18px 0 0; max-height: 96vh; }
-    .modal-backdrop { align-items: flex-end; padding: 0; }
-    .toast { right: 12px; bottom: 84px; left: 12px; max-width: none; }
-    .vase-widget { left: 12px; right: 12px; bottom: 12px; justify-content: center; }
-  }
-
-  /* Pavilion script wordmark approximation */
-  .script-villanova {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
-  /* Subtle banner texture for sections */
-  .banner-texture {
-    background-color: var(--nova-navy);
-    background-image:
-      linear-gradient(90deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 24px),
-      radial-gradient(circle at 50% 0%, rgba(19,181,234,0.18), transparent 60%);
-  }
-
-  /* horizontal scroll on mobile for deals */
-  .h-scroll {
-    display: flex; gap: 14px;
-    overflow-x: auto; scroll-snap-type: x mandatory;
-    padding-bottom: 8px;
-  }
-  .h-scroll > * { scroll-snap-align: start; flex: 0 0 78%; }
-
-  /* Section anchors offset for fixed nav */
-  section[id] { scroll-margin-top: 96px; }
-
-  /* Logo lockup */
-  .logo-lockup {
-    display: inline-flex; align-items: center; gap: 10px;
-  }
-  .logo-lockup .v-mark { width: 34px; height: 34px; }
-  .logo-lockup .wordmark {
-    font-family: 'Playfair Display', serif;
-    font-weight: 800;
-    font-size: 15px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #fff;
+  .modal-close {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font-size: 20px;
     line-height: 1;
   }
-  .logo-lockup .wordmark .sub {
-    display: block;
-    font-family: 'Inter', sans-serif;
+  .modal-close:hover { color: var(--accent); }
+  .modal .m-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); }
+  .modal h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 1;
+    margin: 6px 0 6px 0;
+    letter-spacing: -0.01em;
+  }
+  .modal h3 em { font-style: italic; color: var(--accent); }
+  .modal .m-sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-soft); }
+
+  .summary {
+    margin-top: 22px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 16px 0;
+  }
+  .summary .row {
+    display: flex; justify-content: space-between;
+    padding: 5px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .summary .row.vase { color: var(--accent); font-weight: 500; }
+  .summary .row.total {
+    border-top: 1px dashed var(--rule);
+    margin-top: 8px; padding-top: 12px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .summary .row.total .amt {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+    margin-top: 16px;
+  }
+  .input:focus { box-shadow: 4px 4px 0 var(--accent); }
+
+  .btn-block {
+    width: 100%;
+    padding: 16px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    transition: background 0.2s ease;
+  }
+  .btn-block:hover { background: var(--accent); }
+  .btn-block.secondary {
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .btn-block.secondary:hover { background: var(--ink); color: var(--paper); }
+
+  .deal-code {
+    margin-top: 22px;
+    padding: 22px;
+    border: 1px dashed var(--ink);
+    text-align: center;
+  }
+  .deal-code .code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px;
     font-weight: 500;
-    font-size: 9.5px;
-    letter-spacing: 0.18em;
-    color: var(--nova-blue);
-    margin-top: 3px;
+    letter-spacing: 0.14em;
+    margin-top: 4px;
   }
 
-  /* Paw print decorative */
-  .paw {
-    display: inline-block; width: 22px; height: 22px;
-    position: relative;
+  /* ============ Responsive ============ */
+  @media (max-width: 900px) {
+    nav.nav-links { display: none; }
+    nav.nav-links.open {
+      display: flex; flex-direction: column; align-items: stretch;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--ink);
+      padding: 10px;
+    }
+    nav.nav-links.open a {
+      padding: 12px 14px;
+      border-bottom: 1px dashed var(--rule);
+    }
+    nav.nav-links.open a.donate { margin: 8px 0 0 0; justify-content: center; }
+    .menu-btn { display: flex; }
+    .hero-lower { grid-template-columns: 1fr; }
+    .frame-head { grid-template-columns: 60px 1fr; }
+    .frame-head .meta { display: none; }
+    .frame-sub { grid-column: 1 / 3; }
+    .listing {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 16px;
+      padding: 20px 4px;
+    }
+    .listing .l-num { grid-column: 1 / 3; font-size: 10.5px; }
+    .listing .l-title { grid-column: 1 / 3; font-size: 26px; }
+    .listing .l-date { grid-column: 1 / 2; }
+    .listing .l-seat { grid-column: 2 / 3; text-align: right; }
+    .listing .l-price { grid-column: 1 / 3; text-align: left; padding-top: 4px; border-top: 1px dashed var(--rule); }
+    .deals { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 60px 1fr; }
+    .about .about-quote, .about-body, .about-stats { grid-column: 1 / 3; }
+    .about-stats { border-left: none; border-top: 1px solid var(--ink); padding-left: 0; padding-top: 12px; }
+    .donate-block-inner { grid-template-columns: 1fr; padding: 48px 28px; }
+    footer.foot { grid-template-columns: 1fr; text-align: center; }
+    footer.foot .right { justify-content: center; }
+    .corner-num { display: none; }
   }
-  .paw::before, .paw::after,
-  .paw span::before, .paw span::after,
-  .paw span {
-    content: ""; position: absolute; background: currentColor; border-radius: 50%;
-  }
-  .paw::before { width: 10px; height: 12px; left: 6px; top: 8px; }
-  .paw::after  { width: 5px; height: 6px; left: 2px; top: 2px; }
-  .paw span    { width: 5px; height: 6px; left: 8px; top: 0px; }
-  .paw span::before { width: 5px; height: 6px; left: 6px; top: 0px; }
-  .paw span::after  { width: 5px; height: 6px; left: 12px; top: 2px; }
-
 </style>
 </head>
-<body class="bg-nova-cream text-nova-ink">
+<body>
 
-<!-- ============================================================
-     INLINE V MARK (reusable SVG template appears inline at each use)
-     We define an SVG symbol set for reuse.
-     ============================================================ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="vmark" viewBox="0 0 64 64">
-      <rect x="2" y="2" width="60" height="60" rx="10" fill="#00205B"/>
-      <path d="M14 14 L32 50 L50 14 L42 14 L32 38 L22 14 Z"
-            fill="#FFFFFF" stroke="#13B5EA" stroke-width="2" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="vmark-gold" viewBox="0 0 64 64">
-      <rect x="2" y="2" width="60" height="60" rx="10" fill="#00205B"/>
-      <path d="M14 14 L32 50 L50 14 L42 14 L32 38 L22 14 Z"
-            fill="#FFD100" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="vmark-flat" viewBox="0 0 64 64">
-      <path d="M10 12 L32 56 L54 12 L44 12 L32 40 L20 12 Z"
-            fill="currentColor" stroke="none"/>
-    </symbol>
-    <symbol id="basketball" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M3 12h18 M12 3v18 M5 5c4 3 10 3 14 0 M5 19c4-3 10-3 14 0" fill="none" stroke="currentColor" stroke-width="1.5"/>
-    </symbol>
-    <symbol id="football" viewBox="0 0 24 24">
-      <ellipse cx="12" cy="12" rx="9" ry="5" fill="none" stroke="currentColor" stroke-width="1.5" transform="rotate(-25 12 12)"/>
-      <path d="M9 10v4 M11 9v6 M13 9v6 M15 10v4" stroke="currentColor" stroke-width="1.2" transform="rotate(-25 12 12)"/>
-    </symbol>
-    <symbol id="lacrosse" viewBox="0 0 24 24">
-      <circle cx="6" cy="6" r="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M8 8 L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M4 5 L8 5 M5 7 L7 7" stroke="currentColor" stroke-width="1.2"/>
-    </symbol>
-    <symbol id="baseball" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M6 7c2 2 2 8 0 10 M18 7c-2 2-2 8 0 10" fill="none" stroke="currentColor" stroke-width="1.2"/>
-    </symbol>
-    <symbol id="soccer" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M12 6l4 3-1 5h-6l-1-5z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-    </symbol>
-    <symbol id="field-hockey" viewBox="0 0 24 24">
-      <path d="M5 19 L17 7 Q19 5 21 7 Q21 9 19 11 L7 21 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="paw-icon" viewBox="0 0 24 24">
-      <circle cx="6" cy="9" r="2" fill="currentColor"/>
-      <circle cx="10" cy="5" r="2" fill="currentColor"/>
-      <circle cx="14" cy="5" r="2" fill="currentColor"/>
-      <circle cx="18" cy="9" r="2" fill="currentColor"/>
-      <path d="M8 15 Q12 11 16 15 Q19 18 15 20 Q12 21 9 20 Q5 18 8 15 Z" fill="currentColor"/>
-    </symbol>
-  </defs>
-</svg>
-
-<!-- ============================================================
-     FIXED TOP NAV
-     ============================================================ -->
-<header id="topnav" class="fixed top-0 left-0 right-0 z-50 bg-nova-navy text-nova-cream shadow-lg" role="banner">
-  <div class="max-w-[1500px] mx-auto px-4 lg:px-6 h-16 flex items-center gap-4">
-
-    <!-- Left: V mark + wordmark -->
-    <a href="#hero" class="logo-lockup flex-shrink-0" aria-label="Nova Nation Exchange home">
-      <span class="v-mark"><svg><use href="#vmark"/></svg></span>
-      <span class="wordmark">
-        Nova Nation Exchange
-        <span class="sub">For Wildcats. By Wildcats.</span>
+<!-- ============ MASTHEAD ============ -->
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="iss">Vol. III <span class="dot">●</span> Issue 14 <span class="dot">●</span> Lancaster Avenue, PA</div>
+    <div class="iss">Est. 2024 <span class="dot">●</span> Built by Wildcats</div>
+  </div>
+  <div class="masthead-mid">
+    <a href="#" class="wordmark" aria-label="Nova Nation Exchange home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3 4 L12 22 L21 4 L17 4 L12 16 L7 4 Z" fill="currentColor"/></svg>
       </span>
+      <span class="text">Nova Nation <em>Exchange</em></span>
     </a>
-
-    <!-- VASE Counter (center-left) -->
-    <div class="desktop-only flex items-center gap-2 px-3 py-1.5 rounded-lg border border-nova-blue/30 bg-nova-navy-2/60">
-      <span class="v-mark" style="width:18px;height:18px"><svg><use href="#vmark-gold"/></svg></span>
-      <div class="leading-tight">
-        <div class="text-[9.5px] uppercase tracking-[0.18em] text-nova-blue">Raised this season for VASE</div>
-        <div class="font-mono font-bold text-nova-cream"><span class="vase-tick" id="vaseTop">$247,853</span></div>
-      </div>
-    </div>
-
-    <!-- Live scores ticker (center) -->
-    <div class="hidden md:block flex-1 mx-2 score-ticker" aria-label="Live Villanova scores">
-      <div id="scoreCarousel" class="flex items-center gap-3 transition-transform duration-500"></div>
-    </div>
-
-    <!-- Mobile rotating single score -->
-    <div class="md:hidden flex-1 mx-2">
-      <div id="scoreMobile" class="text-xs text-nova-cream/90 truncate"></div>
-    </div>
-
-    <!-- Right nav -->
-    <nav class="desktop-only flex items-center gap-1 text-sm" aria-label="Primary navigation">
-      <a href="#marketplace" class="px-3 py-2 rounded hover:bg-white/10 transition">Browse</a>
-      <a href="#list"        class="px-3 py-2 rounded hover:bg-white/10 transition">List</a>
-      <a href="#deals"       class="px-3 py-2 rounded hover:bg-white/10 transition">Deals</a>
-      <a href="#mission"     class="px-3 py-2 rounded hover:bg-white/10 transition">Mission</a>
-      <a href="#heroes"      class="px-3 py-2 rounded hover:bg-white/10 transition">Heroes</a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#tickets">Buy Tickets</a>
+      <a href="#about">About</a>
+      <a href="#deals">Deals</a>
+      <a href="https://supportvillanova.com/" target="_blank" rel="noopener noreferrer" class="donate">
+        Donate to VASE
+        <span aria-hidden="true">→</span>
+      </a>
     </nav>
-
-    <!-- Mobile nav button -->
-    <button class="mobile-only ml-auto p-2 rounded border border-white/20" id="mobileMenuBtn" aria-label="Open menu">
-      <span aria-hidden="true">☰</span>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </button>
-  </div>
-
-  <!-- Mission marquee bar -->
-  <div class="bg-nova-navy-2 border-t border-b border-nova-blue/20" aria-hidden="true">
-    <div class="marquee py-1.5">
-      <div class="marquee-track text-nova-cream text-[11.5px] tracking-[0.16em] uppercase">
-        <span>★ 10% of every transaction funds VASE</span>
-        <span>★ Built by Wildcats. For Wildcats.</span>
-        <span>★ Fueling the next banner</span>
-        <span>★ V-U Nova</span>
-        <span>★ Veritas. Unitas. Caritas.</span>
-        <span>★ Since 2024</span>
-        <span>★ 10% of every transaction funds VASE</span>
-        <span>★ Built by Wildcats. For Wildcats.</span>
-        <span>★ Fueling the next banner</span>
-        <span>★ V-U Nova</span>
-        <span>★ Veritas. Unitas. Caritas.</span>
-        <span>★ Since 2024</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile nav panel -->
-  <div id="mobileMenu" class="mobile-only hidden bg-nova-navy-2 border-t border-white/10 px-4 py-3 text-sm">
-    <a href="#marketplace" class="block py-2">Browse Tickets</a>
-    <a href="#list"        class="block py-2">List Your Tickets</a>
-    <a href="#deals"       class="block py-2">Wildcat-Friendly Deals</a>
-    <a href="#mission"     class="block py-2">The Mission</a>
-    <a href="#heroes"      class="block py-2">Wall of Heroes</a>
-    <a href="#about"       class="block py-2">About</a>
-    <div class="mt-2 pt-2 border-t border-white/10 text-[12px] text-nova-blue font-mono">
-      Season VASE: <span id="vaseTopMobile">$247,853</span>
-    </div>
   </div>
 </header>
 
-<!-- Spacer for fixed nav (nav 64 + marquee ~28) -->
-<div style="height: 96px"></div>
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="corner-num">№ 01 — index</div>
+  <div class="eyebrow-row">
+    <hr/>
+    <span class="eyebrow">A fan-built exchange for Wildcat tickets</span>
+  </div>
+  <h1>Tickets for the <span class="pen">faithful</span>, sold by <em>the faithful.</em></h1>
 
-<!-- ============================================================
-     1. HERO
-     ============================================================ -->
-<section id="hero" class="relative bg-court overflow-hidden" style="min-height: calc(100vh - 96px);">
-  <!-- Court art -->
-  <div class="court-art"></div>
-  <div class="court-baseline-top"></div>
-  <div class="court-baseline-bottom"></div>
-  <div class="court-sideline-left"></div>
-  <div class="court-sideline-right"></div>
-  <div class="court-key top"></div>
-  <div class="court-key bottom"></div>
-  <div class="court-v" aria-hidden="true">V</div>
-  <div class="court-motto">Veritas · Unitas · Caritas</div>
-
-  <div class="relative z-10 max-w-[1200px] mx-auto px-5 lg:px-8 pt-16 pb-24 text-center text-nova-cream">
-
-    <!-- Eyebrow -->
-    <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-nova-blue/40 bg-nova-navy-2/50 text-[11px] tracking-[0.22em] uppercase text-nova-blue mb-7 fade-in">
-      <span class="v-mark" style="width:14px;height:14px"><svg><use href="#vmark-gold"/></svg></span>
-      Section 109 · Lancaster Ave · The Pavilion
+  <div class="hero-lower">
+    <div>
+      <p>
+        Nova Nation Exchange is a small, fan-built classifieds board for buying and selling tickets to every Villanova game.
+        Ten percent of every transaction is routed directly to the <strong>VASE Fund</strong> — Villanova Athletics Strategic Excellence.
+        That's the deal. That's the whole pitch.
+      </p>
+      <a class="hero-cta" href="#tickets">Browse the listings <span class="arrow">→</span></a>
     </div>
+    <div class="hero-meta">
+      <span>Apple Wallet ready</span>
+      <span>Fan-to-fan</span>
+      <span>10% → VASE</span>
+    </div>
+  </div>
+</div>
 
-    <h1 class="font-display font-black leading-[1.02] tracking-tight fade-in" style="font-size: clamp(40px, 7vw, 92px);">
-      For Villanova Fans,<br/>
-      <span class="text-nova-blue">By Villanova Fans.</span>
-    </h1>
+<!-- ============ TICKETS ============ -->
+<section class="frame" id="tickets">
+  <div class="frame-head">
+    <div class="num">№ 02</div>
+    <h2><em>Buy</em> tickets.</h2>
+    <div class="meta">Updated daily<br/>Verified sellers</div>
+    <p class="frame-sub">Every listing is a real seat from a real Wildcat. Click any row to reserve. Apple Wallet handoff once you check out.</p>
+  </div>
 
-    <p class="font-sans font-light mt-6 max-w-3xl mx-auto text-nova-cream/90 fade-in" style="font-size: clamp(18px, 1.6vw, 26px); line-height: 1.5;">
-      Every ticket bought or sold here sends <span class="text-nova-blue font-semibold">10% directly</span> to the
-      VASE Fund. You're not just going to the game. You're building <em class="font-display italic">the next banner.</em>
+  <div class="filters">
+    <button class="filter active" data-sport="all">All</button>
+    <button class="filter" data-sport="mbb">Men's Basketball</button>
+    <button class="filter" data-sport="wbb">Women's Basketball</button>
+    <button class="filter" data-sport="fb">Football</button>
+    <button class="filter" data-sport="lax">Lacrosse</button>
+  </div>
+
+  <div class="listings" id="ticketGrid"></div>
+</section>
+
+<!-- ============ DEALS ============ -->
+<section class="frame" id="deals">
+  <div class="frame-head">
+    <div class="num">№ 03</div>
+    <h2>Game-day <em>deals.</em></h2>
+    <div class="meta">Main Line<br/>& Philadelphia</div>
+    <p class="frame-sub">Local bars and restaurants giving back to fans who show up. Tap any tile for a one-time redemption code.</p>
+  </div>
+  <div class="deals" id="dealsGrid"></div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="frame" id="about">
+  <div class="frame-head">
+    <div class="num">№ 04</div>
+    <h2><em>About</em> us.</h2>
+    <div class="meta">Founded 2024<br/>Wayne, PA</div>
+  </div>
+  <div class="about">
+    <div class="about-num eyebrow">— Manifesto</div>
+    <p class="about-quote">
+      The fans built the program. Now the fans help fund it.
     </p>
-
-    <!-- Stats triplet -->
-    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 font-display fade-in" aria-label="Lifetime impact">
-      <div class="text-center">
-        <div class="text-3xl md:text-4xl font-bold"><span id="heroVase">$247,853</span></div>
-        <div class="text-[11px] tracking-[0.2em] uppercase text-nova-blue mt-1">raised this season</div>
+    <div class="about-body">
+      <p>
+        We're three Villanova grads who got tired of giving twenty-five percent of every ticket
+        resale to a Silicon Valley middleman that returns nothing to the program.
+      </p>
+      <p>
+        So we built a smaller, simpler thing in a basement in Wayne, PA. A classifieds board
+        for Wildcat tickets, run by Wildcats, where <strong>10% of every transaction goes
+        straight to the VASE Fund</strong>. No asterisks. No fine print.
+      </p>
+      <p>
+        That's the whole company. Three founders, one mission, and the receipts to prove it.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="n">$247,853</div>
+        <div class="l">Raised for VASE — season</div>
       </div>
-      <span class="text-nova-gold text-3xl leading-none">•</span>
-      <div class="text-center">
-        <div class="text-3xl md:text-4xl font-bold"><span id="heroTix">1,847</span></div>
-        <div class="text-[11px] tracking-[0.2em] uppercase text-nova-blue mt-1">tickets transferred</div>
+      <div class="stat">
+        <div class="n">1,847</div>
+        <div class="l">Tickets transferred</div>
       </div>
-      <span class="text-nova-gold text-3xl leading-none">•</span>
-      <div class="text-center">
-        <div class="text-3xl md:text-4xl font-bold"><span id="heroHeroes">312</span></div>
-        <div class="text-[11px] tracking-[0.2em] uppercase text-nova-blue mt-1">fan heroes</div>
+      <div class="stat">
+        <div class="n">2024</div>
+        <div class="l">Founded by Wildcats</div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- CTAs -->
-    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 fade-in">
-      <a href="#marketplace" class="btn btn-blue text-base">
-        <span class="v-mark" style="width:20px;height:20px"><svg><use href="#vmark"/></svg></span>
-        Browse Tickets
-      </a>
-      <a href="#list" class="btn text-base border-2 border-nova-cream/80 text-nova-cream hover:bg-nova-cream hover:text-nova-navy">
-        List Your Tickets
+<!-- ============ DONATE BANNER ============ -->
+<div class="donate-block" id="donate">
+  <div class="donate-block-inner">
+    <div>
+      <div class="eyebrow" style="color: var(--accent); margin-bottom: 14px;">№ 05 — Skip the marketplace</div>
+      <h3>Give <em>directly</em> to Villanova athletics.</h3>
+      <p>
+        Want to support the Wildcats without buying or selling a thing?
+        The official VASE Fund accepts contributions of any size — every dollar supports student-athletes,
+        scholarships, and facilities across all 24 Villanova varsity sports.
+      </p>
+    </div>
+    <div>
+      <a class="donate-cta" href="https://supportvillanova.com/" target="_blank" rel="noopener noreferrer">
+        Donate to VASE
         <span aria-hidden="true">→</span>
       </a>
     </div>
-
-    <!-- Trust strip -->
-    <div class="mt-12 text-[11px] tracking-[0.22em] uppercase text-nova-cream/75 fade-in">
-      Trusted by Nova Nation since 2024
-      <span class="mx-3 text-nova-gold">★</span>
-      Official Apple Wallet integration
-      <span class="mx-3 text-nova-gold">★</span>
-      iOS-ready ticket transfers
-    </div>
   </div>
+</div>
 
-  <!-- Championship banner marquee -->
-  <div class="absolute bottom-0 left-0 right-0 z-10 bg-nova-navy-2/70 backdrop-blur border-t border-nova-gold/40 py-2.5">
-    <div class="marquee">
-      <div class="marquee-track text-nova-gold font-display font-bold text-sm tracking-[0.18em] uppercase">
-        <span>★ 2016 National Champions</span>
-        <span class="text-nova-cream">★ Kris Jenkins, top of the key, 4.7 seconds left</span>
-        <span>★ 2018 National Champions</span>
-        <span class="text-nova-cream">★ Donte DiVincenzo, Most Outstanding Player</span>
-        <span>★ 1985 National Champions</span>
-        <span class="text-nova-cream">★ Rollie Massimino's perfect game</span>
-        <span>★ 2016 National Champions</span>
-        <span class="text-nova-cream">★ Kris Jenkins, top of the key, 4.7 seconds left</span>
-        <span>★ 2018 National Champions</span>
-        <span class="text-nova-cream">★ Donte DiVincenzo, Most Outstanding Player</span>
-        <span>★ 1985 National Champions</span>
-        <span class="text-nova-cream">★ Rollie Massimino's perfect game</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     2. MARKETPLACE
-     ============================================================ -->
-<section id="marketplace" class="bg-newsprint py-20 lg:py-28">
-  <div class="max-w-[1400px] mx-auto px-5 lg:px-8">
-
-    <!-- Header -->
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-nova-navy text-nova-cream text-[10.5px] tracking-[0.2em] uppercase font-semibold">
-        <span class="v-mark" style="width:14px;height:14px"><svg><use href="#vmark"/></svg></span>
-        The Marketplace
-      </div>
-      <h2 class="mt-4 font-display font-black text-nova-navy" style="font-size: clamp(38px, 5.5vw, 72px); line-height:1.05;">
-        Tickets, fan-to-fan.
-      </h2>
-      <p class="mt-4 text-lg text-nova-navy/80 max-w-2xl mx-auto">
-        Verified Wildcat-to-Wildcat ticket transfers. iOS-ready Apple Wallet handoff.
-        <strong class="text-nova-navy">10% to VASE on every sale</strong> — no exceptions, no asterisks.
-      </p>
-    </div>
-
-    <div class="v-divider"><span class="v-mark"><svg><use href="#vmark"/></svg></span></div>
-
-    <!-- Filters -->
-    <div class="flex flex-col gap-4 mb-8">
-      <div class="flex flex-wrap items-center justify-center gap-2" role="tablist" aria-label="Filter by sport">
-        <button class="chip active" data-sport="all">All Sports</button>
-        <button class="chip" data-sport="mbb">Men's Basketball</button>
-        <button class="chip" data-sport="wbb">Women's Basketball</button>
-        <button class="chip" data-sport="fb">Football</button>
-        <button class="chip" data-sport="lax">Lacrosse</button>
-        <button class="chip" data-sport="bsb">Baseball</button>
-      </div>
-      <div class="flex flex-wrap items-center justify-center gap-3 text-sm">
-        <label class="flex items-center gap-2 text-nova-navy/75">
-          <span class="font-mono uppercase tracking-wider text-[11px]">Game</span>
-          <select id="gameFilter" class="bg-white border border-nova-navy/20 rounded-lg px-3 py-2 text-sm">
-            <option value="all">All upcoming games</option>
-            <option>vs UConn</option>
-            <option>at Georgetown</option>
-            <option>vs Marquette</option>
-            <option>vs Creighton</option>
-            <option>at St. John's</option>
-            <option>vs Xavier</option>
-            <option>vs Butler</option>
-            <option>vs Providence</option>
-            <option>vs DePaul</option>
-            <option>at Seton Hall</option>
-          </select>
-        </label>
-        <label class="flex items-center gap-3 text-nova-navy/75">
-          <span class="font-mono uppercase tracking-wider text-[11px]">Max price</span>
-          <input id="priceFilter" type="range" min="20" max="450" value="450" step="5" class="accent-nova-navy w-40"/>
-          <span id="priceFilterVal" class="font-mono text-sm">$450</span>
-        </label>
-      </div>
-    </div>
-
-    <!-- Ticket grid -->
-    <div id="ticketGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
-
-    <!-- Load more / count -->
-    <div class="mt-10 text-center text-sm text-nova-navy/70">
-      Showing <span id="ticketCount">18</span> active listings. New ones added every game day.
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     3. LIST YOUR TICKETS
-     ============================================================ -->
-<section id="list" class="bg-nova-navy text-nova-cream py-20 lg:py-28 banner-texture">
-  <div class="max-w-[1300px] mx-auto px-5 lg:px-8">
-
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-nova-gold/40 text-nova-gold text-[10.5px] tracking-[0.2em] uppercase font-semibold">
-        ★ Sellers, this part is for you
-      </div>
-      <h2 class="mt-4 font-display font-black" style="font-size: clamp(38px, 5.5vw, 72px); line-height:1.05;">
-        List your <span class="text-nova-blue">tickets.</span>
-      </h2>
-      <p class="mt-4 text-lg text-nova-cream/85">
-        When you list with us, you're not just selling a ticket. You're funding the next banner.
-      </p>
-    </div>
-
-    <!-- Stepper -->
-    <div class="mt-12 max-w-3xl mx-auto flex items-center" aria-label="Listing progress">
-      <span class="step-dot done">1</span><span class="step-line done"></span>
-      <span class="step-dot done">2</span><span class="step-line done"></span>
-      <span class="step-dot active">3</span><span class="step-line"></span>
-      <span class="step-dot">4</span>
-    </div>
-    <div class="mt-3 max-w-3xl mx-auto grid grid-cols-4 text-[11px] tracking-widest uppercase text-nova-cream/70 text-center">
-      <div>Game</div><div>Seats</div><div class="text-nova-blue font-semibold">Price</div><div>Verify</div>
-    </div>
-
-    <!-- Form -->
-    <div class="mt-10 grid lg:grid-cols-5 gap-8">
-
-      <!-- Left: form -->
-      <form id="listForm" class="lg:col-span-3 bg-nova-navy-2/60 border border-nova-blue/15 rounded-2xl p-7 space-y-5" onsubmit="event.preventDefault(); openListingConfirmModal();">
-        <h3 class="font-display text-2xl text-nova-cream">Step 3 of 4 — Set Your Price</h3>
-        <p class="text-sm text-nova-cream/75">You're listing 2 tickets to <strong>Villanova vs UConn</strong>, Saturday, Feb 7 · Finneran Pavilion · Section 109, Row F, Seats 11–12.</p>
-
-        <div class="grid sm:grid-cols-2 gap-5">
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-blue mb-1.5">Asking price (per ticket)</span>
-            <div class="flex items-center gap-2 bg-white text-nova-navy rounded-lg px-3 py-2.5">
-              <span class="font-mono text-lg">$</span>
-              <input type="number" min="10" max="500" value="125" id="listPrice" class="font-mono text-lg w-full outline-none"/>
-            </div>
-            <span class="block text-[11px] mt-1 text-nova-cream/60">Market average for this matchup: $145 · Floor: $90</span>
-          </label>
-
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-blue mb-1.5">Quantity</span>
-            <select id="listQty" class="bg-white text-nova-navy rounded-lg px-3 py-2.5 w-full font-mono text-lg">
-              <option value="1">1 ticket</option>
-              <option value="2" selected>2 tickets (sell as pair)</option>
-              <option value="2split">2 tickets (split OK)</option>
-              <option value="4">4 tickets</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="space-y-2">
-          <span class="block text-[11px] uppercase tracking-widest text-nova-blue">Delivery method</span>
-          <div class="grid sm:grid-cols-2 gap-3">
-            <label class="flex items-start gap-3 bg-nova-navy-2 border border-nova-blue/30 rounded-lg p-3 cursor-pointer">
-              <input type="radio" name="delivery" checked class="mt-1 accent-nova-blue"/>
-              <div>
-                <div class="font-semibold">Apple Wallet via Ticketmaster</div>
-                <div class="text-[12px] text-nova-cream/70">One-tap iOS handoff. Buyer accepts on iPhone.</div>
-              </div>
-            </label>
-            <label class="flex items-start gap-3 bg-nova-navy-2 border border-white/10 rounded-lg p-3 cursor-pointer">
-              <input type="radio" name="delivery" class="mt-1 accent-nova-blue"/>
-              <div>
-                <div class="font-semibold">Email + manual PDF backup</div>
-                <div class="text-[12px] text-nova-cream/70">For non-iOS buyers and old-school faithful.</div>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <label class="block">
-          <span class="block text-[11px] uppercase tracking-widest text-nova-blue mb-1.5">Optional note to buyers</span>
-          <textarea rows="3" class="w-full bg-white text-nova-navy rounded-lg px-3 py-2 outline-none" placeholder="e.g. Aisle seats. Great sightline to the V at center court. Sold to me by a '94 grad who said pass it on."></textarea>
-        </label>
-
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-          <button type="submit" class="btn btn-gold flex-1">Continue to verify →</button>
-          <button type="button" class="btn btn-outline border-nova-cream text-nova-cream hover:bg-nova-cream hover:text-nova-navy flex-1">Save draft</button>
-        </div>
-      </form>
-
-      <!-- Right: Live VASE math + reasons -->
-      <aside class="lg:col-span-2 space-y-6">
-
-        <!-- VASE math panel -->
-        <div class="rounded-2xl bg-nova-cream text-nova-navy p-6 border-2 border-nova-gold shadow-2xl">
-          <div class="flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase text-nova-navy/60">
-            <span class="v-mark" style="width:16px;height:16px"><svg><use href="#vmark"/></svg></span>
-            Your contribution to VASE
-          </div>
-          <div class="mt-3 flex items-baseline gap-2">
-            <span class="font-display font-black text-5xl text-nova-navy" id="vaseMath">$25.00</span>
-            <span class="text-sm text-nova-navy/60">per pair sold</span>
-          </div>
-          <hr class="ticket-divider"/>
-          <div class="font-mono text-sm space-y-1.5">
-            <div class="flex justify-between"><span>Your ask × qty</span><span id="mathGross">$250.00</span></div>
-            <div class="flex justify-between"><span>VASE share (10%)</span><span class="text-nova-blue font-bold" id="mathVase">$25.00</span></div>
-            <div class="flex justify-between"><span>Platform &amp; processing</span><span id="mathFees">$11.25</span></div>
-            <div class="flex justify-between border-t border-dashed border-nova-navy/40 pt-2 mt-2 font-bold"><span>You receive</span><span id="mathNet">$213.75</span></div>
-          </div>
-          <div class="mt-4 text-[12px] text-nova-navy/70 italic">
-            Every dollar you route through Nova Nation Exchange is a dollar that doesn't go to StubHub.
-            That's the difference. <strong>That's the banner.</strong>
-          </div>
-        </div>
-
-        <!-- Three reasons -->
-        <div class="rounded-2xl bg-nova-navy-2/60 border border-white/10 p-6">
-          <h4 class="font-display text-xl mb-3">Why Nova Nation Exchange</h4>
-          <ul class="v-list text-sm text-nova-cream/90">
-            <li>
-              <span class="v-mark"><svg><use href="#vmark"/></svg></span>
-              <span><strong>10% of every sale funds VASE</strong> — directly supporting Villanova athletics, facilities, and scholarships.</span>
-            </li>
-            <li>
-              <span class="v-mark"><svg><use href="#vmark"/></svg></span>
-              <span><strong>Apple Wallet handoff is built in.</strong> Sellers and buyers stay on iPhone. No PDFs, no screenshots, no friction.</span>
-            </li>
-            <li>
-              <span class="v-mark"><svg><use href="#vmark"/></svg></span>
-              <span><strong>Listed to 50,000+ Nova Nation members.</strong> Better visibility than open marketplaces — and the buyer is always a fellow Wildcat.</span>
-            </li>
-          </ul>
-        </div>
-      </aside>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     4. THE MISSION
-     ============================================================ -->
-<section id="mission" class="bg-nova-cream py-20 lg:py-28">
-  <div class="max-w-[1300px] mx-auto px-5 lg:px-8">
-
-    <div class="text-center max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-nova-navy text-nova-cream text-[10.5px] tracking-[0.2em] uppercase font-semibold">
-        ★ The Mission
-      </div>
-      <h2 class="mt-4 font-display font-black text-nova-navy" style="font-size: clamp(48px, 7vw, 96px); line-height:1;">
-        We don't run a marketplace.
-      </h2>
-      <p class="mt-3 font-display italic text-2xl md:text-4xl text-nova-blue">
-        We run a fundraising machine disguised as one.
-      </p>
-    </div>
-
-    <div class="v-divider"><span class="v-mark"><svg><use href="#vmark"/></svg></span></div>
-
-    <!-- Where every $100 goes -->
-    <div class="grid lg:grid-cols-2 gap-10 items-start">
-
-      <div class="rounded-2xl bg-nova-navy text-nova-cream p-7 lg:p-9 shadow-2xl border border-nova-blue/15">
-        <h3 class="font-display text-3xl mb-4">Where every <span class="text-nova-blue">$100</span> goes.</h3>
-        <p class="text-sm text-nova-cream/75 mb-4">A representative breakdown of a typical $100 ticket transaction on Nova Nation Exchange.</p>
-        <div class="receipt" style="background: rgba(248,246,240,0.05); color: var(--nova-cream); border-color: rgba(248,246,240,0.25);">
-          <div class="row"><span>Seller payout</span><span>$78.50</span></div>
-          <div class="row"><span>Payment processing (Stripe)</span><span>$3.20</span></div>
-          <div class="row"><span>Platform operating costs</span><span>$5.30</span></div>
-          <div class="row"><span>Reserve for refunds &amp; chargebacks</span><span>$3.00</span></div>
-          <div class="row vase">
-            <span class="flex items-center gap-1.5">
-              <span class="v-mark" style="width:14px;height:14px"><svg><use href="#vmark-gold"/></svg></span>
-              VASE Fund contribution
-            </span>
-            <span class="text-nova-blue">$10.00</span>
-          </div>
-          <div class="row total"><span>Buyer total</span><span>$100.00</span></div>
-        </div>
-        <p class="mt-4 text-[12px] text-nova-cream/65 italic">
-          Quarterly remittance to the VASE Fund. Public ledger available on request.
-          Every banner starts as ten dollars.
-        </p>
-      </div>
-
-      <!-- What VASE does -->
-      <div>
-        <h3 class="font-display text-3xl text-nova-navy mb-5">What VASE does with your contributions.</h3>
-        <div class="space-y-4">
-          <div class="flex gap-4 items-start">
-            <span class="v-mark" style="width:32px;height:32px"><svg><use href="#vmark"/></svg></span>
-            <div>
-              <div class="font-display text-xl text-nova-navy font-bold">Facilities.</div>
-              <p class="text-[15px] text-nova-navy/80 leading-relaxed">Sustaining the Pavilion. Upgrading practice spaces on the Main Line. Building the next generation of Wildcat infrastructure — from the weight room to the film room.</p>
-            </div>
-          </div>
-          <div class="flex gap-4 items-start">
-            <span class="v-mark" style="width:32px;height:32px"><svg><use href="#vmark"/></svg></span>
-            <div>
-              <div class="font-display text-xl text-nova-navy font-bold">Scholarships.</div>
-              <p class="text-[15px] text-nova-navy/80 leading-relaxed">Direct support for student-athletes across all 24 Villanova varsity sports — from the basketball program that gave us Arcidiacono, Brunson, and Bridges, to lacrosse, field hockey, baseball, and beyond.</p>
-            </div>
-          </div>
-          <div class="flex gap-4 items-start">
-            <span class="v-mark" style="width:32px;height:32px"><svg><use href="#vmark"/></svg></span>
-            <div>
-              <div class="font-display text-xl text-nova-navy font-bold">Student-Athlete Development.</div>
-              <p class="text-[15px] text-nova-navy/80 leading-relaxed">Academic resources, mental health support, career preparation. The Augustinian ideal: <em>Veritas. Unitas. Caritas.</em> — Truth, Unity, Love — built into every dollar.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pull quote -->
-    <div class="mt-20 rounded-2xl bg-banner-navy p-10 lg:p-16">
-      <div class="pull-quote">
-        This isn't a marketplace. It's the fans funding the next banner.
-      </div>
-      <div class="mt-6 text-center text-[12px] tracking-[0.22em] uppercase text-nova-blue">
-        — Built into every transaction
-      </div>
-    </div>
-
-    <!-- Live contributions feed -->
-    <div class="mt-16 rounded-2xl bg-banner-navy p-7 lg:p-9 border border-nova-gold/20">
-      <div class="flex items-center justify-between gap-4 flex-wrap mb-4">
-        <div>
-          <h3 class="font-display text-2xl text-nova-cream">Recent Contributions, Live.</h3>
-          <p class="text-sm text-nova-cream/70">Updates every few seconds. Real fans. Real money. Real banner fuel.</p>
-        </div>
-        <span class="flex items-center gap-2 text-[12px] text-nova-blue uppercase tracking-widest">
-          <span class="live-dot"></span> Live
-        </span>
-      </div>
-      <div id="liveFeed" class="live-feed" aria-live="polite"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     5. WALL OF HEROES
-     ============================================================ -->
-<section id="heroes" class="bg-banner-navy text-nova-cream py-20 lg:py-28">
-  <div class="max-w-[1400px] mx-auto px-5 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-nova-gold/40 text-nova-gold text-[10.5px] tracking-[0.2em] uppercase font-semibold">
-        ★ The Wall of Heroes
-      </div>
-      <h2 class="mt-4 font-display font-black" style="font-size: clamp(40px, 6vw, 80px); line-height:1.05;">
-        The fans funding this season.
-      </h2>
-      <p class="mt-3 font-display italic text-xl md:text-2xl text-nova-cream/85">
-        Not the school. Not a corporation. <span class="text-nova-blue">You.</span>
-      </p>
-    </div>
-
-    <div class="v-divider" style="color: rgba(248,246,240,0.35);"><span class="v-mark"><svg><use href="#vmark-gold"/></svg></span></div>
-
-    <!-- Top 3 heroes -->
-    <div id="topHeroes" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-7 mb-10"></div>
-
-    <!-- Rest of the wall -->
-    <div id="heroGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"></div>
-
-    <!-- CTA -->
-    <div class="mt-14 text-center bg-nova-navy-2/60 border border-nova-blue/15 rounded-2xl p-8 max-w-3xl mx-auto">
-      <h3 class="font-display text-3xl">Become a Hero.</h3>
-      <p class="mt-2 text-nova-cream/80">Every ticket you buy or sell adds your name to this wall. You don't earn it. You build it.</p>
-      <div class="mt-5 flex flex-col sm:flex-row justify-center gap-3">
-        <a href="#marketplace" class="btn btn-blue">Browse Tickets</a>
-        <a href="#list" class="btn btn-gold">List Tickets</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     6. WILDCAT-FRIENDLY DEALS
-     ============================================================ -->
-<section id="deals" class="bg-newsprint py-20 lg:py-28">
-  <div class="max-w-[1400px] mx-auto px-5 lg:px-8">
-
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-nova-navy text-nova-cream text-[10.5px] tracking-[0.2em] uppercase font-semibold">
-        ★ Wildcat-Friendly Deals
-      </div>
-      <h2 class="mt-4 font-display font-black text-nova-navy" style="font-size: clamp(38px, 5.5vw, 72px); line-height:1.05;">
-        Main Line businesses, <span class="text-nova-blue">giving back.</span>
-      </h2>
-      <p class="mt-4 text-lg text-nova-navy/80">
-        Local hospitality businesses publishing redeemable game-day discounts directly to the fans who pack the Pavilion.
-        No app. No middleman. Just show the code, get the deal.
-      </p>
-    </div>
-
-    <div class="v-divider"><span class="v-mark"><svg><use href="#vmark"/></svg></span></div>
-
-    <!-- Deals grid (desktop) / scroll (mobile) -->
-    <div id="dealsGrid" class="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
-    <div id="dealsScroll" class="md:hidden h-scroll"></div>
-
-    <!-- Submit a deal -->
-    <div class="mt-14 grid lg:grid-cols-2 gap-10 items-start">
-      <div>
-        <h3 class="font-display text-3xl text-nova-navy">Got a Wildcat-friendly business?</h3>
-        <p class="mt-3 text-nova-navy/80 max-w-lg">
-          From Bryn Mawr to Wayne to Conshohocken — if you serve Wildcat fans on game day, your deal belongs on this wall.
-          Submit it below. We list everything that respects the faithful.
-        </p>
-        <ul class="v-list mt-5 text-nova-navy/85" style="color: var(--nova-navy)">
-          <li><span class="v-mark"><svg><use href="#vmark"/></svg></span><span>Listed for free. No fees, no cuts.</span></li>
-          <li><span class="v-mark"><svg><use href="#vmark"/></svg></span><span>Shown to every ticket buyer in the checkout flow.</span></li>
-          <li><span class="v-mark"><svg><use href="#vmark"/></svg></span><span>Reviewed within 48 hours by a real Wildcat.</span></li>
-        </ul>
-      </div>
-      <form class="bg-white rounded-2xl p-6 border border-nova-navy/15 shadow-lg space-y-4" onsubmit="event.preventDefault(); alert('Thanks! A Wildcat will review your deal within 48 hours.');">
-        <h4 class="font-display text-xl text-nova-navy">Submit a Deal</h4>
-        <div class="grid sm:grid-cols-2 gap-4">
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Business name</span>
-            <input required class="w-full border border-nova-navy/20 rounded-lg px-3 py-2 outline-none focus:border-nova-blue" placeholder="e.g. Kelly's Taproom"/>
-          </label>
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Neighborhood</span>
-            <input required class="w-full border border-nova-navy/20 rounded-lg px-3 py-2 outline-none focus:border-nova-blue" placeholder="Bryn Mawr"/>
-          </label>
-        </div>
-        <label class="block">
-          <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Contact email</span>
-          <input type="email" required class="w-full border border-nova-navy/20 rounded-lg px-3 py-2 outline-none focus:border-nova-blue" placeholder="owner@kellystaproom.com"/>
-        </label>
-        <label class="block">
-          <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Offer details</span>
-          <textarea rows="3" required class="w-full border border-nova-navy/20 rounded-lg px-3 py-2 outline-none focus:border-nova-blue" placeholder="$5 off any pitcher on Villanova game days"></textarea>
-        </label>
-        <div class="grid sm:grid-cols-2 gap-4">
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Valid from</span>
-            <input type="date" class="w-full border border-nova-navy/20 rounded-lg px-3 py-2 outline-none focus:border-nova-blue"/>
-          </label>
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Valid through</span>
-            <input type="date" class="w-full border border-nova-navy/20 rounded-lg px-3 py-2 outline-none focus:border-nova-blue"/>
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary w-full">
-          <span class="v-mark" style="width:18px;height:18px"><svg><use href="#vmark"/></svg></span>
-          Submit Your Deal
-        </button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     7. TRUST & TRANSPARENCY / FAQ
-     ============================================================ -->
-<section id="trust" class="bg-nova-cream py-20 lg:py-28">
-  <div class="max-w-[1100px] mx-auto px-5 lg:px-8">
-
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-nova-navy text-nova-cream text-[10.5px] tracking-[0.2em] uppercase font-semibold">
-        ★ Trust & Transparency
-      </div>
-      <h2 class="mt-4 font-display font-black text-nova-navy" style="font-size: clamp(38px, 5.5vw, 72px); line-height:1.05;">
-        We show you where every dollar goes. <span class="text-nova-blue">Always.</span>
-      </h2>
-      <p class="mt-4 text-lg text-nova-navy/80">
-        Full receipt. No fine print. The kind of transparency you'd expect from a fan-run platform — because that's what we are.
-      </p>
-    </div>
-
-    <div class="v-divider"><span class="v-mark"><svg><use href="#vmark"/></svg></span></div>
-
-    <!-- Detailed receipt -->
-    <div class="grid lg:grid-cols-5 gap-8 items-start">
-      <div class="lg:col-span-2">
-        <h3 class="font-display text-2xl text-nova-navy mb-3">The average $100 transaction, line by line.</h3>
-        <p class="text-nova-navy/80 text-[15px] leading-relaxed">
-          Every line on every ticket. Every fee, every share, every cent that goes to VASE. We publish this because we ourselves
-          got tired of trying to figure out where the StubHub money went. The answer was: not back to Villanova.
-        </p>
-        <p class="mt-4 text-nova-navy/80 text-[15px] leading-relaxed">
-          So we built this. And we'll keep the receipt on the wall for anyone who wants to check our math.
-        </p>
-      </div>
-
-      <div class="lg:col-span-3 receipt" style="font-size: 14px;">
-        <div class="text-center font-display text-2xl text-nova-navy mb-3">NOVA NATION EXCHANGE · RECEIPT</div>
-        <div class="text-center text-[11px] tracking-[0.2em] uppercase text-nova-navy/60 mb-4">Transaction #NN-2026-002847</div>
-        <div class="row"><span>Ticket face value (2× $75)</span><span>$150.00</span></div>
-        <div class="row"><span>Seller discount (fan-to-fan)</span><span class="text-nova-blue">−$50.00</span></div>
-        <div class="row"><span>Sale price</span><span>$100.00</span></div>
-        <div class="row"><span>Buyer service fee (7.5%)</span><span>$7.50</span></div>
-        <div class="row"><span>Payment processing</span><span>$2.50</span></div>
-        <div class="row vase">
-          <span class="flex items-center gap-1.5">
-            <span class="v-mark" style="width:14px;height:14px"><svg><use href="#vmark-gold"/></svg></span>
-            VASE Fund contribution (10%)
-          </span>
-          <span class="text-nova-blue">$10.00</span>
-        </div>
-        <div class="row total"><span>Buyer pays total</span><span>$120.00</span></div>
-        <div class="row"><span>Seller receives (after platform/processing)</span><span>$78.50</span></div>
-        <div class="row" style="border-bottom:none;"><span class="text-[12px] text-nova-navy/60">Quarterly to VASE Fund · automated</span><span class="text-[12px] text-nova-blue">→ ach.vasevillanova.org</span></div>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="mt-20">
-      <h3 class="font-display text-3xl text-nova-navy text-center">Frequently asked questions.</h3>
-      <p class="text-center text-nova-navy/70 mt-2">The ones we hear most from Nova Nation. Straight answers, no spin.</p>
-
-      <div class="mt-8" id="faqList"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     8. ABOUT
-     ============================================================ -->
-<section id="about" class="bg-banner-navy text-nova-cream py-20 lg:py-28">
-  <div class="max-w-[1300px] mx-auto px-5 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-nova-gold/40 text-nova-gold text-[10.5px] tracking-[0.2em] uppercase font-semibold">
-        ★ About
-      </div>
-      <h2 class="mt-4 font-display font-black" style="font-size: clamp(40px, 6vw, 80px); line-height:1.05;">
-        Built by <span class="text-nova-blue">Wildcats.</span><br/>
-        For <span class="text-nova-blue">Wildcats.</span>
-      </h2>
-    </div>
-
-    <div class="v-divider" style="color: rgba(248,246,240,0.35);"><span class="v-mark"><svg><use href="#vmark-gold"/></svg></span></div>
-
-    <div class="grid lg:grid-cols-2 gap-14 items-start">
-
-      <!-- Manifesto -->
-      <article class="prose-invert text-[16.5px] leading-[1.75] text-nova-cream/90 space-y-5">
-        <p>
-          The night Kris Jenkins released that ball from the top of the key — April 4, 2016, 4.7 seconds on the clock, North Carolina up two —
-          three of us were standing on a couch in a Wayne basement, screaming at a flatscreen, beer everywhere, my mother on the phone yelling
-          something I couldn't understand.
-        </p>
-        <p>
-          When the shot went in, the room collapsed. We hugged strangers. We cried. We called grandparents who had been Wildcats since the Pinckney era.
-          For a moment, every Villanova fan from the 1985 perfect game to the Scottie Reynolds run for the roses in '09 to the kids in section 109 at the Pavilion
-          was holding the same trophy. <em>That</em> moment is why this exists.
-        </p>
-        <p>
-          Two years later we did it again. Jalen Brunson, Mikal Bridges, Donte off the bench in San Antonio — the most dominant tournament run in modern memory,
-          and a Most Outstanding Player who'd barely played in 2016. Jay Wright in that suit. We sat in the same basement. We knew we were spoiled.
-        </p>
-        <p>
-          When Jay walked off the floor in 2022 — quietly, the way he did everything — we knew an era was closing. Kyle Neptune took the reins. We kept buying our tickets.
-          And somewhere along the line, we noticed something. Every time we resold a ticket on StubHub, between fees and "convenience charges," about 25% of the sale price
-          vanished into a Silicon Valley accounting line. <strong>None of it</strong> went back to Villanova. None of it funded the next banner.
-        </p>
-        <p>
-          So we built Nova Nation Exchange. Three Nova grads, one basement in Wayne, a lot of late nights and a lot of coffee from Burlap & Bean. We launched in 2024 with
-          one rule: 10% of every transaction, automatically, no exceptions, no asterisks, routed quarterly to the VASE Fund. We added Apple Wallet handoff because the
-          ticket-transfer experience on competitor platforms is criminal. We added the Wildcat-Friendly Deals program because every Main Line restaurant we'd ever loved
-          deserved a megaphone to the fans they fed on game day.
-        </p>
-        <p>
-          And we built the Wall of Heroes — because if you've ever taken the SEPTA Paoli-Thorndale line to a Pavilion game in February, you know that <em>you</em>
-          are the program. The students dancing in the V-shape at center court. The alums in the rafters chanting "V-U Nova." The Conshy dads in the Brunson jerseys.
-          The kids who saved up to see UConn in person. You built this team. Now you fund it.
-        </p>
-        <p class="text-nova-blue font-display italic text-xl pt-3 border-t border-nova-blue/20">
-          Veritas. Unitas. Hoops.
-        </p>
-      </article>
-
-      <!-- Timeline -->
-      <aside>
-        <h3 class="font-display text-2xl text-nova-cream mb-5">The platform, season by season.</h3>
-        <ol class="relative border-l-2 border-nova-blue/40 pl-6 space-y-7">
-          <li>
-            <span class="absolute -left-[11px] w-5 h-5 rounded-full bg-nova-blue border-2 border-nova-navy"></span>
-            <div class="text-[11px] tracking-[0.2em] uppercase text-nova-gold">2024 · Year One</div>
-            <div class="font-display text-xl mt-1">Founded in a Wayne basement.</div>
-            <p class="text-nova-cream/80 text-[15px] mt-1">Three Nova grads, one whiteboard, one mission. First transaction: a single ticket to Villanova vs Marquette. $87 to VASE.</p>
-          </li>
-          <li>
-            <span class="absolute -left-[11px] w-5 h-5 rounded-full bg-nova-blue border-2 border-nova-navy"></span>
-            <div class="text-[11px] tracking-[0.2em] uppercase text-nova-gold">2024 · End of season one</div>
-            <div class="font-display text-xl mt-1">$84,000 routed to VASE.</div>
-            <p class="text-nova-cream/80 text-[15px] mt-1">14,200 tickets transferred. 1 lacrosse opener sold out via the platform. The first Wildcat-Friendly Deal: Kelly's Taproom in Bryn Mawr.</p>
-          </li>
-          <li>
-            <span class="absolute -left-[11px] w-5 h-5 rounded-full bg-nova-blue border-2 border-nova-navy"></span>
-            <div class="text-[11px] tracking-[0.2em] uppercase text-nova-gold">2025 · Year Two</div>
-            <div class="font-display text-xl mt-1">Apple Wallet integration ships.</div>
-            <p class="text-nova-cream/80 text-[15px] mt-1">Frictionless iOS handoff via Ticketmaster transfer. Deals program expands to 14 Main Line businesses. Wall of Heroes goes public.</p>
-          </li>
-          <li>
-            <span class="absolute -left-[11px] w-5 h-5 rounded-full bg-nova-gold border-2 border-nova-navy"></span>
-            <div class="text-[11px] tracking-[0.2em] uppercase text-nova-gold">2026 · Season three</div>
-            <div class="font-display text-xl mt-1 text-nova-blue">$247,853 to VASE — and counting.</div>
-            <p class="text-nova-cream/80 text-[15px] mt-1">Active across 9 Villanova varsity sports. Powering UConn week. Funding banner number four.</p>
-          </li>
-        </ol>
-
-        <div class="mt-8 rounded-xl bg-nova-navy-2/60 border border-white/10 p-5">
-          <div class="text-[11px] tracking-[0.22em] uppercase text-nova-blue">Section 109 since</div>
-          <div class="font-display text-3xl mt-1">2011.</div>
-          <p class="text-sm text-nova-cream/75 mt-2">The founders' actual seats. Row F, seats 14, 15, 16. Come say hi. We'll buy the first beer.</p>
-        </div>
-      </aside>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     9. FOOTER
-     ============================================================ -->
-<footer class="bg-nova-ink text-nova-cream pt-16 pb-8 relative overflow-hidden">
-  <div class="max-w-[1400px] mx-auto px-5 lg:px-8">
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
-      <div class="col-span-2 md:col-span-1">
-        <div class="logo-lockup">
-          <span class="v-mark"><svg><use href="#vmark"/></svg></span>
-          <span class="wordmark">
-            Nova Nation<br/>Exchange
-            <span class="sub">For Wildcats. By Wildcats.</span>
-          </span>
-        </div>
-        <p class="mt-4 text-[14px] text-nova-cream/75 leading-relaxed">
-          The fan-owned ticket resale and local deals platform for the Villanova faithful.
-          10% of every transaction routed directly to the VASE Fund.
-        </p>
-        <div class="mt-5 flex gap-3 text-nova-cream/70">
-          <a href="#" aria-label="X" class="w-9 h-9 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-nova-blue hover:text-nova-blue transition">𝕏</a>
-          <a href="#" aria-label="Instagram" class="w-9 h-9 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-nova-blue hover:text-nova-blue transition">◎</a>
-          <a href="#" aria-label="YouTube" class="w-9 h-9 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-nova-blue hover:text-nova-blue transition">▶</a>
-          <a href="#" aria-label="Email" class="w-9 h-9 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-nova-blue hover:text-nova-blue transition">✉</a>
-        </div>
-      </div>
-
-      <div>
-        <h5 class="text-[11px] tracking-[0.22em] uppercase text-nova-blue mb-4">Explore</h5>
-        <ul class="space-y-2.5 text-[14.5px]">
-          <li><a href="#marketplace" class="hover:text-nova-blue">Browse Tickets</a></li>
-          <li><a href="#list" class="hover:text-nova-blue">List Tickets</a></li>
-          <li><a href="#deals" class="hover:text-nova-blue">Wildcat-Friendly Deals</a></li>
-          <li><a href="#mission" class="hover:text-nova-blue">The Mission</a></li>
-          <li><a href="#heroes" class="hover:text-nova-blue">Wall of Heroes</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h5 class="text-[11px] tracking-[0.22em] uppercase text-nova-blue mb-4">Support</h5>
-        <ul class="space-y-2.5 text-[14.5px]">
-          <li><a href="#trust" class="hover:text-nova-blue">FAQ</a></li>
-          <li><a href="#" class="hover:text-nova-blue">Contact</a></li>
-          <li><a href="#" class="hover:text-nova-blue">iOS Setup Guide</a></li>
-          <li><a href="#" class="hover:text-nova-blue">Seller Resources</a></li>
-          <li><a href="#" class="hover:text-nova-blue">Refund Policy</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h5 class="text-[11px] tracking-[0.22em] uppercase text-nova-blue mb-4">Legal</h5>
-        <ul class="space-y-2.5 text-[14.5px]">
-          <li><a href="#" class="hover:text-nova-blue">Terms of Service</a></li>
-          <li><a href="#" class="hover:text-nova-blue">Privacy Policy</a></li>
-          <li><a href="#" class="hover:text-nova-blue">Cookies</a></li>
-          <li><a href="#" class="hover:text-nova-blue">Accessibility</a></li>
-          <li><a href="#" class="hover:text-nova-blue">Affiliation Disclaimer</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <p class="mt-12 text-[12px] text-nova-cream/55 leading-relaxed max-w-4xl">
-      Nova Nation Exchange is a fan-initiated, fan-operated platform. Not officially affiliated with or endorsed by
-      Villanova University or Villanova Athletics. The 10% transaction contribution is routed directly to the VASE Fund
-      (Villanova Athletics Strategic Excellence) on a quarterly basis. All trademarks and references to Villanova
-      programs, players, and championships are used in good faith by fans, for fans, in celebration of the Wildcats.
-    </p>
-
-    <!-- Championship banner strip -->
-    <div class="mt-10 py-5 border-y border-nova-gold/30 flex flex-wrap items-center justify-center gap-6 font-display text-nova-gold tracking-[0.22em] uppercase text-sm">
-      <span>★ 1985 ★</span>
-      <span class="text-nova-cream/60 text-xs italic">Rollie Massimino · perfect game · vs Georgetown</span>
-      <span>★ 2016 ★</span>
-      <span class="text-nova-cream/60 text-xs italic">Kris Jenkins · the shot · vs UNC</span>
-      <span>★ 2018 ★</span>
-      <span class="text-nova-cream/60 text-xs italic">Donte DiVincenzo · MOP · vs Michigan</span>
-    </div>
-
-    <div class="mt-6 font-display italic text-center text-2xl text-nova-cream/80">
-      Veritas. Unitas. <span class="text-nova-blue">Hoops.</span>
-    </div>
-
-    <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[12px] text-nova-cream/55">
-      <div>© 2026 Nova Nation Exchange. All rights reserved.</div>
-      <div class="italic">Built by Wildcats. For Wildcats. In the basement of a Wayne, PA rowhouse, for fans like you.</div>
-    </div>
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div>© 2026 · Nova Nation Exchange</div>
+  <div class="center">Built by Wildcats. For Wildcats.</div>
+  <div class="right">
+    <a href="#tickets">Tickets</a>
+    <a href="#about">About</a>
+    <a href="#deals">Deals</a>
+    <a href="https://supportvillanova.com/" target="_blank" rel="noopener noreferrer">Donate</a>
   </div>
 </footer>
+<div class="disclaimer">
+  Not officially affiliated with Villanova University. The 10% transaction contribution is routed
+  quarterly to the VASE Fund (Villanova Athletics Strategic Excellence). All marks and references
+  to Villanova programs are used in good faith by fans, for fans.
+</div>
 
-<!-- ============================================================
-     PURCHASE MODAL
-     ============================================================ -->
-<div class="modal-backdrop" id="purchaseModal" role="dialog" aria-modal="true" aria-labelledby="purchaseTitle">
+<!-- ============ TICKET MODAL ============ -->
+<div class="modal-bg" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
-    <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-nova-navy/10 hover:bg-nova-navy/20 text-nova-navy text-xl leading-none flex items-center justify-center" data-close="purchaseModal" aria-label="Close">×</button>
-    <div class="p-6 lg:p-10 grid lg:grid-cols-2 gap-10">
+    <button class="modal-close" data-close="ticketModal" aria-label="Close">×</button>
+    <div class="m-eyebrow" id="modalSport">Men's Basketball</div>
+    <h3 id="modalTitle">vs <em>UConn</em></h3>
+    <div class="m-sub" id="modalMeta">Sat · Feb 7 · 4:00 PM · Finneran Pavilion</div>
+    <div class="m-sub" id="modalSeat" style="margin-top:4px;">Section 109 · Row F · Seat 12</div>
 
-      <!-- Left -->
-      <div>
-        <div class="flex items-center gap-3">
-          <div id="modalOppLogo" class="w-14 h-14 rounded-full flex items-center justify-center text-white font-display font-black text-2xl">U</div>
-          <div>
-            <div class="text-[11px] tracking-widest uppercase text-nova-navy/60" id="modalSport">Men's Basketball</div>
-            <h3 id="purchaseTitle" class="font-display text-3xl text-nova-navy leading-tight">Villanova vs UConn</h3>
-          </div>
-        </div>
-        <div class="mt-4 text-nova-navy/80 text-[15px]">
-          <div><strong>Date:</strong> <span id="modalDate">Saturday, Feb 7 · 4:00 PM ET</span></div>
-          <div><strong>Venue:</strong> <span id="modalVenue">Finneran Pavilion · Lancaster Avenue</span></div>
-          <div><strong>Seats:</strong> <span id="modalSeats" class="font-mono">Section 109 · Row F · Seat 12</span></div>
-        </div>
-
-        <!-- Seat view placeholder -->
-        <div class="mt-5 rounded-xl overflow-hidden border border-nova-navy/15 bg-gradient-to-br from-nova-navy via-nova-navy-2 to-nova-ink h-56 relative">
-          <div class="absolute inset-0 court-art opacity-90"></div>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center text-nova-cream">
-              <div class="text-[10.5px] tracking-[0.22em] uppercase text-nova-blue">Approximate view</div>
-              <div class="font-display text-2xl mt-1">Section 109 · Row F</div>
-              <div class="text-xs text-nova-cream/70 mt-1">A clean baseline angle of the V at center court.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Delivery options -->
-        <div class="mt-7">
-          <h4 class="font-display text-xl text-nova-navy mb-3">How you'll get your ticket — iOS-friendly transfer</h4>
-          <div class="space-y-3">
-            <div class="rounded-lg border-2 border-nova-blue/60 p-4 bg-nova-blue/5">
-              <div class="flex items-start gap-3">
-                <span class="v-mark mt-1" style="width:22px;height:22px"><svg><use href="#vmark"/></svg></span>
-                <div>
-                  <div class="font-bold text-nova-navy">Option 1 · Apple Wallet via Ticketmaster <span class="text-[10.5px] uppercase tracking-widest text-nova-blue ml-2">Recommended</span></div>
-                  <p class="text-[13.5px] text-nova-navy/75 mt-1">We send a one-tap transfer to your email and open Ticketmaster on your iPhone. Accept, and the ticket lands in Apple Wallet automatically.</p>
-                </div>
-              </div>
-
-              <!-- Wallet pass mock -->
-              <div class="mt-4 flex justify-center">
-                <div class="wallet-pass" id="walletPass">
-                  <div class="pass-row">
-                    <div>
-                      <div class="pass-label">Villanova Wildcats</div>
-                      <div class="font-display font-bold text-sm script-villanova" style="font-size:18px">Villanova</div>
-                    </div>
-                    <span class="v-mark" style="width:30px;height:30px"><svg><use href="#vmark"/></svg></span>
-                  </div>
-
-                  <div class="pass-headline" id="passHead">vs UConn</div>
-                  <div class="pass-sub" id="passSub">Sat · Feb 7 · 4:00 PM ET</div>
-                  <div class="pass-sub" id="passVenue">Finneran Pavilion</div>
-
-                  <div class="pass-srs">
-                    <div>
-                      <div class="pass-label">Section</div>
-                      <div class="pass-value" id="passSection">109</div>
-                    </div>
-                    <div>
-                      <div class="pass-label">Row</div>
-                      <div class="pass-value" id="passRow">F</div>
-                    </div>
-                    <div>
-                      <div class="pass-label">Seat</div>
-                      <div class="pass-value" id="passSeat">12</div>
-                    </div>
-                  </div>
-
-                  <div class="pass-barcode" aria-hidden="true"></div>
-
-                  <div class="pass-footer">
-                    <span class="v-mark"><svg><use href="#vmark"/></svg></span>
-                    <span>10% → VASE · Fueling the next banner</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-4 flex justify-center">
-                <button class="add-to-wallet" type="button" aria-label="Add to Apple Wallet">
-                  <span class="wallet-icon" aria-hidden="true"></span>
-                  <span class="leading-none">
-                    <span class="block text-[9.5px] tracking-wider text-white/80">Add to</span>
-                    <span class="block text-[14px] font-semibold">Apple Wallet</span>
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            <div class="rounded-lg border border-nova-navy/20 p-4 bg-white">
-              <div class="flex items-start gap-3">
-                <span class="v-mark mt-1" style="width:22px;height:22px"><svg><use href="#vmark"/></svg></span>
-                <div>
-                  <div class="font-bold text-nova-navy">Option 2 · Email + manual</div>
-                  <p class="text-[13.5px] text-nova-navy/75 mt-1">We email both parties with full transfer instructions and a backup PDF. For Android, web-only fans, and old-school Wildcats.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: receipt + checkout -->
-      <div>
-        <div class="receipt">
-          <div class="text-center font-display text-2xl text-nova-navy">Your receipt.</div>
-          <div class="text-center text-[11px] tracking-[0.22em] uppercase text-nova-navy/60 mt-1 mb-3">Itemized · transparent · fan-first</div>
-          <div class="row"><span>Ticket</span><span id="receiptTicket">$100.00</span></div>
-          <div class="row"><span>Service fee</span><span>$7.50</span></div>
-          <div class="row"><span>Payment processing</span><span>$2.50</span></div>
-          <div class="row vase">
-            <span class="flex items-center gap-1.5">
-              <span class="v-mark" style="width:14px;height:14px"><svg><use href="#vmark-gold"/></svg></span>
-              VASE Fund contribution
-            </span>
-            <span class="text-nova-blue" id="receiptVase">$10.00</span>
-          </div>
-          <div class="row total"><span>Total</span><span id="receiptTotal">$120.00</span></div>
-        </div>
-
-        <p class="mt-4 text-[12px] text-nova-navy/70 italic">
-          The VASE Fund line on this receipt is not a tip. It's not optional. It is automatic. Your purchase funds Villanova athletics, directly.
-        </p>
-
-        <form class="mt-6 space-y-4" onsubmit="event.preventDefault(); openIosSheet();">
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Buyer email</span>
-            <input type="email" required class="w-full border border-nova-navy/20 rounded-lg px-3 py-2.5 outline-none focus:border-nova-blue" placeholder="you@nova.example"/>
-          </label>
-          <label class="block">
-            <span class="block text-[11px] uppercase tracking-widest text-nova-navy/70 mb-1">Card on file</span>
-            <input type="text" placeholder="•••• •••• •••• 4242" class="w-full border border-nova-navy/20 rounded-lg px-3 py-2.5 outline-none focus:border-nova-blue"/>
-          </label>
-          <label class="flex items-start gap-2 text-[13px] text-nova-navy/85">
-            <input type="checkbox" class="mt-1 accent-nova-navy" checked/>
-            <span>I confirm I'm a real Wildcat (or just a Villanova-loving human) and not a bot scalper.</span>
-          </label>
-          <button type="submit" class="btn btn-primary w-full text-base">
-            <span class="v-mark" style="width:18px;height:18px"><svg><use href="#vmark"/></svg></span>
-            Complete Purchase (Demo)
-          </button>
-          <button type="button" id="payWithStripeBtn" class="btn btn-blue w-full text-base">
-            <span aria-hidden="true">⚡</span>
-            Pay with Stripe (Test Mode)
-          </button>
-          <p class="text-[11px] text-nova-navy/55 text-center italic">
-            Test mode uses Stripe Checkout with a Connect destination charge.
-            The 10% VASE share is held back as an application fee on every transaction.
-          </p>
-          <button type="button" class="w-full text-sm text-nova-navy/70 hover:text-nova-navy underline" data-close="purchaseModal">Cancel</button>
-        </form>
-      </div>
+    <div class="summary">
+      <div class="row"><span>Ticket</span><span id="pTicket">$185.00</span></div>
+      <div class="row"><span>Service fee</span><span id="pFee">$13.88</span></div>
+      <div class="row"><span>Processing</span><span id="pProc">$4.63</span></div>
+      <div class="row vase"><span>10% to VASE</span><span id="pVase">$18.50</span></div>
+      <div class="row total"><span>Total</span><span class="amt" id="pTotal">$222.01</span></div>
     </div>
+
+    <input id="buyerEmail" class="input" type="email" placeholder="Email for ticket transfer"/>
+    <button class="btn-block" id="reserveBtn">Reserve seats →</button>
+    <button class="btn-block secondary" data-close="ticketModal">Cancel</button>
   </div>
 </div>
 
-<!-- ============================================================
-     iOS-STYLE OPEN IN TICKETMASTER SHEET
-     ============================================================ -->
-<div class="ios-sheet" id="iosSheet" role="dialog" aria-modal="true" aria-labelledby="iosSheetTitle">
-  <div class="ios-sheet-card">
-    <div class="ios-head">
-      <div id="iosSheetTitle" class="t1">Open in "Ticketmaster"?</div>
-      <div class="t2">Nova Nation Exchange wants to open Ticketmaster to complete your ticket transfer.</div>
+<!-- ============ DEAL MODAL ============ -->
+<div class="modal-bg" id="dealModal" role="dialog" aria-modal="true">
+  <div class="modal" style="text-align:center;">
+    <button class="modal-close" data-close="dealModal" aria-label="Close">×</button>
+    <div class="m-eyebrow" id="dealHood">Bryn Mawr</div>
+    <h3 id="dealBiz">Kelly's <em>Taproom</em></h3>
+    <p id="dealOffer" style="color: var(--ink-soft); margin: 14px 0 0 0; font-size: 15px;">$5 off any pitcher on Villanova game days.</p>
+    <div class="deal-code">
+      <div class="m-eyebrow">Redemption code</div>
+      <div class="code" id="dealCode">VNVA-7K2X</div>
     </div>
-    <div class="ios-buttons">
-      <div class="ios-btn" data-close="iosSheet">Cancel</div>
-      <div class="ios-btn primary" id="iosOpen">Open</div>
-    </div>
+    <div class="m-sub">Code expires after game day. Show to your server.</div>
+    <button class="btn-block" data-close="dealModal" style="margin-top:18px;">Got it</button>
   </div>
 </div>
 
-<!-- ============================================================
-     CONFIRMATION MODAL
-     ============================================================ -->
-<div class="modal-backdrop" id="confirmModal" role="dialog" aria-modal="true">
-  <div class="modal max-w-xl">
-    <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-nova-navy/10 hover:bg-nova-navy/20 text-nova-navy text-xl leading-none flex items-center justify-center" data-close="confirmModal" aria-label="Close">×</button>
-    <div class="p-8 text-center">
-      <div class="mx-auto w-16 h-16 rounded-full bg-nova-blue/15 flex items-center justify-center">
-        <span class="v-mark" style="width:36px;height:36px"><svg><use href="#vmark"/></svg></span>
-      </div>
-      <h3 class="font-display text-3xl text-nova-navy mt-4">Transfer initiated.</h3>
-      <p class="mt-2 text-nova-navy/80">
-        Check your email and open the Ticketmaster app to accept. Your ticket will appear in Apple Wallet within
-        <strong>30 seconds</strong> of acceptance.
-      </p>
-      <div class="mt-6 rounded-xl bg-nova-navy text-nova-cream p-5 text-left">
-        <div class="text-[11px] tracking-[0.22em] uppercase text-nova-blue">Your VASE contribution</div>
-        <div class="font-display text-4xl mt-1">$10.00</div>
-        <p class="text-[13px] mt-1 text-nova-cream/80">routed to the Villanova Athletics Strategic Excellence Fund. Thank you for funding the next banner.</p>
-      </div>
-      <a href="#heroes" class="block mt-6 text-nova-blue hover:underline text-sm" data-close="confirmModal">Track this contribution in your Hero Profile →</a>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
-     LISTING CONFIRMATION MODAL
-     ============================================================ -->
-<div class="modal-backdrop" id="listingModal" role="dialog" aria-modal="true">
-  <div class="modal max-w-xl">
-    <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-nova-navy/10 hover:bg-nova-navy/20 text-nova-navy text-xl leading-none flex items-center justify-center" data-close="listingModal" aria-label="Close">×</button>
-    <div class="p-8 text-center">
-      <div class="mx-auto w-16 h-16 rounded-full bg-nova-gold/25 flex items-center justify-center">
-        <span class="v-mark" style="width:36px;height:36px"><svg><use href="#vmark-gold"/></svg></span>
-      </div>
-      <h3 class="font-display text-3xl text-nova-navy mt-4">Your listing is live.</h3>
-      <p class="mt-2 text-nova-navy/80">Your seats are now in front of 50,000+ Nova Nation members. We'll alert you the moment a Wildcat clicks buy.</p>
-      <div class="mt-6 rounded-xl bg-nova-navy text-nova-cream p-5 text-left">
-        <div class="text-[11px] tracking-[0.22em] uppercase text-nova-blue">When this sells, VASE gets</div>
-        <div class="font-display text-4xl mt-1" id="listingVase">$25.00</div>
-      </div>
-      <button class="btn btn-primary mt-6 w-full" data-close="listingModal">Back to Marketplace</button>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
-     DEAL REDEMPTION MODAL
-     ============================================================ -->
-<div class="modal-backdrop" id="dealModal" role="dialog" aria-modal="true">
-  <div class="modal max-w-md">
-    <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-nova-navy/10 hover:bg-nova-navy/20 text-nova-navy text-xl leading-none flex items-center justify-center" data-close="dealModal" aria-label="Close">×</button>
-    <div class="p-7 text-center">
-      <div class="text-[11px] tracking-[0.22em] uppercase text-nova-navy/60">Wildcat-Friendly Deal</div>
-      <h3 id="dealName" class="font-display text-3xl text-nova-navy mt-1">Kelly's Taproom</h3>
-      <div id="dealHood" class="text-sm text-nova-navy/70">Bryn Mawr</div>
-      <p id="dealOffer" class="mt-4 text-[15px] text-nova-navy/85">$5 off any pitcher on Villanova game days.</p>
-
-      <div class="mt-6 mx-auto inline-block rounded-xl bg-nova-navy text-nova-cream px-6 py-5">
-        <div class="text-[11px] tracking-[0.22em] uppercase text-nova-blue">Your redemption code</div>
-        <div id="dealCode" class="font-mono text-3xl font-bold tracking-widest mt-1">V0NA-7K2X</div>
-      </div>
-      <p class="mt-3 text-[12px] text-nova-navy/65">Show this code to your server or bartender. Code expires after game day.</p>
-
-      <button class="btn btn-blue mt-6 w-full" data-close="dealModal">Got it. V-U Nova.</button>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
-     BOX SCORE MODAL (from ticker click-through)
-     ============================================================ -->
-<div class="modal-backdrop" id="boxModal" role="dialog" aria-modal="true">
-  <div class="modal max-w-2xl">
-    <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-nova-navy/10 hover:bg-nova-navy/20 text-nova-navy text-xl leading-none flex items-center justify-center" data-close="boxModal" aria-label="Close">×</button>
-    <div class="p-8" id="boxContent"></div>
-  </div>
-</div>
-
-<!-- ============================================================
-     PERSISTENT FLOATING ELEMENTS
-     ============================================================ -->
-<div class="vase-widget" aria-live="polite">
-  <span class="v-mark"><svg><use href="#vmark-gold"/></svg></span>
-  <div class="leading-tight">
-    <div class="text-[9.5px] uppercase tracking-[0.18em] text-nova-blue">Live VASE Total</div>
-    <div class="num"><span id="vaseWidget">$247,853</span></div>
-  </div>
-</div>
-
-<div class="toast" id="missionToast" role="status" aria-live="polite">
-  <div class="flex items-start gap-3">
-    <span class="v-mark mt-0.5" style="width:22px;height:22px"><svg><use href="#vmark-gold"/></svg></span>
-    <div>
-      <div class="text-[10.5px] tracking-[0.18em] uppercase text-nova-blue mb-0.5">Mission moment</div>
-      <div id="toastBody" class="text-[13.5px] leading-snug">Mike K. '08 just contributed $14 to VASE.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
-     SCRIPTS
-     ============================================================ -->
 <script>
-/* ============================================================
-   NOVA NATION EXCHANGE — APPLICATION JS
-   Data, rendering, ticker, modals, marquee, contributions.
-   ============================================================ */
-
-/* ---------- Utility ---------- */
-const $  = (s, c = document) => c.querySelector(s);
-const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
-const fmt = n => '$' + Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const fmtInt = n => '$' + Math.round(Number(n)).toLocaleString();
-const rand = (min, max) => Math.random() * (max - min) + min;
-const pick = arr => arr[Math.floor(Math.random() * arr.length)];
-
-/* ============================================================
-   MOCK DATA — TICKETS
-   ============================================================ */
+/* ===== Data ===== */
 const TICKETS = [
-  // --- Men's Basketball ---
-  { id: 'T01', sport: 'mbb', sportIcon: 'basketball', opponent: 'UConn', opp: 'UCN', oppColor: '#0E1A40', isHome: true,  date: 'Sat · Feb 7', time: '4:00 PM ET', venue: 'Finneran Pavilion', section: '109', row: 'F', seat: '12', face: 175, ask: 185, seller: { name: "Mike K. '08", city: 'West Chester, PA', stars: 5 } },
-  { id: 'T02', sport: 'mbb', sportIcon: 'basketball', opponent: 'Georgetown', opp: 'GTN', oppColor: '#041E42', isHome: false, date: 'Wed · Jan 22', time: '7:00 PM ET', venue: 'Capital One Arena', section: '107', row: 'C', seat: '8', face: 110, ask: 95,  seller: { name: "Sarah R. '17", city: 'Wayne, PA', stars: 5 } },
-  { id: 'T03', sport: 'mbb', sportIcon: 'basketball', opponent: 'Marquette', opp: 'MAR', oppColor: '#003366', isHome: true,  date: 'Tue · Jan 28', time: '6:30 PM ET', venue: 'Finneran Pavilion', section: '102', row: 'J', seat: '21', face: 125, ask: 120, seller: { name: "Tom D. '94", city: 'Bryn Mawr, PA', stars: 5 } },
-  { id: 'T04', sport: 'mbb', sportIcon: 'basketball', opponent: 'Creighton', opp: 'CRT', oppColor: '#0a2240', isHome: true,  date: 'Sat · Feb 14', time: '12:00 PM ET', venue: 'Finneran Pavilion', section: '104', row: 'D', seat: '4',  face: 110, ask: 110, seller: { name: "Pat M. '02", city: 'Conshohocken, PA', stars: 4 } },
-  { id: 'T05', sport: 'mbb', sportIcon: 'basketball', opponent: "St. John's", opp: 'STJ', oppColor: '#BA0C2F', isHome: false, date: 'Sun · Feb 1', time: '2:00 PM ET', venue: 'Madison Square Garden', section: '224', row: 'K', seat: '17', face: 95,  ask: 85,  seller: { name: "Allison F. '11", city: 'Hoboken, NJ', stars: 5 } },
-  { id: 'T06', sport: 'mbb', sportIcon: 'basketball', opponent: 'Xavier', opp: 'XAV', oppColor: '#0C2340', isHome: true,  date: 'Wed · Feb 4', time: '7:00 PM ET', venue: 'Finneran Pavilion', section: '111', row: 'G', seat: '6',  face: 95,  ask: 90,  seller: { name: "Brian H. '06", city: 'Newtown Square, PA', stars: 5 } },
-  { id: 'T07', sport: 'mbb', sportIcon: 'basketball', opponent: 'Butler', opp: 'BUT', oppColor: '#13294B', isHome: true,  date: 'Sat · Feb 21', time: '4:00 PM ET', venue: 'Finneran Pavilion', section: '113', row: 'L', seat: '14', face: 80,  ask: 75,  seller: { name: "Megan O. '15", city: 'Manayunk, PA', stars: 4 } },
-  { id: 'T08', sport: 'mbb', sportIcon: 'basketball', opponent: 'Providence', opp: 'PRV', oppColor: '#000000', isHome: true,  date: 'Tue · Feb 24', time: '7:00 PM ET', venue: 'Finneran Pavilion', section: '106', row: 'B', seat: '2',  face: 90,  ask: 80,  seller: { name: "Dan L. '98", city: 'Ardmore, PA', stars: 5 } },
-  { id: 'T09', sport: 'mbb', sportIcon: 'basketball', opponent: 'DePaul', opp: 'DEP', oppColor: '#005EB8', isHome: true,  date: 'Sun · Mar 1',  time: '12:00 PM ET', venue: 'Finneran Pavilion', section: '108', row: 'M', seat: '22', face: 65,  ask: 55,  seller: { name: "Christine W. '20", city: 'Devon, PA', stars: 4 } },
-  { id: 'T10', sport: 'mbb', sportIcon: 'basketball', opponent: 'Seton Hall', opp: 'SHU', oppColor: '#004488', isHome: false, date: 'Wed · Mar 4', time: '8:00 PM ET', venue: 'Prudential Center', section: '108', row: 'F', seat: '9',  face: 75,  ask: 65,  seller: { name: "Joe P. '89", city: 'Cherry Hill, NJ', stars: 5 } },
-
-  // --- Premium / postseason ---
-  { id: 'T11', sport: 'mbb', sportIcon: 'basketball', opponent: 'UConn (Big East Title)', opp: 'UCN', oppColor: '#0E1A40', isHome: true, date: 'Sat · Mar 14', time: '6:30 PM ET', venue: 'Madison Square Garden', section: '108', row: 'A', seat: '1', face: 250, ask: 395, seller: { name: "Kevin S. '85", city: 'Radnor, PA', stars: 5 } },
-
-  // --- Women's Basketball ---
-  { id: 'T12', sport: 'wbb', sportIcon: 'basketball', opponent: 'UConn (W)', opp: 'UCN', oppColor: '#0E1A40', isHome: true,  date: 'Thu · Feb 12', time: '7:00 PM ET', venue: 'Finneran Pavilion', section: '105', row: 'C', seat: '6',  face: 35, ask: 40, seller: { name: "Rachel B. '13", city: 'Villanova, PA', stars: 5 } },
-  { id: 'T13', sport: 'wbb', sportIcon: 'basketball', opponent: 'Marquette (W)', opp: 'MAR', oppColor: '#003366', isHome: true, date: 'Sat · Feb 28', time: '2:00 PM ET', venue: 'Finneran Pavilion', section: '110', row: 'E', seat: '11', face: 28, ask: 30, seller: { name: "Tina R. '01", city: 'Berwyn, PA', stars: 4 } },
-
-  // --- Football ---
-  { id: 'T14', sport: 'fb', sportIcon: 'football', opponent: 'Delaware', opp: 'DEL', oppColor: '#003E6F', isHome: true, date: 'Sat · Sep 6 (next season)', time: '12:00 PM ET', venue: 'Villanova Stadium', section: 'NE', row: '14', seat: '34', face: 40, ask: 35, seller: { name: "Greg V. '92", city: 'Paoli, PA', stars: 5 } },
-  { id: 'T15', sport: 'fb', sportIcon: 'football', opponent: 'Richmond',  opp: 'RIC', oppColor: '#990000', isHome: true, date: 'Sat · Sep 20', time: '1:00 PM ET', venue: 'Villanova Stadium', section: 'W',  row: '8',  seat: '20', face: 30, ask: 25, seller: { name: "Lori K. '03", city: 'Strafford, PA', stars: 5 } },
-
-  // --- Lacrosse ---
-  { id: 'T16', sport: 'lax', sportIcon: 'lacrosse', opponent: 'Notre Dame (M LAX)', opp: 'ND',  oppColor: '#0C2340', isHome: true, date: 'Sat · Mar 28', time: '1:00 PM ET', venue: 'Villanova Stadium', section: 'GA', row: '—', seat: '—', face: 25, ask: 25, seller: { name: "Mark T. '12", city: 'Havertown, PA', stars: 4 } },
-  { id: 'T17', sport: 'lax', sportIcon: 'lacrosse', opponent: 'Penn State (W LAX)', opp: 'PSU', oppColor: '#001E44', isHome: true, date: 'Sun · Apr 12', time: '12:00 PM ET', venue: 'Villanova Stadium', section: 'GA', row: '—', seat: '—', face: 20, ask: 20, seller: { name: "Alyssa N. '19", city: 'Wayne, PA', stars: 5 } },
-
-  // --- Baseball ---
-  { id: 'T18', sport: 'bsb', sportIcon: 'baseball', opponent: 'Georgetown (BSB)', opp: 'GTN', oppColor: '#041E42', isHome: true, date: 'Fri · Apr 24', time: '3:00 PM ET', venue: 'Pat & George Wagonseller Baseball Field', section: 'GA', row: '—', seat: '—', face: 15, ask: 15, seller: { name: "Doug P. '96", city: 'Drexel Hill, PA', stars: 5 } },
+  { id:'T01', sport:'mbb', sportLabel:"Men's Basketball", opponent:'UConn',       isHome:true,  date:'Sat 02.07', time:'4:00 PM', venue:'Finneran Pavilion',     section:'109', row:'F', seat:'12', face:175, ask:185 },
+  { id:'T03', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Marquette',   isHome:true,  date:'Tue 01.28', time:'6:30 PM', venue:'Finneran Pavilion',     section:'102', row:'J', seat:'21', face:125, ask:120 },
+  { id:'T02', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Georgetown',  isHome:false, date:'Wed 01.22', time:'7:00 PM', venue:'Capital One Arena',     section:'107', row:'C', seat:'8',  face:110, ask:95  },
+  { id:'T04', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Creighton',   isHome:true,  date:'Sat 02.14', time:'12:00 PM',venue:'Finneran Pavilion',     section:'104', row:'D', seat:'4',  face:110, ask:110 },
+  { id:'T06', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Xavier',      isHome:true,  date:'Wed 02.04', time:'7:00 PM', venue:'Finneran Pavilion',     section:'111', row:'G', seat:'6',  face:95,  ask:90  },
+  { id:'T05', sport:'mbb', sportLabel:"Men's Basketball", opponent:"St. John's",  isHome:false, date:'Sun 02.01', time:'2:00 PM', venue:'Madison Square Garden', section:'224', row:'K', seat:'17', face:95,  ask:85  },
+  { id:'T07', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Butler',      isHome:true,  date:'Sat 02.21', time:'4:00 PM', venue:'Finneran Pavilion',     section:'113', row:'L', seat:'14', face:80,  ask:75  },
+  { id:'T08', sport:'mbb', sportLabel:"Men's Basketball", opponent:'Providence',  isHome:true,  date:'Tue 02.24', time:'7:00 PM', venue:'Finneran Pavilion',     section:'106', row:'B', seat:'2',  face:90,  ask:80  },
+  { id:'T11', sport:'mbb', sportLabel:'Big East Final',   opponent:'UConn',       isHome:false, date:'Sat 03.14', time:'6:30 PM', venue:'Madison Square Garden', section:'108', row:'A', seat:'1',  face:250, ask:395 },
+  { id:'T12', sport:'wbb', sportLabel:"Women's Basketball",opponent:'UConn',      isHome:true,  date:'Thu 02.12', time:'7:00 PM', venue:'Finneran Pavilion',     section:'105', row:'C', seat:'6',  face:35,  ask:40  },
+  { id:'T14', sport:'fb',  sportLabel:'Football',          opponent:'Delaware',   isHome:true,  date:'Sat 09.06', time:'12:00 PM',venue:'Villanova Stadium',     section:'NE',  row:'14',seat:'34', face:40,  ask:35  },
+  { id:'T16', sport:'lax', sportLabel:'Lacrosse',          opponent:'Notre Dame', isHome:true,  date:'Sat 03.28', time:'1:00 PM', venue:'Villanova Stadium',     section:'GA',  row:'—', seat:'—',  face:25,  ask:25  },
 ];
 
-/* ============================================================
-   MOCK DATA — HEROES
-   ============================================================ */
-const HEROES = [
-  // Top 3 — championship banner cards
-  { name: "Kevin S. '85", hood: 'Radnor, PA', ytd: 4280, tag: '1985 perfect game. Still here.', top: true },
-  { name: "Sarah K. '14", hood: 'Wayne, PA',  ytd: 3915, tag: 'In section 109 since 2011.',     top: true },
-  { name: "Tom D. '94",  hood: 'Bryn Mawr, PA', ytd: 3640, tag: 'Was at the Pavilion before the Pavilion.', top: true },
-
-  // Wall
-  { name: "Mike K. '08", hood: 'West Chester, PA', ytd: 2870, tag: 'Brunson era believer.' },
-  { name: "Allison F. '11", hood: 'Hoboken, NJ',   ytd: 2440, tag: 'NYC chapter, MSG regular.' },
-  { name: "Brian H. '06",   hood: 'Newtown Square, PA', ytd: 2190, tag: 'Saw Reynolds beat Pittsburgh.' },
-  { name: "Pat M. '02",     hood: 'Conshohocken, PA', ytd: 1985, tag: 'Twenty seasons. Counting.' },
-  { name: "Sarah R. '17",   hood: 'Wayne, PA',     ytd: 1820, tag: 'San Antonio in person.' },
-  { name: "Greg V. '92",    hood: 'Paoli, PA',     ytd: 1640, tag: 'Football & hoops. Both ways.' },
-  { name: "Megan O. '15",   hood: 'Manayunk, PA',  ytd: 1495, tag: 'Drove to Storrs in a snowstorm.' },
-  { name: "Joe P. '89",     hood: 'Cherry Hill, NJ', ytd: 1360, tag: 'V-U Nova for 35 years.' },
-  { name: "Christine W. '20", hood: 'Devon, PA',   ytd: 1240, tag: 'COVID grad, full-season holder.' },
-  { name: "Rachel B. '13",  hood: 'Villanova, PA', ytd: 1190, tag: 'Women\'s hoops loud.' },
-  { name: "Dan L. '98",     hood: 'Ardmore, PA',   ytd: 1085, tag: 'Section 109, row L, seat 4.' },
-  { name: "Mark T. '12",    hood: 'Havertown, PA', ytd: 970,  tag: 'Lax dad. Hoops too.' },
-  { name: "Lori K. '03",    hood: 'Strafford, PA', ytd: 910,  tag: 'Pinckney → Brunson, every era.' },
-  { name: "Doug P. '96",    hood: 'Drexel Hill, PA', ytd: 845, tag: 'Wagonseller Field every Friday.' },
-  { name: "Alyssa N. '19",  hood: 'Wayne, PA',     ytd: 790,  tag: 'San Antonio dance team.' },
-  { name: "Christopher B. '88", hood: 'Bala Cynwyd, PA', ytd: 740, tag: 'Pinckney roommate (lie, but close).' },
-  { name: "Tina R. '01",    hood: 'Berwyn, PA',    ytd: 705, tag: 'Big East from the jump.' },
-  { name: "Kevin O. '23",   hood: 'Roxborough, PA', ytd: 660, tag: 'Youngest holder. Loudest.' },
-];
-
-/* ============================================================
-   MOCK DATA — DEALS
-   ============================================================ */
 const DEALS = [
-  { biz: "Kelly's Taproom",          hood: 'Bryn Mawr',         offer: "$5 off any pitcher on Villanova game days.", valid: 'All season · Game days only' },
-  { biz: "Brick & Brew",             hood: 'Wayne',             offer: "20% off entrées with proof of Nova game attendance.", valid: 'All season · Same-day ticket' },
-  { biz: "The Refectory",            hood: 'Villanova',         offer: "Free appetizer with your ticket stub from any Villanova home game.", valid: 'All season · One per table' },
-  { biz: "Conshohocken Brewing Co.", hood: 'Conshohocken',      offer: "$2 off Wildcat-themed pours during all home games.", valid: 'All season · Game days' },
-  { biz: "White Dog Cafe",           hood: 'Wayne',             offer: "Complimentary dessert for parties of 4+ in Villanova gear.", valid: 'All season · Game days' },
-  { biz: "Iron Hill Brewery",        hood: 'King of Prussia',   offer: "15% off your entire check after every UConn or Georgetown game.", valid: 'Big East games only' },
-  { biz: "The Radnor Hotel",         hood: 'Radnor',            offer: "Champagne toast for every group celebrating a Wildcat win.", valid: 'All season · Post-game' },
-  { biz: "Minella's Main Line Diner",hood: 'Wayne',             offer: "Free coffee with any breakfast on game-day mornings.", valid: 'Home game weekends' },
-  { biz: "McShea's",                 hood: 'Narberth',          offer: "$1 off every pint when you wear blue & white.", valid: 'All season · Daily' },
-  { biz: "Christopher's",            hood: 'Wayne',             offer: "10% off any entrée within 3 hours of a Nova tipoff.", valid: 'Home games · Tip-off ±3h' },
-  { biz: "Autograph Brasserie",      hood: 'Wayne',             offer: "Complimentary glass of Prosecco for ticket-holders.", valid: 'Home game days' },
-  { biz: "Yangming",                 hood: 'Bryn Mawr',         offer: "Free pot stickers with any pre-game dinner.", valid: 'Pavilion game days only' },
-  { biz: "Tango",                    hood: 'Bryn Mawr',         offer: "Half-price burgers on Big East Wednesdays.", valid: 'Wednesdays · All season' },
-  { biz: "The Gables",               hood: 'Chadds Ford',       offer: "Free dessert for parties traveling 30+ minutes to a home game.", valid: 'All season · Show ticket' },
+  { biz:"Kelly's Taproom",          hood:'Bryn Mawr',      offer:'$5 off any pitcher on Villanova game days.' },
+  { biz:'Brick & Brew',             hood:'Wayne',          offer:'20% off entrées with proof of Nova game attendance.' },
+  { biz:'The Refectory',            hood:'Villanova',      offer:'Free appetizer with your ticket stub from any home game.' },
+  { biz:'Conshohocken Brewing Co.', hood:'Conshohocken',   offer:'$2 off Wildcat-themed pours during all home games.' },
+  { biz:'White Dog Cafe',           hood:'Wayne',          offer:'Complimentary dessert for parties of four or more in Villanova gear.' },
+  { biz:'Iron Hill Brewery',        hood:'King of Prussia',offer:'15% off your check after every UConn or Georgetown game.' },
+  { biz:'The Radnor Hotel',         hood:'Radnor',         offer:'Champagne toast for groups celebrating a Wildcat win.' },
+  { biz:"Minella's Diner",          hood:'Wayne',          offer:'Free coffee with any breakfast on home-game mornings.' },
 ];
 
-/* ============================================================
-   MOCK DATA — RECENT CONTRIBUTIONS
-   ============================================================ */
-const CONTRIB_NAMES = [
-  "Mike K. '08", "Sarah R. '17", "Tom D. '94", "Allison F. '11", "Brian H. '06",
-  "Pat M. '02", "Greg V. '92", "Megan O. '15", "Joe P. '89", "Christine W. '20",
-  "Rachel B. '13", "Dan L. '98", "Mark T. '12", "Lori K. '03", "Doug P. '96",
-  "Alyssa N. '19", "Tina R. '01", "Kevin O. '23", "Christopher B. '88", "Kevin S. '85",
-  "Sarah K. '14", "Jenna H. '16", "Sean F. '07", "Maria L. '99", "Pat O. '00",
-  "Liam G. '21", "Eddie P. '85", "Caitlin M. '18", "Brendan W. '10", "Nick A. '05",
-  "Hannah J. '22", "Ryan A. '14", "Josh H. '17", "Mikal B. '18", "Jalen B. '18",
-];
-const CONTRIB_AMOUNTS = [4, 6, 8, 10, 12, 14, 15, 18, 22, 25, 28, 32, 38, 45, 60];
+/* ===== Render ===== */
+const $  = (s,c=document) => c.querySelector(s);
+const $$ = (s,c=document) => Array.from(c.querySelectorAll(s));
+const fmt = n => '$' + Number(n).toFixed(2);
+const pad = n => String(n).padStart(2, '0');
 
-/* ============================================================
-   MOCK DATA — SCORES FALLBACK
-   ============================================================ */
-const MOCK_SCORES = [
-  { sport: 'mbb', sportIcon: 'basketball', opp: 'STJ', opponent: "St. John's",  oppColor: '#BA0C2F', us: 79, them: 66, status: 'Final',         result: 'W', live: false },
-  { sport: 'mbb', sportIcon: 'basketball', opp: 'UCN', opponent: 'UConn',        oppColor: '#0E1A40', us: 71, them: 75, status: 'Final',         result: 'L', live: false },
-  { sport: 'mbb', sportIcon: 'basketball', opp: 'MAR', opponent: 'Marquette',    oppColor: '#003366', us: 68, them: 64, status: 'Q4 · 0:00',     result: 'W', live: false },
-  { sport: 'mbb', sportIcon: 'basketball', opp: 'GTN', opponent: 'Georgetown',   oppColor: '#041E42', us: 32, them: 28, status: 'Q3 · 4:22',     result: 'W', live: true  },
-  { sport: 'mbb', sportIcon: 'basketball', opp: 'CRT', opponent: 'Creighton',    oppColor: '#0a2240', us: 0,  them: 0,  status: '7:00 PM Sat',   result: '',  live: false, future: true },
-  { sport: 'wbb', sportIcon: 'basketball', opp: 'UCN', opponent: 'UConn (W)',    oppColor: '#0E1A40', us: 64, them: 79, status: 'Final',         result: 'L', live: false },
-  { sport: 'lax', sportIcon: 'lacrosse',   opp: 'ND',  opponent: 'Notre Dame',   oppColor: '#0C2340', us: 14, them: 11, status: 'Final',         result: 'W', live: false },
-  { sport: 'fb',  sportIcon: 'football',   opp: 'DEL', opponent: 'Delaware',     oppColor: '#003E6F', us: 24, them: 20, status: 'Final',         result: 'W', live: false },
-  { sport: 'bsb', sportIcon: 'baseball',   opp: 'GTN', opponent: 'Georgetown',   oppColor: '#041E42', us: 6,  them: 4,  status: 'F · 9 inn',     result: 'W', live: false },
-  { sport: 'soc', sportIcon: 'soccer',     opp: 'PRV', opponent: 'Providence',   oppColor: '#000000', us: 2,  them: 2,  status: 'Final',         result: 'T', live: false },
-  { sport: 'fh',  sportIcon: 'field-hockey', opp: 'SYR', opponent: 'Syracuse',   oppColor: '#F76900', us: 3,  them: 1,  status: 'Final',         result: 'W', live: false },
-];
-
-/* ============================================================
-   FAQ
-   ============================================================ */
-const FAQ = [
-  { q: "Is Nova Nation Exchange officially affiliated with Villanova University?",
-    a: "No. We are a fan-initiated, fan-operated platform. We are not endorsed by, affiliated with, or sanctioned by Villanova University or Villanova Athletics. We're three Nova grads who got tired of giving StubHub our resale money. That said, every dollar we route to VASE goes directly to the Villanova Athletics Strategic Excellence Fund — to the same office that supports the same student-athletes we cheer for in section 109." },
-  { q: "How does the 10% actually reach VASE?",
-    a: "Every quarter, our finance partner (Stripe Treasury) automatically initiates an ACH transfer of accumulated 10% contributions to the official VASE Fund account. We publish quarterly remittance receipts on request. No middlemen, no overhead siphons, no cute reinterpretation of \"net\"." },
-  { q: "What happens if my ticket transfer fails?",
-    a: "We make it right, full stop. If your transfer doesn't land in your Apple Wallet or your email within 60 minutes of purchase, we refund you 100% — including the VASE share (which we cover out of pocket). We're not in the business of pocketing money for tickets we couldn't deliver." },
-  { q: "Can I add tickets to Apple Wallet on Android?",
-    a: "Apple Wallet is iOS-only. On Android, your ticket arrives via Ticketmaster's Android app and Google Wallet, with a backup PDF emailed to you. The buyer experience is just as smooth — we just can't call it \"Apple\" Wallet because that would be a lie, and Wildcats don't lie." },
-  { q: "How is the \"fan trust score\" calculated?",
-    a: "Five-star sellers have completed five or more successful transfers with zero reported issues and zero late deliveries. Stars are earned, not bought. We don't sell badges. (We did consider it. We rejected it. It's a dumb idea.)" },
-  { q: "Who built this?",
-    a: "Nova grads. Section 109 regulars. People who've been at every UConn game since 2012. We built this because we got tired of giving 25% of every ticket resale to StubHub when none of it went back to the program. So we built our own. Three of us in a Wayne basement, one whiteboard, one mission. It's not a side hustle. It's a love letter." },
-  { q: "Why 10% and not 5% or 20%?",
-    a: "We landed on 10% because it's big enough to matter (a sold-out UConn game with 200 transactions on our platform routes around $4,000 to VASE in a single night) and small enough that fans don't notice it in the receipt. We talked about 20%. We thought hard about 5%. Ten felt right. Ten is the number." },
-  { q: "What sports are covered beyond basketball?",
-    a: "All of them. Men's and women's basketball, football, men's and women's lacrosse, baseball, softball, soccer, field hockey, track, swimming. If Villanova plays it and sells tickets to it, you can list those tickets here. Lacrosse is genuinely underrated — Coach Schaffer's program has been quietly fantastic." },
-  { q: "Do you ever sell my data?",
-    a: "Never. We don't have ads. We don't sell email lists. We don't track you across the web. The Wall of Heroes only shows the name and class year you choose to display. You can opt out entirely and your contribution still goes to VASE." },
-  { q: "Can I buy a ticket as a gift?",
-    a: "Absolutely. Drop the recipient's email into the buyer field, and we'll send the transfer to them directly. Their Apple Wallet pass will show their name on it — and yours will show up on the Wall of Heroes for the contribution. The perfect gift for the Nova fan in your life." },
-];
-
-/* ============================================================
-   RENDERERS
-   ============================================================ */
-
-/* ---- Tickets ---- */
-function ticketCard(t) {
-  const stars = '★'.repeat(t.seller.stars) + '☆'.repeat(5 - t.seller.stars);
-  const oppInitial = t.opp ? t.opp[0] : 'V';
-  const isHome = t.isHome ? 'vs' : '@';
+function listingRow(t, i) {
+  const prefix = t.isHome ? 'vs' : '@';
   return `
-    <article class="ticket-stub perf-glow" data-ticket="${t.id}" data-sport="${t.sport}" data-price="${t.ask}" tabindex="0" role="button" aria-label="${isHome} ${t.opponent}, ${t.date}, ${fmt(t.ask)}">
-      <div class="p-5">
-
-        <!-- Top row: logo + opponent + sport icon -->
-        <div class="flex items-start justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-black text-white text-lg shadow"
-                 style="background:${t.oppColor}">${oppInitial}</div>
-            <div>
-              <div class="text-[10.5px] tracking-[0.18em] uppercase text-nova-navy/60">${isHome} ${sportLabel(t.sport)}</div>
-              <h3 class="font-display font-bold text-nova-navy text-xl leading-tight">${t.opponent}</h3>
-            </div>
-          </div>
-          <span class="text-nova-navy/55" aria-hidden="true">
-            <svg width="22" height="22"><use href="#${t.sportIcon}"/></svg>
-          </span>
-        </div>
-
-        <!-- Date -->
-        <div class="mt-2 font-mono text-[12.5px] text-nova-navy/75">${t.date} · ${t.time}</div>
-        <div class="text-[11px] text-nova-navy/55 italic">${t.venue}</div>
-
-        <hr class="ticket-divider"/>
-
-        <!-- Seat -->
-        <div class="ticket-seat-box font-mono text-[12px] grid grid-cols-3 gap-2 text-center">
-          <div>
-            <div class="text-[9.5px] tracking-widest uppercase text-nova-navy/55">Section</div>
-            <div class="font-bold text-nova-navy text-sm">${t.section}</div>
-          </div>
-          <div>
-            <div class="text-[9.5px] tracking-widest uppercase text-nova-navy/55">Row</div>
-            <div class="font-bold text-nova-navy text-sm">${t.row}</div>
-          </div>
-          <div>
-            <div class="text-[9.5px] tracking-widest uppercase text-nova-navy/55">Seat</div>
-            <div class="font-bold text-nova-navy text-sm">${t.seat}</div>
-          </div>
-        </div>
-
-        <hr class="ticket-divider"/>
-
-        <!-- Price + seller -->
-        <div class="flex items-end justify-between gap-3">
-          <div>
-            <div class="text-[10px] tracking-widest uppercase text-nova-navy/55">Face $${t.face}</div>
-            <div class="font-display font-black text-3xl" style="color: var(--nova-blue-2)">$${t.ask}</div>
-          </div>
-          <div class="text-right">
-            <div class="text-[12px] text-nova-navy/80 font-medium">${t.seller.name}</div>
-            <div class="text-[11px] text-nova-navy/55">${t.seller.city}</div>
-            <div class="stars" title="${t.seller.stars} stars">${stars}</div>
-          </div>
-        </div>
-
-        <div class="mt-4 flex items-center justify-between gap-2">
-          <span class="vase-badge">
-            <span class="v-mark"><svg><use href="#vmark-flat"/></svg></span>
-            10% → VASE · $${Math.round(t.ask * 0.1)}
-          </span>
-          <span class="text-[11px] text-nova-navy/60 italic">Apple Wallet ready</span>
-        </div>
+    <div class="listing" data-id="${t.id}" data-sport="${t.sport}" role="button" tabindex="0" aria-label="${prefix} ${t.opponent} ${t.date} $${t.ask}">
+      <div class="l-num">№ ${pad(i + 1)}</div>
+      <div class="l-date">
+        ${t.date}
+        <span class="small">${t.time}</span>
       </div>
-    </article>
+      <div class="l-title">
+        ${prefix} <em>${t.opponent}</em>
+        <span class="sport">${t.sportLabel} · ${t.venue}</span>
+      </div>
+      <div class="l-seat">
+        Sec ${t.section}${t.row !== '—' ? ' · Row ' + t.row : ''}
+        <span class="sub">${t.seat !== '—' ? 'Seat ' + t.seat : 'General admission'}</span>
+      </div>
+      <div class="l-price">
+        <div class="amt">${t.face > t.ask ? '<span class="strike">$' + t.face + '</span>' : ''}$${t.ask}</div>
+        <div class="per">per ticket</div>
+      </div>
+    </div>
   `;
 }
-function sportLabel(s) {
-  return ({
-    mbb: "Men's Basketball", wbb: "Women's Basketball",
-    fb: "Football", lax: "Lacrosse", bsb: "Baseball",
-    soc: "Soccer", fh: "Field Hockey", sb: "Softball"
-  })[s] || 'Villanova';
-}
 
-function renderTickets(filterSport = 'all', maxPrice = 999) {
-  const grid = $('#ticketGrid');
-  const visible = TICKETS.filter(t =>
-    (filterSport === 'all' || t.sport === filterSport) &&
-    t.ask <= maxPrice
-  );
-  grid.innerHTML = visible.map(ticketCard).join('') || `<div class="col-span-full text-center text-nova-navy/60 py-12">No listings match those filters yet. Try widening the range.</div>`;
-  $('#ticketCount').textContent = visible.length;
-
-  $$('#ticketGrid .ticket-stub').forEach(el => {
-    el.addEventListener('click', () => openPurchaseModal(el.dataset.ticket));
-    el.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPurchaseModal(el.dataset.ticket); }
+let currentSport = 'all';
+function renderTickets() {
+  const list = TICKETS.filter(t => currentSport === 'all' || t.sport === currentSport);
+  $('#ticketGrid').innerHTML = list.map(listingRow).join('') ||
+    '<div style="padding:32px 8px; color: var(--ink-soft);">No listings in that category yet.</div>';
+  $$('#ticketGrid .listing').forEach(row => {
+    row.addEventListener('click', () => openTicket(row.dataset.id));
+    row.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openTicket(row.dataset.id); }
     });
   });
 }
 
-/* ---- Heroes ---- */
-function heroBannerCard(h, isTop = false) {
-  const cls = isTop ? 'banner-card top-hero' : 'banner-card';
+function dealTile(d, i) {
   return `
-    <div class="${cls}">
-      <div class="text-[10px] tracking-[0.22em] uppercase text-nova-gold mb-1">★ Fan Hero</div>
-      <div class="font-display ${isTop ? 'text-3xl' : 'text-xl'} font-bold leading-tight">${h.name}</div>
-      <div class="text-[12px] text-nova-cream/75 mt-0.5">${h.hood}</div>
-      <div class="mt-3 font-display ${isTop ? 'text-4xl' : 'text-2xl'} text-nova-blue font-black">${fmtInt(h.ytd)}</div>
-      <div class="text-[10px] tracking-[0.18em] uppercase text-nova-cream/70">to VASE · season-to-date</div>
-      <div class="mt-3 italic text-[12.5px] text-nova-cream/85">"${h.tag}"</div>
-      ${isTop ? '<div class="tail"></div>' : ''}
-    </div>
-  `;
-}
-function renderHeroes() {
-  const top = HEROES.filter(h => h.top);
-  const rest = HEROES.filter(h => !h.top);
-  $('#topHeroes').innerHTML = top.map(h => heroBannerCard(h, true)).join('');
-  $('#heroGrid').innerHTML  = rest.map(h => heroBannerCard(h, false)).join('');
-}
-
-/* ---- Deals ---- */
-function dealCard(d, idx) {
-  return `
-    <article class="deal-stub" data-deal="${idx}">
-      <div class="flex items-start justify-between gap-3">
-        <div>
-          <div class="text-[10.5px] tracking-[0.2em] uppercase text-nova-navy/55">${d.hood}</div>
-          <h3 class="font-display font-bold text-nova-navy text-2xl leading-tight mt-0.5">${d.biz}</h3>
-        </div>
-        <span class="text-nova-blue font-display text-2xl leading-none" aria-hidden="true">V</span>
+    <div class="deal" data-deal="${i}" role="button" tabindex="0" aria-label="${d.biz} deal">
+      <div class="deal-head">
+        <span class="deal-no">№ ${pad(i + 1)}</span>
+        <span class="deal-hood">${d.hood}</span>
       </div>
-      <hr class="ticket-divider"/>
-      <p class="text-[14.5px] text-nova-navy/85 min-h-[64px]">${d.offer}</p>
-      <div class="text-[11px] text-nova-navy/55 mt-2">${d.valid}</div>
-      <button class="mt-4 btn btn-primary w-full" data-deal-btn="${idx}">
-        <span class="v-mark" style="width:16px;height:16px"><svg><use href="#vmark"/></svg></span>
-        Show This Deal
-      </button>
-    </article>
+      <h3>${d.biz}</h3>
+      <p>${d.offer}</p>
+      <span class="deal-cta">Get the code →</span>
+    </div>
   `;
 }
 function renderDeals() {
-  const html = DEALS.map(dealCard).join('');
-  $('#dealsGrid').innerHTML   = html;
-  $('#dealsScroll').innerHTML = html;
-  $$('[data-deal-btn]').forEach(b => {
-    b.addEventListener('click', e => {
-      e.stopPropagation();
-      openDealModal(parseInt(b.dataset.dealBtn, 10));
+  $('#dealsGrid').innerHTML = DEALS.map(dealTile).join('');
+  $$('#dealsGrid .deal').forEach(t => {
+    t.addEventListener('click', () => openDeal(parseInt(t.dataset.deal, 10)));
+    t.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDeal(parseInt(t.dataset.deal, 10)); }
     });
   });
 }
 
-/* ---- FAQ ---- */
-function renderFAQ() {
-  $('#faqList').innerHTML = FAQ.map(({ q, a }) => `
-    <details class="faq">
-      <summary>${q}</summary>
-      <div class="answer">${a}</div>
-    </details>
-  `).join('');
-}
+/* ===== Modal ===== */
+function openModal(id) { document.body.style.overflow = 'hidden'; $('#' + id).classList.add('open'); }
+function closeModal(id){ document.body.style.overflow = '';        $('#' + id).classList.remove('open'); }
+$$('[data-close]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.close)));
+$$('.modal-bg').forEach(bg => bg.addEventListener('click', e => { if (e.target === bg) closeModal(bg.id); }));
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { $$('.modal-bg.open').forEach(m => m.classList.remove('open')); document.body.style.overflow=''; }
+});
 
-/* ============================================================
-   PURCHASE MODAL
-   ============================================================ */
-let currentTicketId = null;
-function openPurchaseModal(id) {
+let currentTicket = null;
+function openTicket(id) {
   const t = TICKETS.find(x => x.id === id);
   if (!t) return;
-  currentTicketId = id;
-  $('#modalOppLogo').style.background = t.oppColor;
-  $('#modalOppLogo').textContent = (t.opp || 'V')[0];
-  $('#modalSport').textContent = sportLabel(t.sport);
-  $('#purchaseTitle').textContent = (t.isHome ? 'Villanova vs ' : 'Villanova @ ') + t.opponent;
-  $('#modalDate').textContent  = `${t.date} · ${t.time}`;
-  $('#modalVenue').textContent = t.venue;
-  $('#modalSeats').textContent = `Section ${t.section} · Row ${t.row} · Seat ${t.seat}`;
-
-  // Wallet pass
-  $('#passHead').textContent    = (t.isHome ? 'vs ' : '@ ') + t.opponent;
-  $('#passSub').textContent     = `${t.date} · ${t.time}`;
-  $('#passVenue').textContent   = t.venue;
-  $('#passSection').textContent = t.section;
-  $('#passRow').textContent     = t.row;
-  $('#passSeat').textContent    = t.seat;
-
-  // Receipt math
-  const ticket = t.ask;
-  const fee = 7.5, proc = 2.5;
-  const vase = +(ticket * 0.10).toFixed(2);
-  const total = +(ticket + fee + proc + vase).toFixed(2);
-  $('#receiptTicket').textContent = fmt(ticket);
-  $('#receiptVase').textContent   = fmt(vase);
-  $('#receiptTotal').textContent  = fmt(total);
-
-  openModal('purchaseModal');
+  currentTicket = t;
+  const fee  = +(t.ask * 0.075).toFixed(2);
+  const proc = +(t.ask * 0.025).toFixed(2);
+  const vase = +(t.ask * 0.10 ).toFixed(2);
+  const total = +(t.ask + fee + proc + vase).toFixed(2);
+  $('#modalSport').textContent = t.sportLabel;
+  $('#modalTitle').innerHTML   = `${t.isHome ? 'vs' : '@'} <em>${t.opponent}</em>`;
+  $('#modalMeta').textContent  = `${t.date} · ${t.time} · ${t.venue}`;
+  $('#modalSeat').textContent  = `Section ${t.section}${t.row !== '—' ? ' · Row ' + t.row : ''}${t.seat !== '—' ? ' · Seat ' + t.seat : ''}`;
+  $('#pTicket').textContent = fmt(t.ask);
+  $('#pFee').textContent    = fmt(fee);
+  $('#pProc').textContent   = fmt(proc);
+  $('#pVase').textContent   = fmt(vase);
+  $('#pTotal').textContent  = fmt(total);
+  openModal('ticketModal');
 }
 
-/* ============================================================
-   STRIPE CHECKOUT (real, when server is running)
-   ============================================================ */
-async function payWithStripe() {
-  if (!currentTicketId) return;
-  const btn = $('#payWithStripeBtn');
+$('#reserveBtn').addEventListener('click', async () => {
+  if (!currentTicket) return;
+  const btn = $('#reserveBtn');
   const orig = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="v-mark" style="width:18px;height:18px"><svg><use href="#vmark"/></svg></span> Routing to Stripe…';
+  btn.disabled = true; btn.textContent = 'Routing to checkout…';
   try {
-    const buyerEmail = document.querySelector('#purchaseModal input[type="email"]')?.value || undefined;
     const res = await fetch('/api/checkout/create-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ticketId: currentTicketId, buyerEmail }),
+      body: JSON.stringify({ ticketId: currentTicket.id, buyerEmail: $('#buyerEmail').value || undefined }),
     });
-    if (!res.ok) throw new Error('Checkout failed (' + res.status + ')');
+    if (!res.ok) throw new Error('Checkout unavailable');
     const data = await res.json();
-    if (data?.url) {
-      window.location.href = data.url;
-    } else {
-      throw new Error('No checkout URL returned.');
-    }
+    if (data?.url) { window.location.href = data.url; return; }
+    throw new Error('No checkout URL');
   } catch (e) {
     alert(
-      'Stripe checkout unavailable: ' + e.message +
-      '\n\nMake sure the backend is running:\n  cd server && npm install && npm run dev\n\n' +
-      'Then add your test keys to server/.env.'
+      'Live checkout isn’t available on this preview.\n\n' +
+      'This is the GitHub Pages static deploy. To run a real Stripe checkout:\n' +
+      '  cd server && npm install && npm run dev'
     );
-    btn.disabled = false;
-    btn.innerHTML = orig;
+    btn.disabled = false; btn.innerHTML = orig;
   }
-}
-document.addEventListener('click', e => {
-  if (e.target.closest('#payWithStripeBtn')) payWithStripe();
 });
 
-// Show a confirmation if we came back from a successful Stripe Checkout
-(() => {
-  const params = new URLSearchParams(location.search);
-  if (params.get('checkout') === 'success') {
-    setTimeout(() => openModal('confirmModal'), 600);
-    // Strip query so a refresh doesn't re-show it
-    history.replaceState({}, '', location.pathname + location.hash);
-  }
-})();
-
-/* ============================================================
-   IOS SHEET + CONFIRM
-   ============================================================ */
-function openIosSheet() { $('#iosSheet').classList.add('open'); }
-function closeIosSheet() { $('#iosSheet').classList.remove('open'); }
-$('#iosOpen')?.addEventListener('click', () => {
-  closeIosSheet();
-  closeModal('purchaseModal');
-  setTimeout(() => openModal('confirmModal'), 300);
-});
-
-/* ============================================================
-   LISTING CONFIRMATION
-   ============================================================ */
-function openListingConfirmModal() {
-  const price = parseFloat($('#listPrice').value || '0');
-  const qtyMap = { '1': 1, '2': 2, '2split': 2, '4': 4 };
-  const qty = qtyMap[$('#listQty').value] || 1;
-  const vase = price * qty * 0.10;
-  $('#listingVase').textContent = fmt(vase);
-  openModal('listingModal');
-}
-
-/* ============================================================
-   LIVE LISTING MATH
-   ============================================================ */
-function updateListingMath() {
-  const price = parseFloat($('#listPrice').value || '0');
-  const qtyMap = { '1': 1, '2': 2, '2split': 2, '4': 4 };
-  const qty = qtyMap[$('#listQty').value] || 1;
-  const gross = price * qty;
-  const vase  = gross * 0.10;
-  const fees  = gross * 0.045;
-  const net   = gross - vase - fees;
-  $('#vaseMath').textContent  = fmt(vase);
-  $('#mathGross').textContent = fmt(gross);
-  $('#mathVase').textContent  = fmt(vase);
-  $('#mathFees').textContent  = fmt(fees);
-  $('#mathNet').textContent   = fmt(net);
-
-  // Pulse
-  const el = $('#vaseMath');
-  el.classList.remove('pulse-once');
-  void el.offsetWidth;
-  el.classList.add('pulse-once');
-}
-$('#listPrice')?.addEventListener('input', updateListingMath);
-$('#listQty')?.addEventListener('change', updateListingMath);
-
-/* ============================================================
-   DEAL REDEMPTION
-   ============================================================ */
-function genDealCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let s = '';
-  for (let i = 0; i < 8; i++) s += chars[Math.floor(Math.random() * chars.length)];
+/* ===== Deal code ===== */
+function genCode() {
+  const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s = ''; for (let i = 0; i < 8; i++) s += c[Math.floor(Math.random() * c.length)];
   return s.slice(0, 4) + '-' + s.slice(4);
 }
-function openDealModal(idx) {
-  const d = DEALS[idx];
-  if (!d) return;
-  $('#dealName').textContent = d.biz;
+function openDeal(i) {
+  const d = DEALS[i]; if (!d) return;
+  $('#dealBiz').innerHTML  = d.biz.replace(/(['’]s\b|\bTaproom\b|\bCafe\b|\bDiner\b|\bBrewery\b|\bHotel\b|\bBrewing Co\.\b|\bRefectory\b)/, '<em>$1</em>');
   $('#dealHood').textContent = d.hood;
   $('#dealOffer').textContent = d.offer;
-  $('#dealCode').textContent = genDealCode();
+  $('#dealCode').textContent = genCode();
   openModal('dealModal');
 }
 
-/* ============================================================
-   MODAL HELPERS
-   ============================================================ */
-function openModal(id) {
-  document.body.style.overflow = 'hidden';
-  $('#' + id).classList.add('open');
-}
-function closeModal(id) {
-  document.body.style.overflow = '';
-  $('#' + id).classList.remove('open');
-}
-$$('[data-close]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.close)));
-$$('.modal-backdrop').forEach(bd => bd.addEventListener('click', e => {
-  if (e.target === bd) closeModal(bd.id);
-}));
-$$('.ios-sheet').forEach(bd => bd.addEventListener('click', e => {
-  if (e.target === bd) closeIosSheet();
-}));
-window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    $$('.modal-backdrop.open, .ios-sheet.open').forEach(el => el.classList.remove('open'));
-    document.body.style.overflow = '';
-  }
-});
-
-/* ============================================================
-   VASE COUNTER (top nav, hero, widget)
-   ============================================================ */
-let VASE_TOTAL = 247853;
-let TX_COUNT   = 1847;
-let HERO_COUNT = 312;
-
-function paintVase() {
-  const s = '$' + Math.round(VASE_TOTAL).toLocaleString();
-  ['vaseTop', 'vaseTopMobile', 'heroVase', 'vaseWidget'].forEach(id => {
-    const el = $('#' + id);
-    if (el) el.textContent = s;
-  });
-  $('#heroTix').textContent    = TX_COUNT.toLocaleString();
-  $('#heroHeroes').textContent = HERO_COUNT.toLocaleString();
-}
-function tickVase() {
-  const bump = Math.round(rand(3, 35));
-  VASE_TOTAL += bump;
-  if (Math.random() < 0.4) TX_COUNT += 1;
-  if (Math.random() < 0.05) HERO_COUNT += 1;
-  paintVase();
-
-  // Flash effect
-  ['vaseTop', 'heroVase', 'vaseWidget'].forEach(id => {
-    const el = $('#' + id);
-    if (!el) return;
-    el.classList.add('flash');
-    setTimeout(() => el.classList.remove('flash'), 250);
-  });
-
-  setTimeout(tickVase, rand(8000, 15000));
-}
-
-/* ============================================================
-   MISSION TOAST
-   ============================================================ */
-function showMissionToast() {
-  const name = pick(CONTRIB_NAMES);
-  const amount = pick(CONTRIB_AMOUNTS);
-  $('#toastBody').innerHTML = `<strong>${name}</strong> just contributed <strong class="text-nova-blue">$${amount}</strong> to VASE.`;
-  $('#missionToast').classList.add('show');
-  setTimeout(() => $('#missionToast').classList.remove('show'), 6000);
-}
-setInterval(showMissionToast, 25000);
-setTimeout(showMissionToast, 4000);
-
-/* ============================================================
-   LIVE CONTRIBUTIONS FEED
-   ============================================================ */
-const TIMES = ['just now', '1 minute ago', '2 minutes ago', '4 minutes ago', '7 minutes ago', '11 minutes ago', '14 minutes ago', '19 minutes ago', '23 minutes ago'];
-function feedItem() {
-  const name = pick(CONTRIB_NAMES);
-  const amount = pick(CONTRIB_AMOUNTS);
-  const t = pick(TIMES);
-  return `
-    <div class="live-feed-item">
-      <span class="dot"></span>
-      <span><span class="text-nova-cream/60 mr-2">${t}:</span>
-        <strong>${name}</strong> contributed
-        <strong class="text-nova-blue">$${amount}</strong> to VASE.
-      </span>
-    </div>
-  `;
-}
-function seedFeed() {
-  const feed = $('#liveFeed');
-  feed.innerHTML = '';
-  for (let i = 0; i < 6; i++) feed.insertAdjacentHTML('beforeend', feedItem());
-}
-function tickFeed() {
-  const feed = $('#liveFeed');
-  if (!feed) return;
-  feed.insertAdjacentHTML('afterbegin', feedItem());
-  while (feed.children.length > 8) feed.removeChild(feed.lastChild);
-}
-setInterval(tickFeed, 7000);
-
-/* ============================================================
-   SCORE TICKER — ESPN + FALLBACK
-   ============================================================ */
-async function loadScores() {
-  try {
-    const res = await fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard', { cache: 'no-store' });
-    if (!res.ok) throw new Error('bad');
-    const data = await res.json();
-    const events = (data?.events || []).filter(ev =>
-      (ev.competitions?.[0]?.competitors || []).some(c =>
-        (c.team?.location || '').toLowerCase().includes('villanova') ||
-        (c.team?.shortDisplayName || '').toLowerCase().includes('villanova') ||
-        (c.team?.displayName || '').toLowerCase().includes('villanova')
-      )
-    );
-    if (!events.length) throw new Error('no nova games');
-    const transformed = events.slice(0, 8).map(transformEspn).filter(Boolean);
-    if (transformed.length === 0) throw new Error('transform-empty');
-    SCORES = transformed.concat(MOCK_SCORES).slice(0, 11);
-  } catch (e) {
-    SCORES = MOCK_SCORES.slice();
-  } finally {
-    renderTicker();
-    renderMobileTicker();
-  }
-}
-function transformEspn(ev) {
-  const comp = ev.competitions?.[0];
-  if (!comp) return null;
-  const competitors = comp.competitors || [];
-  const us = competitors.find(c => (c.team?.location || '').toLowerCase().includes('villanova'));
-  const them = competitors.find(c => c !== us);
-  if (!us || !them) return null;
-  const usScore = parseInt(us.score || '0', 10);
-  const themScore = parseInt(them.score || '0', 10);
-  const live = ev.status?.type?.state === 'in';
-  const future = ev.status?.type?.state === 'pre';
-  let status = ev.status?.type?.shortDetail || '';
-  if (future) status = (ev.status?.type?.shortDetail || ev.date || 'TBD');
-  if (ev.status?.type?.completed) status = 'Final';
-  return {
-    sport: 'mbb',
-    sportIcon: 'basketball',
-    opp: (them.team?.abbreviation || them.team?.shortDisplayName || '?').slice(0, 3).toUpperCase(),
-    opponent: them.team?.shortDisplayName || them.team?.displayName || 'Opponent',
-    oppColor: '#' + (them.team?.color || '333'),
-    us: usScore,
-    them: themScore,
-    status,
-    result: future ? '' : (usScore > themScore ? 'W' : usScore < themScore ? 'L' : 'T'),
-    live,
-    future,
-  };
-}
-
-let SCORES = MOCK_SCORES.slice();
-let scoreIndex = 0;
-let scorePaused = false;
-
-function scoreCard(s) {
-  const win = s.result === 'W';
-  const isPre = s.future;
-  const scoreColor = isPre ? 'text-nova-cream/80' : (win ? 'text-nova-blue' : 'text-nova-cream/55');
-  const livePulse = s.live ? 'score-pulse' : '';
-  const liveDot = s.live ? '<span class="live-dot" aria-hidden="true"></span><span class="text-red-400 text-[10px] uppercase tracking-widest">Live</span>' : '';
-  return `
-    <button class="score-card" data-score-idx="${SCORES.indexOf(s)}" aria-label="${s.opponent} score">
-      <span class="opp-logo" style="background:${s.oppColor}">${(s.opp || '?')[0]}</span>
-      <span class="font-mono uppercase tracking-wider text-[10.5px] text-nova-cream/70">${s.opp}</span>
-      <span class="text-nova-cream/85">${s.opponent}</span>
-      ${ isPre
-          ? `<span class="font-mono ${scoreColor}">${s.status}</span>`
-          : `<span class="font-mono ${scoreColor} ${livePulse}">${s.us}–${s.them}</span>
-             <span class="text-[10.5px] text-nova-cream/55">${s.status}</span>`
-      }
-      <span aria-hidden="true" class="opacity-60">
-        <svg width="13" height="13"><use href="#${s.sportIcon}"/></svg>
-      </span>
-      ${liveDot}
-    </button>
-  `;
-}
-function renderTicker() {
-  const wrap = $('#scoreCarousel');
-  if (!wrap) return;
-  wrap.innerHTML = SCORES.map(scoreCard).join('');
-  // Hook clicks
-  $$('#scoreCarousel .score-card').forEach(c =>
-    c.addEventListener('click', () => openBoxScore(parseInt(c.dataset.scoreIdx, 10)))
-  );
-  // Pause on hover
-  wrap.addEventListener('mouseenter', () => scorePaused = true);
-  wrap.addEventListener('mouseleave', () => scorePaused = false);
-}
-function cycleTicker() {
-  if (!scorePaused) {
-    scoreIndex = (scoreIndex + 1) % SCORES.length;
-    const w = $('#scoreCarousel');
-    if (!w) return;
-    const offset = -scoreIndex * 165;
-    w.style.transform = `translateX(${offset}px)`;
-  }
-  setTimeout(cycleTicker, 4000);
-}
-function renderMobileTicker() {
-  const el = $('#scoreMobile');
-  if (!el || !SCORES.length) return;
-  let i = 0;
-  const paint = () => {
-    const s = SCORES[i % SCORES.length];
-    const score = s.future ? s.status : `${s.us}–${s.them} ${s.status}`;
-    el.innerHTML = `<span class="opp-logo inline-flex w-4 h-4 rounded-full text-[8px] mr-1 text-center" style="background:${s.oppColor}; color:#fff;"></span>
-                    <span class="text-nova-blue font-mono mr-1.5">${s.opp}</span>
-                    <span>${s.opponent} · ${score}</span>`;
-    i++;
-  };
-  paint();
-  setInterval(paint, 4500);
-}
-
-/* ============================================================
-   BOX SCORE MODAL (rich mock)
-   ============================================================ */
-const TOP_SCORERS = [
-  { name: 'Eric Dixon', pos: 'F', pts: 22, reb: 8, ast: 2 },
-  { name: 'Wooga Poplar', pos: 'G', pts: 18, reb: 5, ast: 3 },
-  { name: 'Jhamir Brickus', pos: 'G', pts: 14, reb: 3, ast: 7 },
-  { name: 'Tyler Burton',  pos: 'F', pts: 11, reb: 6, ast: 1 },
-  { name: 'Justin Moore',  pos: 'G', pts: 9,  reb: 2, ast: 4 },
-];
-function openBoxScore(idx) {
-  const s = SCORES[idx];
-  if (!s) return;
-  const win = s.result === 'W';
-  // Generate quarter splits (basketball: 2 halves of 20)
-  const isFootball = s.sport === 'fb';
-  const periodLabel = isFootball ? 'Quarter' : 'Half';
-  const periodCount = isFootball ? 4 : 2;
-  const splits = [];
-  let runUs = 0, runThem = 0;
-  for (let i = 0; i < periodCount; i++) {
-    let u, t;
-    if (i === periodCount - 1) {
-      u = s.us - runUs;
-      t = s.them - runThem;
-    } else {
-      u = Math.max(0, Math.round((s.us / periodCount) + rand(-5, 5)));
-      t = Math.max(0, Math.round((s.them / periodCount) + rand(-5, 5)));
-      runUs += u; runThem += t;
-    }
-    splits.push({ u, t });
-  }
-
-  const html = `
-    <div class="flex items-center gap-3">
-      <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-display font-black text-lg" style="background:${s.oppColor}">${(s.opp || '?')[0]}</div>
-      <div>
-        <div class="text-[11px] tracking-[0.18em] uppercase text-nova-navy/60">${sportLabel(s.sport)} · ${s.live ? 'Live' : s.status}</div>
-        <h3 class="font-display text-3xl text-nova-navy">Villanova vs ${s.opponent}</h3>
-      </div>
-    </div>
-
-    <div class="mt-5 grid grid-cols-2 gap-4">
-      <div class="rounded-xl border border-nova-navy/15 p-4 ${ win ? 'bg-nova-blue/10' : 'bg-white' }">
-        <div class="text-[11px] tracking-widest uppercase text-nova-navy/55">Villanova</div>
-        <div class="font-display text-5xl ${win ? 'text-nova-blue' : 'text-nova-navy'} font-black">${s.us}</div>
-      </div>
-      <div class="rounded-xl border border-nova-navy/15 p-4 ${ !win && !s.future ? 'bg-red-50' : 'bg-white' }">
-        <div class="text-[11px] tracking-widest uppercase text-nova-navy/55">${s.opponent}</div>
-        <div class="font-display text-5xl text-nova-navy font-black">${s.them}</div>
-      </div>
-    </div>
-
-    <div class="mt-6">
-      <h4 class="font-display text-lg text-nova-navy mb-2">By ${periodLabel}</h4>
-      <table class="w-full text-sm font-mono">
-        <thead class="text-nova-navy/55 text-[11px] uppercase">
-          <tr><th class="text-left py-1">Team</th>${splits.map((_, i) => `<th class="text-right py-1">${periodLabel.charAt(0)}${i+1}</th>`).join('')}<th class="text-right py-1">Final</th></tr>
-        </thead>
-        <tbody>
-          <tr class="border-t border-nova-navy/10">
-            <td class="text-left py-1 text-nova-navy font-bold">Villanova</td>
-            ${splits.map(x => `<td class="text-right py-1">${x.u}</td>`).join('')}
-            <td class="text-right py-1 font-bold ${win ? 'text-nova-blue' : 'text-nova-navy'}">${s.us}</td>
-          </tr>
-          <tr class="border-t border-nova-navy/10">
-            <td class="text-left py-1 text-nova-navy/85">${s.opponent}</td>
-            ${splits.map(x => `<td class="text-right py-1">${x.t}</td>`).join('')}
-            <td class="text-right py-1 font-bold">${s.them}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    ${ s.sport === 'mbb' ? `
-    <div class="mt-6">
-      <h4 class="font-display text-lg text-nova-navy mb-2">Top Wildcat scorers</h4>
-      <ul class="text-sm">
-        ${TOP_SCORERS.map(p => `
-          <li class="flex justify-between py-1.5 border-b border-dashed border-nova-navy/15">
-            <span><strong>${p.name}</strong> <span class="text-nova-navy/55">${p.pos}</span></span>
-            <span class="font-mono">${p.pts} pts · ${p.reb} reb · ${p.ast} ast</span>
-          </li>
-        `).join('')}
-      </ul>
-    </div>
-    ` : ''}
-
-    <div class="mt-6 rounded-xl bg-nova-navy text-nova-cream p-4 text-sm">
-      <div class="flex items-center gap-2">
-        <span class="v-mark" style="width:18px;height:18px"><svg><use href="#vmark-gold"/></svg></span>
-        <strong>This game routed ${fmt(Math.round(rand(800, 2400)))} to VASE</strong> through Nova Nation Exchange transactions.
-      </div>
-    </div>
-  `;
-  $('#boxContent').innerHTML = html;
-  openModal('boxModal');
-}
-
-/* ============================================================
-   FILTERS
-   ============================================================ */
-let currentSport = 'all';
-let currentMaxPrice = 450;
-$$('[data-sport]').forEach(b => b.addEventListener('click', () => {
-  $$('[data-sport]').forEach(x => x.classList.remove('active'));
+/* ===== Filters ===== */
+$$('.filter').forEach(b => b.addEventListener('click', () => {
+  $$('.filter').forEach(x => x.classList.remove('active'));
   b.classList.add('active');
   currentSport = b.dataset.sport;
-  renderTickets(currentSport, currentMaxPrice);
-}));
-$('#priceFilter')?.addEventListener('input', e => {
-  currentMaxPrice = parseInt(e.target.value, 10);
-  $('#priceFilterVal').textContent = '$' + currentMaxPrice;
-  renderTickets(currentSport, currentMaxPrice);
-});
-$('#gameFilter')?.addEventListener('change', e => {
-  // Simple substring filter on opponent
-  const v = e.target.value;
-  const grid = $('#ticketGrid');
-  if (v === 'all') { renderTickets(currentSport, currentMaxPrice); return; }
-  const cards = TICKETS.filter(t => {
-    const label = (t.isHome ? 'vs ' : 'at ') + t.opponent;
-    return label.toLowerCase().includes(v.toLowerCase()) && t.ask <= currentMaxPrice
-      && (currentSport === 'all' || t.sport === currentSport);
-  });
-  grid.innerHTML = cards.map(ticketCard).join('') || `<div class="col-span-full text-center text-nova-navy/60 py-12">No listings for that matchup yet.</div>`;
-  $('#ticketCount').textContent = cards.length;
-  $$('#ticketGrid .ticket-stub').forEach(el => el.addEventListener('click', () => openPurchaseModal(el.dataset.ticket)));
-});
-
-/* ============================================================
-   MOBILE MENU
-   ============================================================ */
-$('#mobileMenuBtn')?.addEventListener('click', () => {
-  $('#mobileMenu').classList.toggle('hidden');
-});
-$$('#mobileMenu a').forEach(a => a.addEventListener('click', () => $('#mobileMenu').classList.add('hidden')));
-
-/* ============================================================
-   INIT
-   ============================================================ */
-function init() {
   renderTickets();
-  renderHeroes();
-  renderDeals();
-  renderFAQ();
-  seedFeed();
-  paintVase();
-  tickVase();
-  updateListingMath();
-  loadScores();
-  setTimeout(cycleTicker, 4000);
-}
-document.addEventListener('DOMContentLoaded', init);
+}));
 
+/* ===== Mobile menu ===== */
+$('#menuBtn').addEventListener('click', () => {
+  const n = $('#navLinks'); n.classList.toggle('open');
+});
+$$('#navLinks a').forEach(a => a.addEventListener('click', () => $('#navLinks').classList.remove('open')));
+
+/* ===== Init ===== */
+renderTickets();
+renderDeals();
+
+(() => {
+  const p = new URLSearchParams(location.search);
+  if (p.get('checkout') === 'success') {
+    setTimeout(() => alert('Payment complete. Your ticket transfer is on its way.'), 200);
+    history.replaceState({}, '', location.pathname);
+  }
+})();
 </script>
 </body>
 </html>
