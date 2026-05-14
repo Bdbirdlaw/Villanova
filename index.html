@@ -50,61 +50,113 @@
     padding: 0 20px;
   }
 
-  /* ========== Score ticker ========== */
+  /* ========== Score ticker (continuous marquee) ========== */
   .ticker {
-    background: var(--ink);
+    background: linear-gradient(180deg, var(--ink) 0%, #0A1631 100%);
     color: #FBF8F1;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  .ticker-inner {
-    display: flex; align-items: center; gap: 10px;
-    padding: 9px 20px;
-    max-width: 720px;
-    margin: 0 auto;
-    white-space: nowrap;
     overflow: hidden;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
+    position: relative;
+    height: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
   }
-  .ticker-dot {
-    width: 7px; height: 7px;
-    background: rgba(255,255,255,0.35);
-    border-radius: 50%;
-    flex-shrink: 0;
+  /* fade edges so games scroll in/out cleanly */
+  .ticker::before,
+  .ticker::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 36px;
+    z-index: 2;
+    pointer-events: none;
   }
-  .ticker.live .ticker-dot {
-    background: var(--accent);
-    animation: tk-pulse 1.6s ease-in-out infinite;
+  .ticker::before { left: 0;  background: linear-gradient(90deg, var(--ink) 0%, transparent 100%); }
+  .ticker::after  { right: 0; background: linear-gradient(-90deg, var(--ink) 0%, transparent 100%); }
+
+  .ticker-track {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    white-space: nowrap;
+    animation: tk-scroll 55s linear infinite;
+    will-change: transform;
   }
-  @keyframes tk-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
-  .ticker-tag {
-    background: rgba(255,255,255,0.10);
-    padding: 3px 7px;
-    border-radius: 4px;
+  .ticker:hover .ticker-track,
+  .ticker:focus-within .ticker-track { animation-play-state: paused; }
+  @keyframes tk-scroll {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+    .ticker { overflow-x: auto; }
+  }
+
+  .tk-loading {
+    padding: 0 22px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+  .tk-game {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 22px;
+    height: 100%;
+    border-right: 1px solid rgba(255,255,255,0.07);
+  }
+  .tk-tag {
     font-size: 9.5px;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.08);
+    padding: 3px 7px;
+    border-radius: 4px;
     flex-shrink: 0;
+  }
+  .tk-score {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    letter-spacing: 0.02em;
     color: rgba(255,255,255,0.95);
   }
-  .ticker-text {
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 12.5px;
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: rgba(255,255,255,0.88);
-  }
-  .ticker-text .opp { color: #FBF8F1; }
-  .ticker-text .win { color: var(--accent); font-weight: 500; }
-  .ticker-text .sep { opacity: 0.4; margin: 0 6px; }
-  .ticker-nav {
-    color: rgba(255,255,255,0.55);
+  .tk-score .vu, .tk-score .op { color: rgba(255,255,255,0.95); }
+  .tk-score .win  { font-weight: 600; color: #FBF8F1; }
+  .tk-score .lose { color: rgba(255,255,255,0.5); font-weight: 400; }
+  .tk-score .sep  { opacity: 0.35; margin: 0 6px; }
+  .tk-status {
     font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.04em;
     font-family: 'JetBrains Mono', ui-monospace, monospace;
+    text-transform: uppercase;
+  }
+  .tk-live-dot {
+    width: 7px; height: 7px;
+    background: #FF3B30;
+    border-radius: 50%;
+    animation: tk-pulse 1.3s ease-in-out infinite;
     flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(255,59,48,0.7);
+  }
+  @keyframes tk-pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%     { opacity: 0.45; transform: scale(0.8); }
+  }
+  .tk-live-label {
+    color: #FF6B5C;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 700px) {
+    .tk-game { gap: 8px; padding: 0 16px; }
+    .tk-score, .tk-status { font-size: 12px; }
+    .tk-tag { font-size: 9px; }
   }
 
   /* ========== Header ========== */
@@ -834,11 +886,8 @@
 
 <!-- ============== SCORES TICKER ============== -->
 <div class="ticker" id="ticker" role="region" aria-label="Villanova scores ticker">
-  <div class="ticker-inner" id="tickerInner">
-    <span class="ticker-dot" aria-hidden="true"></span>
-    <span class="ticker-tag" id="tkrSport">VU</span>
-    <span class="ticker-text" id="tkrText">Loading latest Villanova scores…</span>
-    <span class="ticker-nav" id="tkrNav" aria-hidden="true">— / —</span>
+  <div class="ticker-track" id="tickerTrack">
+    <span class="tk-loading">Loading Villanova scores…</span>
   </div>
 </div>
 
@@ -1267,49 +1316,63 @@ async function loadScores() {
 }
 
 let SCORES = [];
-let scoreIdx = 0;
-let scoreTimer = null;
-let scorePaused = false;
 
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function gameHtml(s) {
+  const tag = `<span class="tk-tag">${escapeHtml(s.tag)}</span>`;
+  if (s.live) {
+    return `
+      <span class="tk-game">
+        ${tag}
+        <span class="tk-live-dot" aria-hidden="true"></span>
+        <span class="tk-live-label">Live</span>
+        <span class="tk-score">
+          <span class="vu">VU ${s.us}</span>
+          <span class="sep">—</span>
+          <span class="op">${escapeHtml(s.oppAbbr)} ${s.them}</span>
+        </span>
+        <span class="tk-status">${escapeHtml(s.status || '')}</span>
+      </span>`;
+  }
+  if (s.final) {
+    const vuCls = s.win ? 'vu win' : 'vu lose';
+    const opCls = s.win ? 'op lose' : 'op win';
+    return `
+      <span class="tk-game">
+        ${tag}
+        <span class="tk-score">
+          <span class="${vuCls}">VU ${s.us}</span>
+          <span class="sep">—</span>
+          <span class="${opCls}">${escapeHtml(s.oppAbbr)} ${s.them}</span>
+        </span>
+        <span class="tk-status">${escapeHtml(s.status || 'Final')}</span>
+      </span>`;
+  }
+  // upcoming / pre
+  const vs = s.isHome === false ? 'at' : 'vs';
+  return `
+    <span class="tk-game">
+      ${tag}
+      <span class="tk-score">
+        <span class="vu">VU ${vs} ${escapeHtml(s.oppAbbr)}</span>
+      </span>
+      <span class="tk-status">${escapeHtml(s.status || 'Upcoming')}</span>
+    </span>`;
+}
 function paintTicker() {
   if (!SCORES.length) return;
-  const s = SCORES[scoreIdx % SCORES.length];
-  const ticker = $('#ticker');
-  $('#tkrSport').textContent = s.tag;
-  $('#tkrNav').textContent = `${(scoreIdx % SCORES.length) + 1} / ${SCORES.length}`;
-  const prefix = s.isHome ? 'vs' : '@';
-  const wlClass = s.final ? (s.win ? 'win' : '') : '';
-  if (s.live) {
-    $('#tkrText').innerHTML =
-      `${prefix} <span class="opp">${s.opp}</span><span class="sep">·</span>` +
-      `<span class="${wlClass}">VU ${s.us}, ${s.oppAbbr} ${s.them}</span>` +
-      `<span class="sep">·</span>${s.status}`;
-  } else if (s.final) {
-    $('#tkrText').innerHTML =
-      `${prefix} <span class="opp">${s.opp}</span><span class="sep">·</span>` +
-      `<span class="${wlClass}">VU ${s.us}, ${s.oppAbbr} ${s.them}</span>` +
-      `<span class="sep">·</span>${s.status}`;
-  } else {
-    $('#tkrText').innerHTML =
-      `${prefix} <span class="opp">${s.opp}</span><span class="sep">·</span>${s.status || 'Upcoming'}`;
-  }
-  ticker.classList.toggle('live', !!s.live);
-}
-function rotateTicker() {
-  if (scorePaused) return;
-  scoreIdx++;
-  paintTicker();
+  const html = SCORES.map(gameHtml).join('');
+  // Duplicate the rail so the -50% translate loops seamlessly.
+  $('#tickerTrack').innerHTML = html + html;
 }
 async function initTicker() {
   let live = [];
   try { live = await loadScores(); } catch { live = []; }
   SCORES = live.length ? live : MOCK_SCORES.slice();
   paintTicker();
-  scoreTimer = setInterval(rotateTicker, 5000);
 }
-$('#tickerInner').addEventListener('click', () => { scoreIdx++; paintTicker(); });
-$('#ticker').addEventListener('mouseenter', () => scorePaused = true);
-$('#ticker').addEventListener('mouseleave', () => scorePaused = false);
 
 /* ===== Init ===== */
 renderTickets();
