@@ -4,3 +4,8 @@ node_modules/
 .env.*.local
 npm-debug.log*
 .DS_Store
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm

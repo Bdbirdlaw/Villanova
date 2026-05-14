@@ -190,6 +190,39 @@
   }
   .logo .name em { font-style: italic; color: var(--accent); }
 
+  .nav-account, .nav-account-mobile {
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .nav-account:hover { background: var(--bg-alt); }
+  .nav-account[data-signed], .nav-account-mobile[data-signed] {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .nav-account-mobile {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .sell-cta {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .sell-cta:active { background: #B33D1F; }
+
   .nav-links { display: none; }
   .menu-btn {
     width: 44px; height: 44px;
@@ -864,6 +897,7 @@
       <a href="#tickets">Buy Tickets</a>
       <a href="#about">About</a>
       <a href="#deals">Deals</a>
+      <button class="nav-account" id="navAccount" data-anon>Sign in</button>
       <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate">Donate to VASE</a>
     </nav>
 
@@ -880,6 +914,7 @@
       <a href="https://give.villanova.edu/campaigns/56474/donations/new?a=9978547&amp;utm_campaign=nilatvillanova&amp;utm_medium=web&amp;utm_source=vase_contribute" target="_blank" rel="noopener noreferrer" class="donate">
         Donate to <em>VASE</em> →
       </a>
+      <button class="nav-account-mobile" id="navAccountMobile" data-anon>Sign in</button>
     </div>
   </div>
 </header>
@@ -921,6 +956,7 @@
       <button class="filter" data-sport="mbb">Men's Basketball</button>
       <button class="filter" data-sport="wbb">Women's Basketball</button>
       <button class="filter" data-sport="home">Home only</button>
+      <button class="filter sell-cta" id="openListBtn">+ List a ticket</button>
     </div>
 
     <div class="tickets" id="ticketGrid"></div>
@@ -1027,6 +1063,100 @@
     <input id="buyerEmail" class="input" type="email" placeholder="Email for ticket transfer" inputmode="email"/>
     <button class="btn-block" id="reserveBtn">Reserve →</button>
     <button class="btn-block secondary" data-close="ticketModal">Cancel</button>
+  </div>
+</div>
+
+<!-- ============== SIGN-IN MODAL ============== -->
+<div class="modal-bg" id="authModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <button class="modal-close" data-close="authModal" aria-label="Close">×</button>
+    <div class="m-eyebrow">Account</div>
+    <h3 id="authTitle">Sign in to <em>list</em> a ticket</h3>
+    <p class="m-sub" id="authSub">We'll email you a one-tap sign-in link. No password.</p>
+    <form id="authForm" style="margin-top:18px">
+      <input type="email" id="authEmail" class="input" placeholder="your.email@example.com" required inputmode="email" autocomplete="email"/>
+      <button type="submit" class="btn-block" id="authSubmit">Send sign-in link</button>
+    </form>
+    <div id="authSentMsg" style="display:none;text-align:center;margin-top:18px;">
+      <p style="font-size:15px;line-height:1.55;color:var(--ink)">Check your email. The link expires in 15 minutes.</p>
+      <button class="btn-block secondary" data-close="authModal">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== ACCOUNT MODAL (signed-in) ============== -->
+<div class="modal-bg" id="accountModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <button class="modal-close" data-close="accountModal" aria-label="Close">×</button>
+    <div class="m-eyebrow">Your account</div>
+    <h3 id="accountEmail" style="font-size:24px">…</h3>
+
+    <div id="connectStatus" style="margin-top:16px;padding:14px;background:var(--card);border:1px solid var(--card-line);border-radius:12px;font-size:14px;">
+      <div class="m-eyebrow" style="margin-bottom:4px">Stripe Connect</div>
+      <div id="connectLabel" style="color:var(--ink)">Not connected</div>
+      <button class="btn-block" id="connectBtn" style="margin-top:10px">Connect to receive payouts</button>
+    </div>
+
+    <div style="margin-top:18px">
+      <div class="m-eyebrow" style="margin-bottom:8px">Your listings</div>
+      <div id="myListings" style="font-size:14px"></div>
+    </div>
+
+    <button class="btn-block secondary" id="logoutBtn" style="margin-top:16px">Sign out</button>
+  </div>
+</div>
+
+<!-- ============== LIST A TICKET MODAL ============== -->
+<div class="modal-bg" id="listModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <button class="modal-close" data-close="listModal" aria-label="Close">×</button>
+    <div class="m-eyebrow">Sell tickets</div>
+    <h3>List a <em>ticket</em></h3>
+    <p class="m-sub">10% of every sale goes to the VASE Fund. You set the price.</p>
+    <form id="listForm" style="margin-top:18px;display:flex;flex-direction:column;gap:12px">
+      <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-soft)">Game</label>
+      <select id="listGame" class="input" required></select>
+
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px">
+        <input type="text" id="listSection" class="input" placeholder="Section (e.g. 109)" required/>
+        <input type="text" id="listRow"     class="input" placeholder="Row"/>
+        <input type="text" id="listSeat"    class="input" placeholder="Seat"/>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <label style="display:block">
+          <span style="display:block;font-size:11px;font-weight:600;color:var(--ink-soft);margin-bottom:4px">Face value ($)</span>
+          <input type="number" id="listFace" class="input" placeholder="100" min="0" step="1"/>
+        </label>
+        <label style="display:block">
+          <span style="display:block;font-size:11px;font-weight:600;color:var(--ink-soft);margin-bottom:4px">Your ask ($)</span>
+          <input type="number" id="listAsk" class="input" placeholder="100" min="1" step="1" required/>
+        </label>
+      </div>
+
+      <div id="listMath" style="background:var(--card);border:1px solid var(--card-line);border-radius:12px;padding:12px;font-size:13px;color:var(--ink-soft);display:none">
+        <div style="display:flex;justify-content:space-between"><span>10% to VASE</span><span id="listVase" style="color:var(--accent);font-weight:600">—</span></div>
+        <div style="display:flex;justify-content:space-between"><span>Platform &amp; processing</span><span id="listFees">—</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid var(--rule);margin-top:6px;padding-top:6px;font-weight:700;color:var(--ink)"><span>You receive</span><span id="listNet">—</span></div>
+      </div>
+
+      <textarea id="listNote" class="input" rows="2" placeholder="Optional note to buyers (e.g. 'aisle seats, great sightline')"></textarea>
+
+      <button type="submit" class="btn-block" id="listSubmit">Publish listing →</button>
+      <button type="button" class="btn-block secondary" data-close="listModal">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============== SALE STATUS MODAL ============== -->
+<div class="modal-bg" id="saleModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <button class="modal-close" data-close="saleModal" aria-label="Close">×</button>
+    <div id="saleContent">Loading…</div>
   </div>
 </div>
 
@@ -1374,18 +1504,364 @@ async function initTicker() {
   paintTicker();
 }
 
-/* ===== Init ===== */
-renderTickets();
-renderDeals();
-initTicker();
+/* ============================================================
+   BACKEND BRIDGE — fetch listings + games from the server when
+   available; fall back to the hardcoded set on the static deploy.
+   ============================================================ */
+const API_BASE = '';  // same-origin
+let GAMES = [];
+let CURRENT_USER = null;
 
+async function fetchJson(url, opts = {}) {
+  const r = await fetch(API_BASE + url, { credentials: 'same-origin', ...opts });
+  if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
+  return r.json();
+}
+
+async function loadListingsFromServer() {
+  try {
+    const [games, listings] = await Promise.all([
+      fetchJson('/api/games'),
+      fetchJson('/api/listings'),
+    ]);
+    GAMES = games.games || [];
+    if (!Array.isArray(listings.listings) || listings.listings.length === 0) return false;
+    // Map server listings into the TICKETS shape the renderer expects.
+    TICKETS.length = 0;
+    for (const L of listings.listings) {
+      TICKETS.push({
+        id: 'L' + L.id,
+        sport: L.sport,
+        sportLabel: L.sport_label,
+        opponent: L.opponent,
+        isHome: !!L.is_home,
+        isNeutral: !!L.is_neutral,
+        date: L.date_label,
+        time: L.time_label,
+        venue: L.venue,
+        section: L.section,
+        row: L.row || '—',
+        seat: L.seat || '—',
+        face: Math.round(L.face_cents / 100),
+        ask:  Math.round(L.ask_cents  / 100),
+        note: L.game_note,
+        _listingId: L.id,
+      });
+    }
+    return true;
+  } catch (e) {
+    console.info('[bridge] using offline mock data:', e.message);
+    return false;
+  }
+}
+
+/* ============================================================
+   AUTH UI
+   ============================================================ */
+async function loadMe() {
+  try {
+    const { user } = await fetchJson('/api/auth/me');
+    CURRENT_USER = user;
+    paintAuthState();
+    return user;
+  } catch { return null; }
+}
+function paintAuthState() {
+  const labelDesk = $('#navAccount');
+  const labelMob  = $('#navAccountMobile');
+  if (!labelDesk) return;
+  if (CURRENT_USER) {
+    labelDesk.textContent = CURRENT_USER.email.split('@')[0];
+    labelDesk.setAttribute('data-signed', '');
+    labelDesk.removeAttribute('data-anon');
+    labelMob.textContent = CURRENT_USER.email.split('@')[0] + ' · Account';
+    labelMob.setAttribute('data-signed', '');
+    labelMob.removeAttribute('data-anon');
+  } else {
+    labelDesk.textContent = 'Sign in';
+    labelDesk.setAttribute('data-anon', '');
+    labelDesk.removeAttribute('data-signed');
+    labelMob.textContent = 'Sign in';
+    labelMob.setAttribute('data-anon', '');
+    labelMob.removeAttribute('data-signed');
+  }
+}
+
+function openAuthModal(title = 'Sign in') {
+  $('#authTitle').innerHTML = title.replace('list', '<em>list</em>');
+  $('#authForm').style.display = '';
+  $('#authSentMsg').style.display = 'none';
+  $('#authEmail').value = '';
+  openModal('authModal');
+  setTimeout(() => $('#authEmail').focus(), 100);
+}
+$('#authForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('#authSubmit'); btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    await fetchJson('/api/auth/request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: $('#authEmail').value.trim() }),
+    });
+    $('#authForm').style.display = 'none';
+    $('#authSentMsg').style.display = 'block';
+  } catch (e) {
+    alert('Could not send sign-in link. Make sure the backend is running.\n\n' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Send sign-in link';
+  }
+});
+
+async function openAccountModal() {
+  $('#accountEmail').textContent = CURRENT_USER.email;
+  await refreshConnectStatus();
+  await refreshMyListings();
+  openModal('accountModal');
+}
+async function refreshConnectStatus() {
+  const label = $('#connectLabel');
+  const btn   = $('#connectBtn');
+  try {
+    const { connected, chargesEnabled, payoutsEnabled, detailsSubmitted } = await fetchJson('/api/connect/status');
+    if (!connected) {
+      label.textContent = 'Not connected — connect Stripe to receive payouts when your tickets sell.';
+      btn.textContent = 'Connect to receive payouts';
+    } else if (!detailsSubmitted) {
+      label.textContent = 'Onboarding incomplete.';
+      btn.textContent = 'Continue Stripe onboarding';
+    } else if (chargesEnabled && payoutsEnabled) {
+      label.innerHTML = '✓ Connected · payouts enabled';
+      btn.textContent = 'Manage Stripe account';
+    } else {
+      label.textContent = 'Connected, awaiting verification';
+      btn.textContent = 'Continue Stripe onboarding';
+    }
+  } catch {
+    label.textContent = 'Not connected.';
+    btn.textContent = 'Connect to receive payouts';
+  }
+}
+$('#connectBtn').addEventListener('click', async () => {
+  const btn = $('#connectBtn');
+  btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Opening Stripe…';
+  try {
+    const { url } = await fetchJson('/api/connect/onboard', { method: 'POST' });
+    window.location.href = url;
+  } catch (e) {
+    alert('Could not open onboarding: ' + e.message);
+    btn.disabled = false; btn.textContent = orig;
+  }
+});
+async function refreshMyListings() {
+  const box = $('#myListings');
+  try {
+    const { listings } = await fetchJson('/api/listings/mine');
+    if (!listings.length) { box.innerHTML = '<p style="color:var(--ink-soft)">No listings yet.</p>'; return; }
+    box.innerHTML = listings.map(l => {
+      const prefix = l.is_home || l.is_neutral ? 'vs' : '@';
+      const pill = l.status === 'active' ? 'Active' : l.status === 'sold' ? 'Sold' : 'Cancelled';
+      return `
+        <div style="padding:10px 0;border-bottom:1px dashed var(--rule);display:flex;justify-content:space-between;gap:8px;align-items:center">
+          <div>
+            <div style="font-weight:600">${prefix} ${l.opponent}</div>
+            <div style="font-size:12px;color:var(--ink-soft)">${l.date_label} · Sec ${l.section} · $${(l.ask_cents/100).toFixed(0)}</div>
+          </div>
+          <div style="font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.06em">${pill}</div>
+        </div>
+      `;
+    }).join('');
+  } catch {
+    box.innerHTML = '<p style="color:var(--ink-soft)">Sign in to see your listings.</p>';
+  }
+}
+$('#logoutBtn').addEventListener('click', async () => {
+  await fetchJson('/api/auth/logout', { method: 'POST' });
+  CURRENT_USER = null;
+  paintAuthState();
+  closeModal('accountModal');
+});
+
+$('#navAccount').addEventListener('click', () => {
+  if (CURRENT_USER) openAccountModal(); else openAuthModal();
+});
+$('#navAccountMobile').addEventListener('click', () => {
+  $('#menuPanel').classList.remove('open');
+  if (CURRENT_USER) openAccountModal(); else openAuthModal();
+});
+
+/* ============================================================
+   LIST A TICKET
+   ============================================================ */
+$('#openListBtn').addEventListener('click', () => {
+  if (!CURRENT_USER) { openAuthModal('Sign in to list a ticket'); return; }
+  prepareListForm();
+  openModal('listModal');
+});
+
+function prepareListForm() {
+  const select = $('#listGame');
+  select.innerHTML = (GAMES.length ? GAMES : []).map(g => {
+    const prefix = g.is_home || g.is_neutral ? 'vs' : '@';
+    return `<option value="${g.id}">${prefix} ${g.opponent} — ${g.date_label} · ${g.venue}</option>`;
+  }).join('');
+  $('#listSection').value = '';
+  $('#listRow').value = '';
+  $('#listSeat').value = '';
+  $('#listFace').value = '';
+  $('#listAsk').value = '';
+  $('#listNote').value = '';
+  $('#listMath').style.display = 'none';
+}
+function updateListMath() {
+  const ask = parseFloat($('#listAsk').value || '0');
+  if (!ask) { $('#listMath').style.display = 'none'; return; }
+  const vase = ask * 0.10;
+  const fees = ask * 0.10; // 7.5 + 2.5 service + processing
+  const net  = ask;        // seller receives the ticket price; buyer pays ask + fees + vase
+  $('#listMath').style.display = 'block';
+  $('#listVase').textContent = '$' + vase.toFixed(2);
+  $('#listFees').textContent = '$' + fees.toFixed(2) + ' (buyer pays)';
+  $('#listNet').textContent  = '$' + net.toFixed(2);
+}
+$('#listAsk').addEventListener('input', updateListMath);
+
+$('#listForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('#listSubmit'); btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Publishing…';
+  try {
+    const body = {
+      gameId:    $('#listGame').value,
+      section:   $('#listSection').value.trim(),
+      row:       $('#listRow').value.trim(),
+      seat:      $('#listSeat').value.trim(),
+      faceCents: Math.round(parseFloat($('#listFace').value || '0') * 100),
+      askCents:  Math.round(parseFloat($('#listAsk').value  || '0') * 100),
+      note:      $('#listNote').value.trim(),
+      qty: 1,
+    };
+    await fetchJson('/api/listings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    closeModal('listModal');
+    await loadListingsFromServer();
+    renderTickets();
+    if (CURRENT_USER) refreshMyListings();
+    alert('Your listing is live.');
+  } catch (e) {
+    alert('Could not publish: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+});
+
+/* ============================================================
+   Sale-status deep link (buyer return URL or shared link)
+   ============================================================ */
+async function openSaleStatus(txId) {
+  try {
+    const { sale } = await fetchJson('/api/sale/' + txId);
+    const prefix = sale.is_home || sale.is_neutral ? 'vs' : '@';
+    const isSeller = CURRENT_USER && CURRENT_USER.id === sale.seller_id;
+    let bodyHtml = `
+      <div class="m-eyebrow">${sale.sport_label}</div>
+      <h3>${prefix} <em>${sale.opponent}</em></h3>
+      <div class="m-sub">${sale.date_label} · ${sale.time_label} · ${sale.venue}</div>
+      <div class="m-sub" style="margin-top:2px">Section ${sale.section}${sale.row ? ' · Row ' + sale.row : ''}${sale.seat ? ' · Seat ' + sale.seat : ''}</div>
+      <div class="summary" style="margin-top:18px">
+        <div class="row"><span>Status</span><span>${sale.status.toUpperCase()}</span></div>
+        <div class="row"><span>Transfer</span><span>${(sale.transfer_status || '—').replace(/_/g,' ').toUpperCase()}</span></div>
+        <div class="row vase"><span>To VASE</span><span>$${(sale.vase_cents/100).toFixed(2)}</span></div>
+      </div>
+    `;
+    if (isSeller && sale.transfer_status === 'awaiting_seller') {
+      bodyHtml += `<button class="btn-block" id="markSentBtn">Mark transfer sent</button>`;
+    }
+    if (!isSeller && sale.transfer_status === 'sent') {
+      bodyHtml += `<button class="btn-block" id="confirmRcptBtn">Confirm receipt</button>`;
+    }
+    bodyHtml += `<button class="btn-block secondary" data-close="saleModal">Close</button>`;
+    $('#saleContent').innerHTML = bodyHtml;
+    openModal('saleModal');
+    $('#markSentBtn')?.addEventListener('click', async () => {
+      await fetchJson('/api/transfers/' + txId + '/mark-sent', { method: 'POST' });
+      closeModal('saleModal');
+      alert('Buyer notified.');
+    });
+    $('#confirmRcptBtn')?.addEventListener('click', async () => {
+      await fetchJson('/api/transfers/' + txId + '/confirm', { method: 'POST' });
+      closeModal('saleModal');
+      alert('Thanks — receipt confirmed.');
+    });
+  } catch (e) {
+    alert('Could not load sale: ' + e.message);
+  }
+}
+
+/* ============================================================
+   Reserve flow (used in ticket modal) — works against API listing IDs
+   ============================================================ */
+const _origReserve = $('#reserveBtn').onclick;
+$('#reserveBtn').onclick = null;
+$('#reserveBtn').addEventListener('click', async () => {
+  if (!currentTicket) return;
+  const btn = $('#reserveBtn'); const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Routing to checkout…';
+  try {
+    const body = currentTicket._listingId
+      ? { listingId: currentTicket._listingId, buyerEmail: $('#buyerEmail').value || undefined }
+      : { ticketId:  currentTicket.id,         buyerEmail: $('#buyerEmail').value || undefined };
+    const r = await fetch('/api/checkout/create-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error();
+    const data = await r.json();
+    if (data?.url) { window.location.href = data.url; return; }
+    throw new Error();
+  } catch {
+    alert('Live checkout is only available when the Node backend in /server is running.\n\nThis static preview can show the flow but can\'t process a real payment.');
+    btn.disabled = false; btn.textContent = orig;
+  }
+});
+
+/* ============================================================
+   Init
+   ============================================================ */
+async function boot() {
+  await loadMe();
+  await loadListingsFromServer();
+  renderTickets();
+  renderDeals();
+  initTicker();
+}
+boot();
+
+/* Handle return-from-Stripe and auth redirects */
 (() => {
   const p = new URLSearchParams(location.search);
   if (p.get('checkout') === 'success') {
-    setTimeout(() => alert('Payment complete. Your ticket transfer is on its way.'), 200);
+    setTimeout(() => alert('Payment complete. Check your email for transfer details.'), 200);
+  }
+  if (p.get('auth') === 'ok') {
+    setTimeout(() => loadMe(), 200);
+  } else if (p.get('auth') === 'expired') {
+    setTimeout(() => alert('That sign-in link is expired or already used. Send a fresh one.'), 200);
+  }
+  if (p.get('connect') === 'return') {
+    setTimeout(() => loadMe().then(() => CURRENT_USER && openAccountModal()), 300);
+  }
+  if (p.get('sale')) {
+    setTimeout(() => openSaleStatus(p.get('sale')), 300);
+  }
+  if (p.has('checkout') || p.has('auth') || p.has('connect') || p.has('sale')) {
     history.replaceState({}, '', location.pathname);
   }
 })();
+
 </script>
 </body>
 </html>
